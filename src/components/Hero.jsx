@@ -14,21 +14,8 @@ const Hero = () => {
   const [currentIndex, setCurrentIndex] = useState(1);
   const [hasClicked, setHasClicked] = useState(false);
 
-  const [loading, setLoading] = useState(true);
-  const [loadedVideos, setLoadedVideos] = useState(0);
-
   const totalVideos = 4;
   const nextVdRef = useRef(null);
-
-  const handleVideoLoad = () => {
-    setLoadedVideos((prev) => prev + 1);
-  };
-
-  useEffect(() => {
-    if (loadedVideos === totalVideos - 1) {
-      setLoading(false);
-    }
-  }, [loadedVideos]);
 
   const handleMiniVdClick = () => {
     setHasClicked(true);
@@ -81,21 +68,10 @@ const Hero = () => {
     });
   });
 
-  const getVideoSrc = (index) => `videos/hero-${index}.mp4`;
+  const getVideoSrc = (index) => `videos/hero.mp4`;
 
   return (
     <div className="relative h-dvh w-full overflow-x-hidden">
-      {loading && (
-        <div className="flex-center absolute z-[100] h-dvh w-full overflow-hidden bg-violet-50">
-          {/* https://uiverse.io/G4b413l/tidy-walrus-92 */}
-          <div className="three-body">
-            <div className="three-body__dot"></div>
-            <div className="three-body__dot"></div>
-            <div className="three-body__dot"></div>
-          </div>
-        </div>
-      )}
-
       <div
         id="video-frame"
         className="relative z-10 h-dvh w-full overflow-hidden rounded-lg bg-blue-75"
@@ -114,7 +90,6 @@ const Hero = () => {
                   muted
                   id="current-video"
                   className="size-64 origin-center scale-150 object-cover object-center"
-                  onLoadedData={handleVideoLoad}
                 />
               </div>
             </VideoPreview>
@@ -127,7 +102,6 @@ const Hero = () => {
             muted
             id="next-video"
             className="absolute-center invisible absolute z-20 size-64 object-cover object-center"
-            onLoadedData={handleVideoLoad}
           />
           <video
             src={getVideoSrc(
@@ -137,27 +111,26 @@ const Hero = () => {
             loop
             muted
             className="absolute left-0 top-0 size-full object-cover object-center"
-            onLoadedData={handleVideoLoad}
           />
         </div>
 
         <h1 className="special-font hero-heading absolute bottom-5 right-5 z-40 text-[#dfdff2]">
-          G<b>A</b>MING
+          K<b>R</b>IYA
         </h1>
 
         <div className="absolute left-0 top-0 z-40 size-full">
           <div className="mt-24 px-5 sm:px-10">
             <h1 className="special-font hero-heading text-[#dfdff2]">
-              redefi<b>n</b>e
+              Kri<b>y</b>a
             </h1>
 
             <p className="mb-5 max-w-64 font-robert-regular text-[#dfdff2]">
-              Enter the Metagame Layer <br /> Unleash the Play Economy
+              Enter the Events page <br /> Unleash the Play Economy
             </p>
 
             <Button
-              id="watch-trailer"
-              title="Watch trailer"
+              id="explore"
+              title="Explore Events"
               leftIcon={<TiLocationArrow />}
               containerClass="bg-yellow-300 flex-center gap-1"
             />
@@ -166,7 +139,7 @@ const Hero = () => {
       </div>
 
       <h1 className="special-font hero-heading absolute bottom-5 right-5 text-black">
-        G<b>A</b>MING
+        K<b>R</b>IYA
       </h1>
     </div>
   );
