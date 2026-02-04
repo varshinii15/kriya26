@@ -109,7 +109,8 @@ const Features = () => {
             src="videos/feature-1.mp4"
             title={
               <>
-                <b>C</b>ore <b>E</b>ngineering
+              
+                <b>S</b>cience & <b>T</b>echnology
               </>
             }
             description="Mechanical, Civil, and Electrical engineering events showcasing innovation and technical excellence."
@@ -124,7 +125,7 @@ const Features = () => {
               src="videos/feature-3.mp4"
               title={
                 <>
-                  <b>S</b>cience & <b>T</b>echnology
+                  <b>C</b>oding
                 </>
               }
               description="Scientific research and technological innovations pushing the boundaries of knowledge."
@@ -137,7 +138,8 @@ const Features = () => {
               src="videos/feature-4.mp4"
               title={
                 <>
-                  <b>F</b>ashion <b>T</b>echnology
+                
+                  <b>C</b>ore <b>E</b>ngineering
                 </>
               }
               description="Textile innovation and fashion-forward design meeting cutting-edge technology."
@@ -151,7 +153,7 @@ const Features = () => {
               src="videos/feature-2.mp4"
               title={
                 <>
-                  <b>B</b>ot
+                  <b>F</b>ashion <b>T</b>echnology
                 </>
               }
               description="Robotics and automation challenges - build, program, and compete with intelligent machines."
@@ -164,7 +166,7 @@ const Features = () => {
               src="videos/feature-5.mp4"
               title={
                 <>
-                  <b>C</b>oding
+                  <b>B</b>ot
                 </>
               }
               description="Programming contests and algorithm challenges for coding enthusiasts."
@@ -174,7 +176,7 @@ const Features = () => {
 
           <BentoTilt className="bento-tilt_2">
             <BentoCard
-              src="videos/feature-5.mp4"
+              src="videos/feature-6.mp4"
               title={
                 <>
                   <b>Q</b>uiz
