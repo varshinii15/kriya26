@@ -7,6 +7,7 @@ import Workshop from "@/components/Workshop";
 import PaperPresentation from "@/components/PaperPresentation";
 import Footer from "@/components/Footer";
 import CountDown from "@/components/Countdown";
+import Team from "@/components/Team";
 
 export default function Home() {
   return (
@@ -16,10 +17,11 @@ export default function Home() {
       <CountDown />
       <PrizePool />
       <Flagship />
-      <Workshop />
+
       <Events />
       <Workshop />
       <PaperPresentation />
+      <Team />
       <Footer />
     </main>
   );
