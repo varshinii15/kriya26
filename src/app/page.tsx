@@ -8,6 +8,7 @@ import Workshops from "@/components/Workshop";
 import Footer from "@/components/Footer";
 import CountDown from "@/components/Countdown";
 import Faq from "@/components/Faq";
+import Team from "@/components/Team";
 
 export default function Home() {
   return (

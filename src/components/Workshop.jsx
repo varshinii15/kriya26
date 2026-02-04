@@ -3,40 +3,23 @@
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import { TiLocationArrow } from "react-icons/ti";
+import axios from "axios";
+import { TiLocationArrow, TiCalendar } from "react-icons/ti";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
 
-const WORKSHOPS = [
-  { id: 1, title: "Immersive Tech", desc: "Dive into AR/VR experiences and spatial computing.", img: "/img/gallery-1.webp" },
-  { id: 2, title: "Web3 Gaming", desc: "The future of decentralized play and mechanics.", img: "/img/gallery-2.webp" },
-  { id: 3, title: "AI Agents", desc: "Building autonomous systems and neural networks.", img: "/img/gallery-3.webp" },
-  { id: 4, title: "Digital Art", desc: "Creative coding, generative art, and NFTs.", img: "/img/gallery-4.webp" },
-  { id: 5, title: "Cyber Security", desc: "Protecting the digital frontier from threats.", img: "/img/gallery-5.webp" },
-  { id: 6, title: "Game Design", desc: "Crafting compelling narratives and mechanics.", img: "/img/swordman.webp" },
-  { id: 7, title: "Blockchain", desc: "Smart contracts, dApps, and consensus.", img: "/img/stones.webp" },
-  { id: 8, title: "Cloud Scale", desc: "Architecting systems for millions of users.", img: "/img/entrance.webp" },
-  { id: 9, title: "UI/UX Design", desc: "Designing for humans with empathy and data.", img: "/img/about.webp" },
-  { id: 10, title: "Data Science", desc: "Extracting actionable insights from big data.", img: "/img/contact-1.webp" },
-  { id: 11, title: "Robotics", desc: "Automating the physical world with machines.", img: "/img/contact-2.webp" },
-  { id: 12, title: "IoT Systems", desc: "Connecting the physical and digital worlds.", img: "/img/gallery-1.webp" },
+const STATIC_IMAGES = [
+  "/img/gallery-1.webp",
+  "/img/gallery-2.webp",
+  "/img/gallery-3.webp",
+  "/img/gallery-4.webp",
+  "/img/gallery-5.webp",
+  "/img/swordman.webp",
+  "/img/stones.webp",
+  "/img/entrance.webp",
+  "/img/about.webp",
+  "/img/contact-1.webp",
+  "/img/contact-2.webp",
 ];
-
-// Number of cards visible at once (grouped)
-const CARDS_PER_VIEW = 3;
-
-// Calculate number of groups (pages)
-const TOTAL_GROUPS = Math.ceil(WORKSHOPS.length / CARDS_PER_VIEW);
-
-// Group workshops into sets of 3
-const getWorkshopGroups = () => {
-  const groups = [];
-  for (let i = 0; i < WORKSHOPS.length; i += CARDS_PER_VIEW) {
-    groups.push(WORKSHOPS.slice(i, i + CARDS_PER_VIEW));
-  }
-  return groups;
-};
-
-const WORKSHOP_GROUPS = getWorkshopGroups();
 
 // Premium stagger animation variants
 const containerVariants = {
@@ -97,19 +80,6 @@ const titleVariants = {
   },
 };
 
-const glowVariants = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      type: "spring",
-      damping: 15,
-      stiffness: 200,
-    },
-  },
-};
-
 // Slide animation variants - Spectacular 3D flip transitions
 const slideVariants = {
   enter: (direction) => ({
@@ -153,170 +123,181 @@ const slideVariants = {
   }),
 };
 
-// Card stagger animation variants - Fast cascade effect
+// Card stagger animation variants - Aligned with parent slideVariants
 const cardStaggerVariants = {
-  hidden: {
+  enter: {
     opacity: 0,
-    y: 40,
-    scale: 0.85,
-    rotateX: -10,
+    y: 50,
+    scale: 0.9,
   },
-  visible: (i) => ({
+  center: (i) => ({
     opacity: 1,
     y: 0,
     scale: 1,
-    rotateX: 0,
     transition: {
       type: "spring",
-      stiffness: 400,
+      stiffness: 300,
       damping: 25,
-      delay: i * 0.08,
+      delay: i * 0.1,
     },
   }),
   exit: (i) => ({
     opacity: 0,
     y: -30,
-    scale: 0.9,
-    transition: {
-      duration: 0.2,
-      delay: (2 - i) * 0.03,
-    },
+    transition: { duration: 0.2 },
   }),
 };
 
 const WorkshopCard = ({ item, isHovered, onHover, onLeave, index }) => {
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  };
+
   return (
     <motion.div
       custom={index}
       variants={cardStaggerVariants}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-      layout
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
-      className="group relative h-[320px] w-[260px] sm:h-[380px] sm:w-[280px] md:h-[420px] md:w-[320px] lg:w-[340px] flex-shrink-0 cursor-pointer overflow-hidden rounded-3xl bg-neutral-900"
-      whileHover={{
-        scale: 1.05,
+      className={`relative h-[380px] md:h-[420px] flex-shrink-0 cursor-pointer overflow-hidden rounded-2xl bg-neutral-900 border border-white/10 group`}
+      style={{
+        width: isHovered ? "850px" : "360px",
+        zIndex: isHovered ? 50 : 1,
+      }}
+      as={motion.div}
+      animate={{
+        width: isHovered ? 850 : 360,
+        opacity: 1,
+        y: 0,
+        scale: 1,
       }}
       transition={{
-        scale: { type: "spring", stiffness: 300, damping: 25 },
-      }}
-      style={{
-        boxShadow: "0 10px 40px -15px rgba(0, 0, 0, 0.5)",
+        width: { type: "spring", stiffness: 500, damping: 30 },
+        opacity: { duration: 0.18 },
+        scale: { duration: 0.18 },
       }}
     >
-      {/* Background Image with Zoom */}
-      <motion.div
-        className="absolute inset-0"
-        animate={{ scale: isHovered ? 1.1 : 1 }}
-        transition={{ duration: 0.7, ease: "easeOut" }}
-      >
+      {/* Background Image - Absolute fill */}
+      <div className="absolute inset-0">
         <Image
           src={item.img}
           alt={item.title}
           fill
-          className="object-cover"
+          className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
         />
-      </motion.div>
-
-      {/* Animated Gradient Overlay */}
-      <motion.div
-        className="absolute inset-0"
-        initial={false}
-        animate={{
-          background: isHovered
-            ? "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0.3) 70%, transparent 100%)"
-            : "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 50%, transparent 100%)",
-        }}
-        transition={{ duration: 0.4 }}
-      />
+        {/* Gradient Overlay - Lighter as requested */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+        {/* Removed hover darkening as requested */}
+      </div>
 
       {/* Content Container */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 md:p-6 text-white">
-        {/* Title - Always Visible */}
-        <motion.h3
-          variants={titleVariants}
-          initial="collapsed"
-          animate={isHovered ? "expanded" : "collapsed"}
-          className="bento-title special-font text-xl sm:text-2xl md:text-3xl font-bold uppercase leading-tight tracking-wide text-blue-100 origin-left"
-        >
-          {item.title.split("").map((char, i) => (
-            <motion.span
-              key={i}
-              initial={false}
-              animate={{
-                color: isHovered ? "#ffffff" : "#dfdff0",
-                textShadow: isHovered ? "0 0 20px rgba(255, 255, 255, 0.3)" : "none",
-              }}
-              transition={{ delay: i * 0.02, duration: 0.3 }}
-              style={{ display: "inline-block" }}
+      <div className="absolute inset-0 flex flex-row items-end p-6 md:p-8 overflow-hidden gap-6">
+
+        {/* LEFT COLUMN: Title, Date, Button */}
+        {/* Grows to fill space, but respects Right Column when present */}
+        <div className="flex flex-col justify-end flex-1 min-w-0 h-full relative z-10" style={{ maxWidth: isHovered ? '480px' : '100%' }}>
+          <div className="mt-auto w-full">
+
+            {/* Title - Always shows full text, wraps naturally */}
+            <h3 className="text-2xl md:text-3xl font-bold uppercase leading-tight text-white mb-3">
+              {item.title}
+            </h3>
+
+            {/* Date - Always white */}
+            <div className="flex items-center gap-2 text-white/90 text-sm mb-5 font-medium">
+              <TiCalendar className="text-lg text-white" />
+              <span>{formatDate(item.date)}</span>
+            </div>
+
+            {/* ACTION BUTTON - Premium "Learn More" */}
+            <button
+              className="group/btn relative flex items-center justify-center gap-2 px-6 py-3 bg-white text-black font-bold text-sm uppercase tracking-wider rounded-lg overflow-hidden transition-all duration-200 hover:bg-blue-500 hover:text-white shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_20px_rgba(59,130,246,0.5)]"
             >
-              {char === " " ? "\u00A0" : char}
-            </motion.span>
-          ))}
-        </motion.h3>
+              <span className="relative z-10">Learn More</span>
+              <TiLocationArrow className="relative z-10 text-xl group-hover/btn:-rotate-45 transition-transform duration-200" />
 
-        {/* Register Button - Always Visible */}
-        <motion.div
-          className="mt-3"
-          initial={{ opacity: 0.9 }}
-          animate={{ opacity: 1 }}
-        >
-          <motion.button
-            whileHover={{ scale: 1.05, boxShadow: "0 0 25px rgba(255, 255, 255, 0.3)" }}
-            whileTap={{ scale: 0.98 }}
-            className="flex items-center gap-1.5 rounded-full bg-white text-black px-3 py-1.5 sm:px-4 sm:py-2 text-xs font-bold uppercase tracking-wider hover:bg-blue-50 transition-colors"
-          >
-            <TiLocationArrow className="text-sm sm:text-base" />
-            <span>Register</span>
-          </motion.button>
-        </motion.div>
+              {/* Sheen Effect */}
+              <div className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/60 to-transparent skew-x-12" />
+            </button>
+          </div>
+        </div>
 
-        {/* Expanded Details - Animated Entry */}
-        <AnimatePresence mode="wait">
+        {/* RIGHT COLUMN: Details (Visible ONLY on Hover) */}
+        {/* Logic: Details appear on the right, no glass/border effect */}
+        <AnimatePresence>
           {isHovered && (
             <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              className="mt-4 overflow-hidden"
+              initial={{ opacity: 0, x: 30, filter: "blur(4px)" }}
+              animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, x: 30, filter: "blur(4px)" }}
+              transition={{
+                type: "spring",
+                stiffness: 500,
+                damping: 30,
+                opacity: { duration: 0.2 },
+                filter: { duration: 0.2 }
+              }}
+              className="w-[320px] flex-shrink-0 flex flex-col justify-end h-full relative z-10 pl-6"
             >
-              {/* Divider Line */}
-              <motion.div
-                variants={itemVariants}
-                className="h-[1px] w-16 bg-gradient-to-r from-white/60 to-transparent mb-3"
-              />
+              <div className="space-y-5 mb-2 p-2">
 
-              {/* Description */}
-              <motion.p
-                variants={itemVariants}
-                className="font-circular-web text-sm sm:text-base text-blue-50/90 mb-2 leading-relaxed"
-              >
-                {item.desc}
-              </motion.p>
+                {/* Club Name */}
+                <motion.div
+                  className="flex flex-col"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.03, duration: 0.15 }}
+                >
+                  <span className="text-blue-400 text-[10px] uppercase font-bold tracking-widest mb-1">Organized By</span>
+                  <span className="text-white text-sm font-bold uppercase tracking-wider text-shadow-sm">{item.club || "PSGC"}</span>
+                </motion.div>
 
-              {/* Additional Info */}
-              <motion.p
-                variants={itemVariants}
-                className="font-circular-web text-xs sm:text-sm text-blue-50/60 mb-4"
-              >
-                Join top industry experts for this hands-on session.
-              </motion.p>
+                {/* Time */}
+                <motion.div
+                  className="flex flex-col"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.06, duration: 0.15 }}
+                >
+                  <span className="text-blue-400 text-[10px] uppercase font-bold tracking-widest mb-1">Time</span>
+                  <span className="text-white text-sm font-circular-web flex items-center gap-2 text-shadow-sm">
+                    <TiLocationArrow className="rotate-45 text-blue-400" /> {item.time}
+                  </span>
+                </motion.div>
 
-              {/* Details Button on Hover */}
-              <motion.button
-                variants={itemVariants}
-                whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.15)" }}
-                whileTap={{ scale: 0.98 }}
-                className="rounded-full border border-white/30 px-4 py-2 text-xs font-bold uppercase tracking-wider backdrop-blur-sm transition-colors"
-              >
-                Details
-              </motion.button>
+                {/* Venue */}
+                <motion.div
+                  className="flex flex-col"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.09, duration: 0.15 }}
+                >
+                  <span className="text-blue-400 text-[10px] uppercase font-bold tracking-widest mb-1">Venue</span>
+                  <span className="text-white text-sm font-circular-web leading-tight text-shadow-sm">
+                    {item.hall}
+                  </span>
+                </motion.div>
+
+                {/* Description */}
+                <motion.div
+                  className="flex flex-col"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.12, duration: 0.15 }}
+                >
+                  <span className="text-blue-400 text-[10px] uppercase font-bold tracking-widest mb-1">About</span>
+                  <p className="text-white/90 text-xs leading-relaxed font-circular-web line-clamp-4 text-shadow-sm">
+                    {item.desc}
+                  </p>
+                </motion.div>
+
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
+
       </div>
     </motion.div>
   );
@@ -396,6 +377,36 @@ const Workshop = () => {
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
   const [cardsPerView, setCardsPerView] = useState(3);
+  const [workshops, setWorkshops] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch Workshops
+  useEffect(() => {
+    const fetchWorkshops = async () => {
+      try {
+        const response = await axios.get("https://kriyabackend.psgtech.ac.in/api/events/workshops");
+        if (response.data.success) {
+          const mappedWorkshops = response.data.workshops.map((ws, index) => ({
+            id: ws.workshopId,
+            title: ws.workshopName,
+            desc: ws.description,
+            club: ws.clubName,
+            hall: ws.hall,
+            date: ws.date,
+            time: ws.time,
+            img: STATIC_IMAGES[index % STATIC_IMAGES.length], // Cycle through static images
+          }));
+          setWorkshops(mappedWorkshops);
+        }
+      } catch (error) {
+        console.error("Failed to fetch workshops:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWorkshops();
+  }, []);
 
   // Responsive cards per view
   useEffect(() => {
@@ -416,8 +427,10 @@ const Workshop = () => {
 
   // Calculate groups dynamically based on cardsPerView
   const workshopGroups = [];
-  for (let i = 0; i < WORKSHOPS.length; i += cardsPerView) {
-    workshopGroups.push(WORKSHOPS.slice(i, i + cardsPerView));
+  if (!loading && workshops.length > 0) {
+    for (let i = 0; i < workshops.length; i += cardsPerView) {
+      workshopGroups.push(workshops.slice(i, i + cardsPerView));
+    }
   }
   const totalGroups = workshopGroups.length;
 
@@ -433,12 +446,14 @@ const Workshop = () => {
 
   // Navigate to next group
   const goToNext = useCallback(() => {
+    if (totalGroups === 0) return;
     setDirection(1);
     setCurrentGroupIndex((prev) => (prev + 1) % totalGroups);
   }, [totalGroups]);
 
   // Navigate to previous group
   const goToPrev = useCallback(() => {
+    if (totalGroups === 0) return;
     setDirection(-1);
     setCurrentGroupIndex((prev) => (prev - 1 + totalGroups) % totalGroups);
   }, [totalGroups]);
@@ -451,14 +466,14 @@ const Workshop = () => {
 
   // Auto-play effect
   useEffect(() => {
-    if (isPaused || hoveredCardIndex !== null) return;
+    if (isPaused || hoveredCardIndex !== null || totalGroups === 0) return;
 
     const interval = setInterval(() => {
       goToNext();
     }, AUTO_PLAY_INTERVAL);
 
     return () => clearInterval(interval);
-  }, [isPaused, hoveredCardIndex, goToNext]);
+  }, [isPaused, hoveredCardIndex, goToNext, totalGroups]);
 
 
   // Touch handlers for swipe support
@@ -550,62 +565,73 @@ const Workshop = () => {
         </motion.p>
       </div>
 
-      {/* Navigation Buttons - Top Right */}
-      <div className="container mx-auto px-4 md:px-6 mb-6">
-        <div className="flex justify-end gap-3">
-          <NavButton direction="left" onClick={goToPrev} />
-          <NavButton direction="right" onClick={goToNext} />
+      {loading ? (
+        <div className="flex justify-center items-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
         </div>
-      </div>
+      ) : (
+        <>
+          {/* Navigation Buttons - Top Right */}
+          <div className="container mx-auto px-4 md:px-6 mb-6">
+            <div className="flex justify-end gap-3">
+              <NavButton direction="left" onClick={goToPrev} disabled={totalGroups <= 1} />
+              <NavButton direction="right" onClick={goToNext} disabled={totalGroups <= 1} />
+            </div>
+          </div>
 
-      {/* Main Carousel Container */}
-      <div
-        className="relative container mx-auto px-4 md:px-6"
-        style={{ perspective: "1500px", perspectiveOrigin: "center center" }}
-      >
+          {/* Main Carousel Container */}
+          <div
+            className="relative container mx-auto px-4 md:px-6"
+            style={{ perspective: "1500px", perspectiveOrigin: "center center" }}
+          >
 
-        {/* Cards Container - Fixed height to prevent layout jump */}
-        <div
-          className="relative w-full overflow-visible py-4 sm:py-6 md:py-8"
-          style={{ minHeight: "480px" }}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-        >
-          <AnimatePresence mode="popLayout" initial={false} custom={direction}>
-            <motion.div
-              key={currentGroupIndex}
-              custom={direction}
-              variants={slideVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              className="flex justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-8 absolute inset-0 items-center px-2 sm:px-4"
-              style={{ transformStyle: "preserve-3d" }}
+            {/* Cards Container - Fixed height to prevent layout jump */}
+            <div
+              className="relative w-full overflow-visible py-4 sm:py-6 md:py-8"
+              style={{ minHeight: "480px" }}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
             >
-              {currentGroup.map((item, index) => (
-                <WorkshopCard
-                  key={item.id}
-                  item={item}
-                  index={index}
-                  isHovered={hoveredCardIndex === `${currentGroupIndex}-${index}`}
-                  onHover={() => setHoveredCardIndex(`${currentGroupIndex}-${index}`)}
-                  onLeave={() => setHoveredCardIndex(null)}
-                />
-              ))}
-            </motion.div>
-          </AnimatePresence>
-        </div>
+              <AnimatePresence mode="popLayout" initial={false} custom={direction}>
+                <motion.div
+                  key={currentGroupIndex}
+                  custom={direction}
+                  variants={slideVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  layout // Add layout prop for smooth sibling rearrangement
+                  className="flex justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-8 absolute inset-0 items-center px-2 sm:px-4"
+                  style={{ transformStyle: "preserve-3d" }}
+                >
+                  {currentGroup.map((item, index) => (
+                    <WorkshopCard
+                      key={item.id}
+                      item={item}
+                      index={index}
+                      isHovered={hoveredCardIndex === `${currentGroupIndex}-${index}`}
+                      onHover={() => setHoveredCardIndex(`${currentGroupIndex}-${index}`)}
+                      onLeave={() => setHoveredCardIndex(null)}
+                    />
+                  ))}
+                </motion.div>
+              </AnimatePresence>
+            </div>
 
-        {/* Progress Indicator */}
-        <div className="flex justify-center">
-          <ProgressIndicator
-            currentIndex={currentGroupIndex}
-            total={totalGroups}
-            onDotClick={goToGroup}
-          />
-        </div>
-      </div>
+            {/* Progress Indicator */}
+            {totalGroups > 1 && (
+              <div className="flex justify-center">
+                <ProgressIndicator
+                  currentIndex={currentGroupIndex}
+                  total={totalGroups}
+                  onDotClick={goToGroup}
+                />
+              </div>
+            )}
+          </div>
+        </>
+      )}
     </section>
   );
 };
