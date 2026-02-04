@@ -27,14 +27,20 @@ const PaperPresentationItemDesktop = ({
       />
 
       {/* Image */}
-      <div className="absolute top-0 left-0 z-10 w-full h-full rounded-xl overflow-hidden">
-        <Image
-          src={data.image}
-          fill
-          sizes="(max-width: 768px) 50vw, 33vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-          alt={data.eventName || "Paper Presentation"}
-        />
+      <div className="absolute top-0 left-0 z-10 w-full h-full rounded-xl overflow-hidden bg-gray-900">
+        {data.image && data.image.trim() !== "" ? (
+          <Image
+            src={data.image}
+            fill
+            sizes="(max-width: 768px) 50vw, 33vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            alt={data.eventName || "Paper Presentation"}
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900">
+            <div className="text-white/30 text-4xl">📄</div>
+          </div>
+        )}
       </div>
 
       {/* Title */}

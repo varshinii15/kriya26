@@ -1,6 +1,5 @@
 "use client"
 import { useState, useRef } from "react";
-import { useRouter } from "next/navigation";
 import { TiLocationArrow } from "react-icons/ti";
 
 export const BentoTilt = ({ children, className = "" }) => {
@@ -40,7 +39,7 @@ export const BentoTilt = ({ children, className = "" }) => {
   );
 };
 
-export const BentoCard = ({ src, title, description, isComingSoon, onClick }) => {
+export const BentoCard = ({ src, title, description, isComingSoon }) => {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [hoverOpacity, setHoverOpacity] = useState(0);
   const hoverButtonRef = useRef(null);
@@ -59,7 +58,7 @@ export const BentoCard = ({ src, title, description, isComingSoon, onClick }) =>
   const handleMouseLeave = () => setHoverOpacity(0);
 
   return (
-    <div className="relative size-full cursor-pointer" onClick={onClick}>
+    <div className="relative size-full">
       <video
         src={src}
         loop
@@ -92,7 +91,7 @@ export const BentoCard = ({ src, title, description, isComingSoon, onClick }) =>
               }}
             />
             <TiLocationArrow className="relative z-20" />
-            <p className="relative z-20">explore events</p>
+            <p className="relative z-20">coming soon</p>
           </div>
         )}
       </div>
@@ -101,12 +100,6 @@ export const BentoCard = ({ src, title, description, isComingSoon, onClick }) =>
 };
 
 const Features = () => {
-  const router = useRouter();
-
-  const handleCategoryClick = () => {
-    router.push('/portal/event');
-  };
-
   return (
     <section className="bg-black pb-52">
       <div className="container mx-auto px-3 md:px-10">
@@ -121,7 +114,6 @@ const Features = () => {
             }
             description="Mechanical, Civil, and Electrical engineering events showcasing innovation and technical excellence."
             isComingSoon
-            onClick={handleCategoryClick}
           />
         </BentoTilt>
 
@@ -137,7 +129,6 @@ const Features = () => {
               }
               description="Scientific research and technological innovations pushing the boundaries of knowledge."
               isComingSoon
-              onClick={handleCategoryClick}
             />
           </BentoTilt>
 
@@ -151,7 +142,6 @@ const Features = () => {
               }
               description="Textile innovation and fashion-forward design meeting cutting-edge technology."
               isComingSoon
-              onClick={handleCategoryClick}
             />
           </BentoTilt>
 
@@ -166,7 +156,6 @@ const Features = () => {
               }
               description="Robotics and automation challenges - build, program, and compete with intelligent machines."
               isComingSoon
-              onClick={handleCategoryClick}
             />
           </BentoTilt>
 
@@ -180,7 +169,6 @@ const Features = () => {
               }
               description="Programming contests and algorithm challenges for coding enthusiasts."
               isComingSoon
-              onClick={handleCategoryClick}
             />
           </BentoTilt>
 
@@ -194,7 +182,6 @@ const Features = () => {
               }
               description="Test your knowledge across diverse domains in our technical quiz competitions."
               isComingSoon
-              onClick={handleCategoryClick}
             />
           </BentoTilt>
         </div>
