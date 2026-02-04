@@ -523,7 +523,7 @@ const Workshop = () => {
       </div>
 
       {/* Header */}
-      <div className="container mx-auto mb-12 md:mb-16 px-6 text-center relative z-10">
+      <div className="container mx-auto mb-10 md:mb-12 px-12 text-start relative z-10">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -536,7 +536,7 @@ const Workshop = () => {
           initial={{ opacity: 0, transform: "rotateX(-30deg) scale(0.9)" }}
           animate={isInView ? { opacity: 1, transform: "rotateX(0deg) scale(1)" } : {}}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="mt-2 text-center text-5xl font-zentry font-black uppercase leading-[0.9] text-blue-50 md:text-7xl"
+          className="mt-2 font-zentry text-start animated-word-static text-5xl font-black uppercase leading-[0.9] text-blue-50 md:text-7xl"
         >
           WOrk<b>s</b>hops
         </motion.h2>
@@ -544,7 +544,7 @@ const Workshop = () => {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 0.6 } : {}}
           transition={{ duration: 1, delay: 0.5 }}
-          className="mt-4 text-center font-circular-web text-lg md:text-xl text-blue-50/60 max-w-2xl mx-auto"
+          className="mt-4 text-start font-zentry text-lg md:text-3xl text-blue-50/60 max-w-2xl"
         >
           Interactive sessions led by industry experts. Navigate through our workshops.
         </motion.p>

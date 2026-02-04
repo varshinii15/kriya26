@@ -101,7 +101,7 @@ export const BentoCard = ({ src, title, description, isComingSoon }) => {
 
 const Features = () => {
   return (
-    <section className="bg-black pb-52">
+    <section className="bg-black py-20 pt-30">
       <div className="container mx-auto px-3 md:px-10">
 
         <BentoTilt className="bento-tilt_1 relative mb-7 h-96 w-full overflow-hidden rounded-md md:h-[65vh]">

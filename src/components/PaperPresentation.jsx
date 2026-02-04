@@ -6,7 +6,7 @@ import AnimatedTitle from './AnimatedTitle';
 
 const PaperPresentation = () => {
     return (
-        <section className="min-h-screen w-full bg-black relative overflow-hidden flex items-center justify-center py-20 px-4">
+        <section className="min-h-screen w-full bg-white relative overflow-hidden flex items-center justify-center py-20 px-4">
             {/* Background Effects */}
             <div className="absolute inset-0 opacity-20">
                 <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-violet-500/30 rounded-full blur-3xl animate-pulse"></div>
@@ -25,7 +25,7 @@ const PaperPresentation = () => {
                 <div className="w-full lg:w-[35%] xl:w-[30%] text-center lg:text-left flex flex-col justify-center">
                     <AnimatedTitle
                         title="<b>R</b>esearch <br /> <b>P</b>aper <br /> <b>P</b>resentations"
-                        containerClass="special-font !text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.4)]"
+                        containerClass="special-font text-black drop-shadow-[0_0_30px_rgba(255,255,255,0.4)]"
                     />
                     <p className="special-font text-3xl md:text-4xl lg:text-5xl font-black uppercase tracking-wider mt-4" style={{ color: '#9146FF' }}>
                         (<b>K</b>riya 2026)
