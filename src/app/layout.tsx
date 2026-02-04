@@ -4,7 +4,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Kriya 26 | PSG COLLEGE",
-  description: "The Global Clash of Techno Talents",
+  description: "Event conducted By The Student Union at PSG College of Technology",
   icons: {
     icon: "/Logo/kriya26white.png",
     shortcut: "/Logo/kriya26white.png",
