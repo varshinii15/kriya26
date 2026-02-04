@@ -99,87 +99,97 @@ export const BentoCard = ({ src, title, description, isComingSoon }) => {
   );
 };
 
-const Features = () => (
-  <section className="bg-black pb-52">
-    <div className="container mx-auto px-3 md:px-10">
+const Features = () => {
+  return (
+    <section className="bg-black py-20 pt-30">
+      <div className="container mx-auto px-3 md:px-10">
 
-      <BentoTilt className="bento-tilt_1 relative mb-7 h-96 w-full overflow-hidden rounded-md md:h-[65vh]">
-        <BentoCard
-          src="videos/feature-1.mp4"
-          title={
-            <>
-              radia<b>n</b>t
-            </>
-          }
-          description="A cross-platform metagame app, turning your activities across Web2 and Web3 games into a rewarding adventure."
-          isComingSoon
-        />
-      </BentoTilt>
-
-      <div className="grid h-[135vh] w-full grid-cols-2 grid-rows-3 gap-7">
-        {/* Left side - Nexus and Azul stacked */}
-        <BentoTilt className="bento-tilt_1 row-span-1 md:col-span-1">
+        <BentoTilt className="bento-tilt_1 relative mb-7 h-96 w-full overflow-hidden rounded-md md:h-[65vh]">
           <BentoCard
-            src="videos/feature-3.mp4"
+            src="videos/feature-1.mp4"
             title={
               <>
-                n<b>e</b>xus
+              
+                <b>S</b>cience & <b>T</b>echnology
               </>
             }
-            description="A gamified social hub, adding a new dimension of play to social interaction for Web3 communities."
+            description="Mechanical, Civil, and Electrical engineering events showcasing innovation and technical excellence."
             isComingSoon
           />
         </BentoTilt>
 
-        <BentoTilt className="bento-tilt_1 row-span-1 md:col-span-1">
-          <BentoCard
-            src="videos/feature-4.mp4"
-            title={
-              <>
-                az<b>u</b>l
-              </>
-            }
-            description="A cross-world AI Agent - elevating your gameplay to be more fun and productive."
-            isComingSoon
-          />
-        </BentoTilt>
+        <div className="grid h-[135vh] w-full grid-cols-2 grid-rows-3 gap-7">
+          {/* Left side - Science & Technology and Fashion Technology stacked */}
+          <BentoTilt className="bento-tilt_1 row-span-1 md:col-span-1">
+            <BentoCard
+              src="videos/feature-3.mp4"
+              title={
+                <>
+                  <b>C</b>oding
+                </>
+              }
+              description="Scientific research and technological innovations pushing the boundaries of knowledge."
+              isComingSoon
+            />
+          </BentoTilt>
 
-        {/* Right side - Zigma taking 2 rows */}
-        <BentoTilt className="bento-tilt_1 row-span-2 md:col-span-1 md:row-start-1 md:col-start-2">
-          <BentoCard
-            src="videos/feature-2.mp4"
-            title={
-              <>
-                zig<b>m</b>a
-              </>
-            }
-            description="An anime and gaming-inspired NFT collection - the IP primed for expansion."
-            isComingSoon
-          />
-        </BentoTilt>
+          <BentoTilt className="bento-tilt_1 row-span-1 md:col-span-1">
+            <BentoCard
+              src="videos/feature-4.mp4"
+              title={
+                <>
+                
+                  <b>C</b>ore <b>E</b>ngineering
+                </>
+              }
+              description="Textile innovation and fashion-forward design meeting cutting-edge technology."
+              isComingSoon
+            />
+          </BentoTilt>
 
-        <BentoTilt className="bento-tilt_2">
-          <div className="flex size-full flex-col justify-between bg-violet-300 p-5">
-            <h1 className="bento-title special-font max-w-56 text-black">
-              M<b>o</b>re co<b>m</b>ing s<b>o</b>on.
-            </h1>
+          {/* Right side - Bot taking 2 rows */}
+          <BentoTilt className="bento-tilt_1 row-span-2 md:col-span-1 md:row-start-1 md:col-start-2">
+            <BentoCard
+              src="videos/feature-2.mp4"
+              title={
+                <>
+                  <b>F</b>ashion <b>T</b>echnology
+                </>
+              }
+              description="Robotics and automation challenges - build, program, and compete with intelligent machines."
+              isComingSoon
+            />
+          </BentoTilt>
 
-            <TiLocationArrow className="m-5 scale-[5] self-end" />
-          </div>
-        </BentoTilt>
+          <BentoTilt className="bento-tilt_2">
+            <BentoCard
+              src="videos/feature-5.mp4"
+              title={
+                <>
+                  <b>B</b>ot
+                </>
+              }
+              description="Programming contests and algorithm challenges for coding enthusiasts."
+              isComingSoon
+            />
+          </BentoTilt>
 
-        <BentoTilt className="bento-tilt_2">
-          <video
-            src="videos/feature-5.mp4"
-            loop
-            muted
-            autoPlay
-            className="size-full object-cover object-center"
-          />
-        </BentoTilt>
+          <BentoTilt className="bento-tilt_2">
+            <BentoCard
+              src="videos/feature-6.mp4"
+              title={
+                <>
+                  <b>Q</b>uiz
+                </>
+              }
+              description="Test your knowledge across diverse domains in our technical quiz competitions."
+              isComingSoon
+            />
+          </BentoTilt>
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default Features;

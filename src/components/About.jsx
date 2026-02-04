@@ -49,8 +49,8 @@ const About = () => {
           {/* Prize pool text overlay */}
           <div className="prize-pool-text absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 opacity-100 scale-75">
             <AnimatedTitle
-              title="Prize pool <br /> 6,00,000"
-              containerClass="!text-white text-center drop-shadow-[0_0_30px_rgba(255,255,255,0.5)]"
+              title="<b>P</b>rize <b>P</b>ool <br /> 6,00,000"
+              containerClass="special-font !text-white text-center drop-shadow-[0_0_30px_rgba(255,255,255,0.5)]"
             />
           </div>
         </div>

@@ -42,18 +42,18 @@ const FloatingImage = () => {
   // 3D tilt effect on hover
   const handleMouseMove = (e) => {
     if (!cardStackRef.current || isAnimating || isArrowHovered) return;
-    
+
     const card = cardStackRef.current;
     const rect = card.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    
+
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-    
+
     const rotateX = ((y - centerY) / centerY) * -10; // Max 10deg rotation
     const rotateY = ((x - centerX) / centerX) * 10;
-    
+
     card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
   };
 
@@ -123,7 +123,7 @@ const FloatingImage = () => {
     const currentCard = cardsRef.current[currentIndex];
     const nextIndex = (currentIndex + 1) % STORY_SLIDES.length;
     const nextCard = cardsRef.current[nextIndex];
-    
+
     // First, flatten the card stack if on arrow hover
     if (cardStackRef.current) {
       gsap.to(cardStackRef.current, {
@@ -132,7 +132,7 @@ const FloatingImage = () => {
         ease: "power2.out"
       });
     }
-    
+
     // Create GSAP timeline for coordinated animation
     const timeline = gsap.timeline({
       onComplete: () => {
@@ -157,7 +157,7 @@ const FloatingImage = () => {
     }, 0.2);
 
     // Bring next card from behind to default position
-    timeline.fromTo(nextCard, 
+    timeline.fromTo(nextCard,
       {
         scale: 0.94,
         y: -25,
@@ -183,7 +183,7 @@ const FloatingImage = () => {
     const currentCard = cardsRef.current[currentIndex];
     const prevIndex = (currentIndex - 1 + STORY_SLIDES.length) % STORY_SLIDES.length;
     const prevCard = cardsRef.current[prevIndex];
-    
+
     const timeline = gsap.timeline({
       onComplete: () => {
         gsap.set(currentCard, { x: 0, scale: 1, opacity: 1 }); // Reset
@@ -202,7 +202,7 @@ const FloatingImage = () => {
     }, 0);
 
     // Animate previous card coming from behind (scale up to front)
-    timeline.fromTo(prevCard, 
+    timeline.fromTo(prevCard,
       {
         scale: 0.94,
         y: -25,
@@ -270,35 +270,35 @@ const FloatingImage = () => {
             style={{ perspective: "1200px" }}
           >
             {/* Card Stack */}
-            <div 
+            <div
               ref={cardStackRef}
-              className="relative w-[85vw] md:w-[60vw] lg:w-[50vw] h-full transition-transform duration-300 ease-out" 
-              style={{ 
+              className="relative w-[85vw] md:w-[60vw] lg:w-[50vw] h-full transition-transform duration-300 ease-out"
+              style={{
                 transformStyle: "preserve-3d",
                 transform: "perspective(1000px) rotateX(8deg) rotateY(15deg)"
               }}
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
             >              {STORY_SLIDES.map((slide, index) => (
-                <div
-                  key={slide.id}
-                  ref={(el) => (cardsRef.current[index] = el)}
-                  className="absolute inset-0 rounded-2xl overflow-hidden bg-gray-900 shadow-2xl transition-transform duration-500"
-                  style={{
-                    transformStyle: "preserve-3d",
-                    backfaceVisibility: "hidden",
-                  }}
-                >
-                  <img
-                    src={slide.image}
-                    alt={slide.alt}
-                    className="w-full h-full object-cover"
-                  />
-                  {/* Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                </div>
-              ))}
-              
+              <div
+                key={slide.id}
+                ref={(el) => (cardsRef.current[index] = el)}
+                className="absolute inset-0 rounded-2xl overflow-hidden bg-gray-900 shadow-2xl transition-transform duration-500"
+                style={{
+                  transformStyle: "preserve-3d",
+                  backfaceVisibility: "hidden",
+                }}
+              >
+                <img
+                  src={slide.image}
+                  alt={slide.alt}
+                  className="w-full h-full object-cover"
+                />
+                {/* Gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              </div>
+            ))}
+
               {/* View Details Button - Desktop Hover Only */}
               <div className="absolute bottom-6 right-6 hidden md:block opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-50 pointer-events-none group-hover:pointer-events-auto">
                 <Button
@@ -333,13 +333,7 @@ const FloatingImage = () => {
                   });
                 }
               }}
-              className="absolute left-4 md:left-8 lg:left-16 top-1/2 -translate-y-1/2 z-40
-                         w-14 h-14 rounded-full bg-black/80 backdrop-blur-md
-                         hidden md:flex items-center justify-center text-white
-                         border border-black
-                         hover:bg-black hover:scale-110
-                         transition-all duration-300 cursor-pointer
-                         disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
+              className="absolute left-4 md:left-8 lg:left-16 top-1/2 -translate-y-1/2 z-40 w-14 h-14 rounded-full bg-black/80 backdrop-blur-md hidden md:flex items-center justify-center text-white border border-black hover:bg-black hover:scale-110 transition-all duration-300 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
               aria-label="Previous slide"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -370,13 +364,7 @@ const FloatingImage = () => {
                   });
                 }
               }}
-              className="absolute right-4 md:right-8 lg:right-16 top-1/2 -translate-y-1/2 z-40
-                         w-14 h-14 rounded-full bg-black/80 backdrop-blur-md
-                         hidden md:flex items-center justify-center text-white
-                         border border-black
-                         hover:bg-black hover:scale-110
-                         transition-all duration-300 cursor-pointer
-                         disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
+              className="absolute right-4 md:right-8 lg:right-16 top-1/2 -translate-y-1/2 z-40 w-14 h-14 rounded-full bg-black/80 backdrop-blur-md hidden md:flex items-center justify-center text-white border border-black hover:bg-black hover:scale-110 transition-all duration-300 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
               aria-label="Next slide"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -392,10 +380,7 @@ const FloatingImage = () => {
                 key={index}
                 onClick={() => !isAnimating && setCurrentIndex(index)}
                 disabled={isAnimating}
-                className={`h-2 rounded-full transition-all duration-300 cursor-pointer
-                  ${index === currentIndex
-                    ? 'bg-white w-8'
-                    : 'bg-white/30 w-2 hover:bg-white/50'}`}
+                className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${index === currentIndex ? 'bg-white w-8' : 'bg-white/30 w-2 hover:bg-white/50'}`}
                 aria-label={`Go to slide ${index + 1}`}
               />
             ))}

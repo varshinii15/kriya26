@@ -3,11 +3,11 @@ import Hero from "@/components/Hero";
 import PrizePool from "@/components/About";
 import Events from "@/components/Features";
 import Flagship from "@/components/Story";
-import Workshop from "@/components/Workshop";
 import PaperPresentation from "@/components/PaperPresentation";
+import Workshops from "@/components/Workshop";
 import Footer from "@/components/Footer";
 import CountDown from "@/components/Countdown";
-import Team from "@/components/Team";
+import Faq from "@/components/Faq";
 
 export default function Home() {
   return (
@@ -17,12 +17,12 @@ export default function Home() {
       <CountDown />
       <PrizePool />
       <Flagship />
-
       <Events />
-      <Workshop />
+      <Workshops />
       <PaperPresentation />
       <Team />
       <Footer />
+      <Faq />
     </main>
   );
 }
