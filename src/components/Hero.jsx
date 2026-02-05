@@ -144,16 +144,16 @@ const Hero = () => {
             <h1 className="special-font text-center text-5xl font-zentry font-thin uppercase text-white mb-1 tracking-wide">
               <span className="bg-black/50 p-2 py-1 rounded-xl">Cl<b>a</b>sh <b>of</b></span>
             </h1>
-            <h2 className="special-font text-center text-5xl font-zentry font-thin uppercase bg-gradient-to-r from-[#FA9212] via-[#F48B11] to-[#FFE014] bg-clip-text text-transparent">
-              te<b>c</b>h<b>n</b>o t<b>a</b>lents
+            <h2 className="special-font text-center text-5xl font-zentry font-thin uppercase text-white bg-clip-text text-transparent">
+              <span className="bg-black/50 p-2 py-1 rounded-xl">te<b>c</b>h<b>n</b>o t<b>a</b>lents</span>
             </h2>
           </div>
 
           {/* Date */}
           <div className="mb-6">
             <div className="flex items-center justify-center gap-2 text-5xl text-white font-zentry">
-              <h2 className="special-font font-zentry font-thin uppercase bg-gradient-to-r from-[#FA9212] via-[#F48B11] to-[#FFE014] bg-clip-text text-transparent">
-                Ma<b>r</b>c<b>h</b>
+              <h2 className="special-font font-zentry font-thin uppercase text-white bg-clip-text text-transparent">
+                <span className="bg-black/50 p-2 py-1 rounded-xl">Ma<b>r</b>c<b>h</b></span>
               </h2>
               <span>14</span>
               <span className="text-purple-400">,</span>
@@ -193,7 +193,16 @@ const Hero = () => {
             height={400}
             className="h-30 md:h-75 w-auto mx-auto mb-4"
           />
-          <p className="text-white text-base md:text-xl font-zentry font-semibold mb-1">POWERED BY <span className="text-blue-400 text-base md:text-xl font-zentry font-bold mb-4">STUDENTS UNION</span></p>
+          <div className="flex items-center justify-center gap-2 text-5xl text-white font-zentry">
+              <h2 className="special-font font-zentry font-thin uppercase text-white bg-clip-text text-transparent">
+                <span className="bg-black/50 p-2 py-1 rounded-xl">Ma<b>r</b>c<b>h</b></span>
+              </h2>
+              <span>14</span>
+              <span className="text-purple-400">,</span>
+              <span>15</span>
+              <span className="text-purple-400">,</span>
+              <span>16</span>
+            </div>
           <div className="flex justify-center gap-4 mt-6">
             <a
               href="mailto:helpdesk.kriya@psgtech.ac.in"
