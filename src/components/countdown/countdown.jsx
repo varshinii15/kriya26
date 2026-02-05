@@ -49,9 +49,9 @@ const CountdownTimer = () => {
             <div className="text-6xl md:text-8xl xl:text-[180px] font-bold text-gray-500 leading-none">
               {timeLeft.days}
             </div>
-            <div className="text-base font-medium md:text-lg lg:text-xl mt-1 md:mt-2">
-              DAYS
-            </div>
+            <h1 className="special-font text-3xl md:text-4xl lg:text-5xl font-black uppercase text-white text-center lg:text-left">
+              <span style={{ color: '#3B82F6' }}><b>D</b><b>AYS</b></span>
+            </h1>
           </div>
 
           {/* Hours */}
@@ -59,9 +59,9 @@ const CountdownTimer = () => {
             <div className="text-6xl md:text-8xl xl:text-[180px] font-bold text-gray-500 leading-none">
               {timeLeft.hours.toString().padStart(2, '0')}
             </div>
-            <div className="text-base font-medium md:text-lg lg:text-xl mt-1 md:mt-2">
-              HOURS
-            </div>
+            <h1 className="special-font text-3xl md:text-4xl lg:text-5xl font-black uppercase text-white text-center lg:text-left">
+              <span style={{ color: '#3B82F6' }}><b>H</b><b>OURS</b></span>
+            </h1>
           </div>
 
           {/* Minutes */}
@@ -69,9 +69,9 @@ const CountdownTimer = () => {
             <div className="text-6xl md:text-8xl xl:text-[180px] font-bold text-gray-500 leading-none">
               {timeLeft.minutes.toString().padStart(2, '0')}
             </div>
-            <div className="text-base font-medium md:text-lg lg:text-xl mt-1 md:mt-2">
-              MINUTES
-            </div>
+            <h1 className="special-font text-3xl md:text-4xl lg:text-5xl font-black uppercase text-white text-center lg:text-left">
+              <span style={{ color: '#3B82F6' }}><b>M</b><b>INUTES</b></span>
+            </h1>
           </div>
 
           {/* Seconds */}
@@ -79,9 +79,9 @@ const CountdownTimer = () => {
             <div className="text-6xl md:text-8xl xl:text-[180px] font-bold text-gray-500 leading-none">
               {timeLeft.seconds.toString().padStart(2, '0')}
             </div>
-            <div className="text-base font-medium md:text-lg lg:text-xl mt-1 md:mt-2">
-              SECONDS
-            </div>
+            <h1 className="special-font text-3xl md:text-4xl lg:text-5xl font-black uppercase text-white text-center lg:text-left">
+              <span style={{ color: '#3B82F6' }}><b>S</b><b>ECONDS</b></span>
+            </h1>
           </div>
         </div>
       </div>
