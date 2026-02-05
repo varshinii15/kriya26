@@ -177,20 +177,25 @@ const FloatingImage = () => {
     );
   }, [isAnimating]);
 
-  // Auto-swap interval
+  // Auto-swap interval - works on both mobile and desktop
   useEffect(() => {
-    if (isPaused) return;
-
-    // Initial swap after delay
-    intervalRef.current = setInterval(() => {
-      if (!isPaused) {
-        swap();
+    if (isPaused) {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
       }
+      return;
+    }
+
+    // Start auto-swap interval
+    intervalRef.current = setInterval(() => {
+      swap();
     }, AUTO_SWAP_DELAY);
 
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
+        intervalRef.current = null;
       }
     };
   }, [swap, isPaused]);
@@ -314,7 +319,7 @@ const FloatingImage = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="font-zentry animated-word-static text-4xl md:text-5xl lg:text-6xl uppercase tracking-wider mb-8 font-black text-black flex items-center gap-2"
           >
-            FLAGSHIP EVENTS <span className="text-pink-500 text-base md:text-lg lg:text-xl font-normal tracking-normal">( KRIYA 2026 )</span>
+            FLAGSHIP EVENTS <span className="text-blue-500 text-base md:text-lg lg:text-xl font-normal tracking-normal">( KRIYA 2026 )</span>
           </motion.p>
         </div>
 
