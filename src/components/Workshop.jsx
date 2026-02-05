@@ -148,7 +148,7 @@ const cardStaggerVariants = {
   }),
 };
 
-const WorkshopCard = ({ item, isHovered, onHover, onLeave, index }) => {
+const WorkshopCard = ({ item, isHovered, isSiblingHovered, onHover, onLeave, index, isMobile }) => {
   const formatDate = (dateString) => {
     if (!dateString) return "";
     const date = new Date(dateString);
@@ -159,22 +159,22 @@ const WorkshopCard = ({ item, isHovered, onHover, onLeave, index }) => {
     <motion.div
       custom={index}
       variants={cardStaggerVariants}
-      onMouseEnter={onHover}
-      onMouseLeave={onLeave}
+      onMouseEnter={!isMobile ? onHover : undefined}
+      onMouseLeave={!isMobile ? onLeave : undefined}
       className={`relative h-[380px] md:h-[420px] flex-shrink-0 cursor-pointer overflow-hidden rounded-2xl bg-neutral-900 border border-white/10 group`}
       style={{
-        width: isHovered ? "850px" : "360px",
+        width: isMobile ? "100%" : (isHovered ? "800px" : (isSiblingHovered ? "280px" : "360px")),
         zIndex: isHovered ? 50 : 1,
       }}
       as={motion.div}
       animate={{
-        width: isHovered ? 850 : 360,
+        width: isMobile ? "100%" : (isHovered ? 800 : (isSiblingHovered ? 280 : 360)),
         opacity: 1,
         y: 0,
         scale: 1,
       }}
       transition={{
-        width: { type: "spring", stiffness: 500, damping: 30 },
+        width: { type: "spring", stiffness: 400, damping: 30 }, // Slightly softer spring for width
         opacity: { duration: 0.18 },
         scale: { duration: 0.18 },
       }}
@@ -201,14 +201,20 @@ const WorkshopCard = ({ item, isHovered, onHover, onLeave, index }) => {
           <div className="mt-auto w-full">
 
             {/* Title - Always shows full text, wraps naturally */}
-            <h3 className="text-2xl md:text-3xl font-bold uppercase leading-tight text-white mb-3">
+            <h3 className="text-2xl md:text-3xl font-bold uppercase leading-tight text-white mb-3 drop-shadow-md">
               {item.title}
             </h3>
 
             {/* Date - Always white */}
-            <div className="flex items-center gap-2 text-white/90 text-sm mb-5 font-medium">
+            <div className="flex items-center gap-2 text-white/90 text-sm mb-3 font-medium drop-shadow-sm">
               <TiCalendar className="text-lg text-white" />
               <span>{formatDate(item.date)}</span>
+            </div>
+
+            {/* Venue - Visible on Mobile or when not hovered */}
+            <div className="flex items-center gap-2 text-white text-xs mb-5 font-medium drop-shadow-sm uppercase tracking-wide">
+              <span className="text-white">Venue:</span>
+              <span>{item.hall}</span>
             </div>
 
             {/* ACTION BUTTON - Premium "Learn More" */}
@@ -239,7 +245,7 @@ const WorkshopCard = ({ item, isHovered, onHover, onLeave, index }) => {
                 opacity: { duration: 0.2 },
                 filter: { duration: 0.2 }
               }}
-              className="w-[320px] flex-shrink-0 flex flex-col justify-end h-full relative z-10 pl-6"
+              className="w-[320px] flex-shrink-0 flex flex-col justify-end h-full relative z-10 pl-6 text-shadow"
             >
               <div className="space-y-5 mb-2 p-2">
 
@@ -517,7 +523,7 @@ const Workshop = () => {
   return (
     <section
       ref={containerRef}
-      className="relative w-full overflow-hidden bg-black py-24 md:py-32 z-10"
+      className="relative w-full overflow-visible bg-black py-2 md:py-24 z-10"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -538,7 +544,7 @@ const Workshop = () => {
       </div>
 
       {/* Header */}
-      <div className="container mx-auto mb-10 md:mb-12 px-12 text-start relative z-10">
+      <div className="container mx-auto mb-4 md:mb-12 px-12 text-center relative z-10">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -551,7 +557,7 @@ const Workshop = () => {
           initial={{ opacity: 0, transform: "rotateX(-30deg) scale(0.9)" }}
           animate={isInView ? { opacity: 1, transform: "rotateX(0deg) scale(1)" } : {}}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="mt-2 font-zentry text-start animated-word-static text-5xl font-black uppercase leading-[0.9] text-blue-50 md:text-7xl"
+          className="mt-2 font-zentry text-center animated-word-static text-5xl font-black uppercase leading-[0.9] text-blue-50 md:text-7xl"
         >
           WOrk<b>s</b>hops
         </motion.h2>
@@ -559,7 +565,7 @@ const Workshop = () => {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 0.6 } : {}}
           transition={{ duration: 1, delay: 0.5 }}
-          className="mt-4 text-start font-zentry text-lg md:text-3xl text-blue-50/60 max-w-2xl"
+          className="mt-4 text-center mx-auto font-zentry text-lg md:text-3xl text-blue-50/60 max-w-2xl hidden md:block"
         >
           Interactive sessions led by industry experts. Navigate through our workshops.
         </motion.p>
@@ -571,8 +577,8 @@ const Workshop = () => {
         </div>
       ) : (
         <>
-          {/* Navigation Buttons - Top Right */}
-          <div className="container mx-auto px-4 md:px-6 mb-6">
+          {/* Navigation Buttons - Top Right (Desktop Only) */}
+          <div className="container mx-auto px-4 md:px-6 mb-2 hidden md:block">
             <div className="flex justify-end gap-3">
               <NavButton direction="left" onClick={goToPrev} disabled={totalGroups <= 1} />
               <NavButton direction="right" onClick={goToNext} disabled={totalGroups <= 1} />
@@ -581,14 +587,14 @@ const Workshop = () => {
 
           {/* Main Carousel Container */}
           <div
-            className="relative container mx-auto px-4 md:px-6"
+            className="relative container mx-auto px-4 md:px-6 overflow-visible"
             style={{ perspective: "1500px", perspectiveOrigin: "center center" }}
           >
 
             {/* Cards Container - Fixed height to prevent layout jump */}
             <div
-              className="relative w-full overflow-visible py-4 sm:py-6 md:py-8"
-              style={{ minHeight: "480px" }}
+              className="relative w-full py-4 sm:py-6 md:py-8"
+              style={{ minHeight: "480px", overflow: "visible" }}
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
@@ -602,19 +608,27 @@ const Workshop = () => {
                   animate="center"
                   exit="exit"
                   layout // Add layout prop for smooth sibling rearrangement
-                  className="flex justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-8 absolute inset-0 items-center px-2 sm:px-4"
-                  style={{ transformStyle: "preserve-3d" }}
+                  className="flex justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-8 absolute inset-0 items-center px-8 sm:px-12 md:px-16"
+                  style={{ transformStyle: "preserve-3d", overflow: "visible" }}
                 >
-                  {currentGroup.map((item, index) => (
-                    <WorkshopCard
-                      key={item.id}
-                      item={item}
-                      index={index}
-                      isHovered={hoveredCardIndex === `${currentGroupIndex}-${index}`}
-                      onHover={() => setHoveredCardIndex(`${currentGroupIndex}-${index}`)}
-                      onLeave={() => setHoveredCardIndex(null)}
-                    />
-                  ))}
+                  {currentGroup.map((item, index) => {
+                    const isHovered = hoveredCardIndex === `${currentGroupIndex}-${index}`;
+                    const isAnyHovered = hoveredCardIndex !== null && hoveredCardIndex.startsWith(`${currentGroupIndex}-`);
+                    const isSiblingHovered = isAnyHovered && !isHovered;
+
+                    return (
+                      <WorkshopCard
+                        key={item.id}
+                        item={item}
+                        index={index}
+                        isHovered={isHovered}
+                        isSiblingHovered={isSiblingHovered}
+                        isMobile={cardsPerView === 1}
+                        onHover={() => setHoveredCardIndex(`${currentGroupIndex}-${index}`)}
+                        onLeave={() => setHoveredCardIndex(null)}
+                      />
+                    );
+                  })}
                 </motion.div>
               </AnimatePresence>
             </div>
@@ -629,6 +643,8 @@ const Workshop = () => {
                 />
               </div>
             )}
+
+            {/* Navigation Buttons - Bottom (Mobile Only) - REMOVED as per request */}
           </div>
         </>
       )}

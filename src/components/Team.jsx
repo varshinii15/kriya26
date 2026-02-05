@@ -1,34 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import AnimatedTitle from "./AnimatedTitle";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
 import { motion, AnimatePresence } from "framer-motion";
 
-const TeamMember = ({ img, name, role }) => {
-    return (
-        <div className="group relative flex w-full flex-col items-center justify-center p-4 sm:w-1/2 md:w-1/3 lg:w-1/5">
-            <div className="relative h-64 w-64 overflow-hidden rounded-2xl border-2 border-white/20 transition-all duration-300 group-hover:scale-105 group-hover:border-yellow-300">
-                <img
-                    src={img}
-                    alt={name}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-            </div>
-            <div className="mt-4 text-center">
-                <h3 className="font-zentry text-2xl uppercase text-blue-50 transition-colors duration-300 group-hover:text-yellow-300">
-                    {name}
-                </h3>
-                <p className="font-general text-sm uppercase tracking-wide text-blue-50/70">
-                    {role}
-                </p>
-            </div>
-        </div>
-    );
-};
 
-// Small team member card for department grids
+
 const SmallTeamCard = ({ img, name, role }) => {
     return (
         <motion.div
@@ -38,7 +16,7 @@ const SmallTeamCard = ({ img, name, role }) => {
             className="flex flex-col items-center"
         >
             {/* Image First */}
-            <div className="relative w-full aspect-square overflow-hidden rounded-lg border border-white/10 transition-all duration-300 hover:scale-105 hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/20 mb-2">
+            <div className="relative w-full aspect-square overflow-hidden rounded-lg border border-neutral-200 transition-all duration-300 hover:scale-105 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/20 mb-2">
                 <img
                     src={img}
                     alt={name}
@@ -49,11 +27,11 @@ const SmallTeamCard = ({ img, name, role }) => {
             {/* Name and Role Below - Fixed Height Container */}
             <div className="text-center w-full min-h-[44px] flex flex-col items-center justify-start">
                 {role && (
-                    <span className="inline-block mb-1 px-2 py-0.5 text-[9px] md:text-[10px] font-bold uppercase tracking-wide bg-blue-500/20 text-blue-300 rounded-full border border-blue-400/30">
+                    <span className="inline-block mb-1 px-2 py-0.5 text-[9px] md:text-[10px] font-bold uppercase tracking-wide bg-blue-100 text-blue-600 rounded-full border border-blue-200">
                         {role}
                     </span>
                 )}
-                <p className="font-circular-web text-xs md:text-sm text-white font-medium line-clamp-2 px-1">
+                <p className="font-circular-web text-xs md:text-sm text-neutral-800 font-medium line-clamp-2 px-1">
                     {name}
                 </p>
             </div>
@@ -65,9 +43,9 @@ const SmallTeamCard = ({ img, name, role }) => {
 const DepartmentCarousel = ({ departments }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    const goToNext = () => {
+    const goToNext = useCallback(() => {
         setCurrentIndex((prev) => (prev + 1) % departments.length);
-    };
+    }, [departments.length]);
 
     const goToPrev = () => {
         setCurrentIndex((prev) => (prev - 1 + departments.length) % departments.length);
@@ -76,29 +54,29 @@ const DepartmentCarousel = ({ departments }) => {
     const currentDept = departments[currentIndex];
 
     return (
-        <div className="relative">
+        <div
+            className="relative"
+        >
             {/* Header with Navigation */}
             <div className="flex items-center justify-between mb-8 px-4">
                 <div>
-                    <h2 className="font-zentry text-4xl md:text-5xl lg:text-6xl uppercase text-blue-50">
+                    <h2 className="font-zentry text-4xl md:text-5xl lg:text-6xl uppercase text-black font-black leading-[0.9] animated-word-static">
                         {currentDept.title}
                     </h2>
-                    <p className="font-general text-sm text-blue-50/60 mt-2">
-                        {currentDept.members.length} Members
-                    </p>
+
                 </div>
 
                 {/* Navigation Buttons - Top Right */}
                 <div className="flex gap-3">
                     <button
                         onClick={goToPrev}
-                        className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-white hover:bg-white/15 hover:border-white/30 hover:scale-110 transition-all"
+                        className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14 rounded-full bg-neutral-100 border border-neutral-200 text-black hover:bg-neutral-200 hover:scale-110 transition-all"
                     >
                         <HiChevronLeft className="text-2xl" />
                     </button>
                     <button
                         onClick={goToNext}
-                        className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-white hover:bg-white/15 hover:border-white/30 hover:scale-110 transition-all"
+                        className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14 rounded-full bg-neutral-100 border border-neutral-200 text-black hover:bg-neutral-200 hover:scale-110 transition-all"
                     >
                         <HiChevronRight className="text-2xl" />
                     </button>
@@ -112,8 +90,8 @@ const DepartmentCarousel = ({ departments }) => {
                         key={index}
                         onClick={() => setCurrentIndex(index)}
                         className={`rounded-full transition-all ${currentIndex === index
-                            ? 'w-8 h-2 bg-blue-400'
-                            : 'w-2 h-2 bg-white/30 hover:bg-white/50'
+                            ? 'w-8 h-2 bg-blue-500'
+                            : 'w-2 h-2 bg-neutral-300 hover:bg-neutral-400'
                             }`}
                     />
                 ))}
@@ -127,7 +105,7 @@ const DepartmentCarousel = ({ departments }) => {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -100 }}
                     transition={{ duration: 0.4, ease: "easeInOut" }}
-                    className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3 md:gap-4 px-4"
+                    className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-x-3 gap-y-6 px-4"
                 >
                     {currentDept.members.map((member, index) => (
                         <SmallTeamCard key={index} {...member} />
@@ -168,37 +146,40 @@ const Team = () => {
     ];
 
     return (
-        <section className="relative min-h-screen w-full bg-black py-20">
+        <section className="relative min-h-screen w-full bg-white py-20">
             <div className="container mx-auto px-4">
                 {/* Header */}
                 <div className="mb-16 flex w-full flex-col items-center justify-center text-center">
-                    <p className="font-general text-sm uppercase text-blue-50">
+                    <p className="font-general text-sm uppercase text-neutral-500">
                         The Minds Behind
                     </p>
-                    <AnimatedTitle
-                        title="m<b>e</b>et our <br /> amazing <b>t</b>eam"
-                        containerClass="mt-5 !text-white text-center"
-                    />
+                    <motion.h2
+                        initial={{ opacity: 0, transform: "rotateX(-30deg) scale(0.9)" }}
+                        whileInView={{ opacity: 1, transform: "rotateX(0deg) scale(1)" }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                        className="mt-5 font-zentry text-center animated-word-static text-5xl font-black uppercase leading-[0.9] text-black md:text-7xl"
+                    >
+                        m<b>e</b>et our <br /> amazing <b>t</b>eam
+                    </motion.h2>
                 </div>
 
-                {/* Core Team - First 5 members */}
-                <div className="flex flex-wrap justify-center gap-8 lg:gap-0 mb-20">
+                {/* Core Team - Unified Grid Layout */}
+                <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-3 gap-y-6 md:gap-x-6 md:gap-y-10 max-w-5xl mx-auto mb-20 px-2 md:px-6">
                     {coreMembers.map((member, index) => (
-                        <TeamMember key={index} {...member} />
+                        <SmallTeamCard key={index} {...member} />
                     ))}
                 </div>
 
                 {/* Divider */}
-                <div className="my-20 border-t border-white/10" />
+                <div className="my-20 border-t border-neutral-200" />
 
                 {/* Department Section Title */}
                 <div className="mb-12 text-center">
-                    <h2 className="font-zentry text-4xl md:text-5xl uppercase text-blue-50">
-                        Our <span className="text-yellow-300">Departments</span>
+                    <h2 className="font-zentry text-4xl md:text-5xl uppercase text-black font-black leading-[0.9] animated-word-static">
+                        Our <span className="text-blue-500">Departments</span>
                     </h2>
-                    <p className="font-general text-sm text-blue-50/60 mt-4">
-                        Use the arrows to explore different teams
-                    </p>
+
                 </div>
 
                 {/* Department Carousel */}
