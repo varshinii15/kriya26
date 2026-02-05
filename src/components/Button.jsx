@@ -1,7 +1,7 @@
 "use client"
 import clsx from "clsx";
 
-const Button = ({ id, title, rightIcon, leftIcon, containerClass }) => {
+const Button = ({ id, title, rightIcon, leftIcon, containerClass,titleClass }) => {
   return (
     <button
       id={id}
@@ -12,7 +12,7 @@ const Button = ({ id, title, rightIcon, leftIcon, containerClass }) => {
     >
       {leftIcon}
 
-      <span className="relative inline-flex overflow-hidden font-general text-xs uppercase">
+      <span className={clsx("relative inline-flex overflow-hidden font-general text-xs uppercase", titleClass)}>
         <div className="translate-y-0 skew-y-0 transition duration-500 group-hover:translate-y-[-160%] group-hover:skew-y-12">
           {title}
         </div>

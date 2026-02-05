@@ -85,27 +85,30 @@ const Hero = () => {
   });
 
   return (
-    <div
-      ref={vantaRef}
-      id="hero-frame"
-      className="relative h-dvh w-full overflow-x-hidden bg-[#181818] rounded-lg"
-    >
+    <div id="hero-frame" className="relative h-dvh w-full overflow-x-hidden rounded-lg">
+      {/* Background 2026 Text */}
+      <h1 className="special-font absolute z-0 font-zentry text-[3rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[7rem] font-thin uppercase bottom-15 right-15 text-black/30 hidden lg:block">
+        20<b>2</b>6
+      </h1>
+      
+      <div
+        ref={vantaRef}
+        className="absolute inset-0 z-10"
+      />
 
       {/* Mobile Layout */}
-      <div className="absolute inset-0 z-20 flex lg:hidden justify-center items-center px-4 py-8 pointer-events-none">
-        <div className="rounded-3xl p-6 text-center w-full max-w-md mx-auto relative">
-          {/* Mobile 2026 Text */}
+      <div className="absolute bg-black/50 inset-0 z-20 flex lg:hidden justify-center items-center px-4 py-8 pointer-events-none">
+        <div className="rounded-3xl p-6 mt-22 text-center w-full max-w-md mx-auto relative">
           <h1 className="special-font font-zentry text-4xl font-thin uppercase absolute top-4 right-4 z-40 text-white">
             20<b>2</b>6
           </h1>
 
-          {/* Logo */}
           <Image
             src="/Logo/kriya26white.png"
             alt="Kriya 2026 Logo"
             width={300}
             height={300}
-            className="h-40 w-auto mx-auto mb-6"
+            className="h-35 w-auto mx-auto mb-6"
           />
 
           {/* Social Links */}
@@ -138,35 +141,35 @@ const Hero = () => {
 
           {/* Global Clash Title */}
           <div className="mb-10 mt-5">
-            <h1 className="special-font text-center text-4xl font-zentry font-thin uppercase text-white mb-1 tracking-wide">
-              <span className="bg-black/50 p-2 py-1 rounded-xl">the gl<b>o</b>bal</span>
+            <h1 className="special-font text-center text-6xl font-zentry font-thin uppercase text-white mb-1 tracking-wide">
+              <span className="">the gl<b>o</b>bal</span>
             </h1>
             <h1 className="special-font text-center text-5xl font-zentry font-thin uppercase text-white mb-1 tracking-wide">
-              <span className="bg-black/50 p-2 py-1 rounded-xl">Cl<b>a</b>sh <b>of</b></span>
+              <span className="">Cl<b>a</b>sh <b>of</b></span>
             </h1>
             <h2 className="special-font text-center text-5xl font-zentry font-thin uppercase text-white bg-clip-text text-transparent">
-              <span className="bg-black/50 p-2 py-1 rounded-xl">te<b>c</b>h<b>n</b>o t<b>a</b>lents</span>
+              <span className="bg-black/50 text-blue-400 p-2 rounded-xl">te<b>c</b>h<b>n</b>o t<b>a</b>lents</span>
             </h2>
           </div>
 
           {/* Date */}
           <div className="mb-6">
-            <div className="flex items-center justify-center gap-2 text-5xl text-white font-zentry">
+            <div className="flex items-center justify-center gap-2 text-5xl text-white font-zentry bg-black/50 p-2 py-1 rounded-xl">
               <h2 className="special-font font-zentry font-thin uppercase text-white bg-clip-text text-transparent">
                 <span className="bg-black/50 p-2 py-1 rounded-xl">Ma<b>r</b>c<b>h</b></span>
               </h2>
-              <span>14</span>
+              <span className="text-blue-400 ">14</span>
               <span className="text-purple-400">,</span>
-              <span>15</span>
+              <span className="text-blue-400">15</span>
               <span className="text-purple-400">,</span>
-              <span>16</span>
+              <span className="text-blue-400">16</span>
             </div>
           </div>
 
           <div className="pointer-events-auto flex flex-col sm:flex-row gap-4 justify-center items-stretch w-[80%] mx-auto">
             <Button
               title="REGISTER NOW"
-              containerClass="bg-purple-600 hover:bg-purple-700 flex-center gap-2 px-4 py-3 rounded-full font-zentry font-semibold transition-all duration-300 transform hover:scale-105 border border-purple-500 w-full"
+              containerClass="bg-blue-400 hover:bg-purple-700 flex-center gap-2 px-4 py-3 rounded-full font-zentry font-semibold transition-all duration-300 transform hover:scale-105 w-full"
               leftIcon={<TiLocationArrow className="w-4 h-4" />}
             />
             <Button
@@ -179,9 +182,9 @@ const Hero = () => {
       </div>
 
       {/* Desktop Layout */}
-      <div className="absolute inset-0 z-20 m-20 hidden lg:flex flex-row justify-center items-center gap-10 pointer-events-none">
+      <div className="absolute inset-0 z-20 p-20 bg-black/50 hidden lg:flex flex-row justify-center items-center gap-10 pointer-events-none">
 
-        <h1 className="special-font font-zentry text-[3rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-10xl 2xl:text-[7rem] font-zentry font-thin uppercase absolute bottom-[-25px] right-[-25px] z-40 text-[#dfdff2]">
+        <h1 className="special-font font-zentry text-[3rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-10xl 2xl:text-[7rem] font-zentry font-thin uppercase absolute bottom-5 right-5 z-40 text-[#dfdff2]">
           20<b>2</b>6
         </h1>
 
@@ -195,12 +198,12 @@ const Hero = () => {
           />
           <div className="flex items-center justify-center gap-2 text-5xl text-white font-zentry">
               <h2 className="special-font font-zentry font-thin uppercase text-white bg-clip-text text-transparent">
-                <span className="bg-black/50 p-2 py-1 rounded-xl">Ma<b>r</b>c<b>h</b></span>
+                <span className="p-2"><b>Ma<b><b>r</b></b>ch</b></span>
               </h2>
               <span>14</span>
-              <span className="text-purple-400">,</span>
+              <span className="text-blue-400">,</span>
               <span>15</span>
-              <span className="text-purple-400">,</span>
+              <span className="text-blue-400">,</span>
               <span>16</span>
             </div>
           <div className="flex justify-center gap-4 mt-6">
@@ -234,13 +237,13 @@ const Hero = () => {
         <div className="flex flex-col gap-4">
           <div className="rounded-2xl p-8 md:p-10 text-center">
             {/* Title Section */}
-            <h1 className="bg-black/50 p-2 m-2 rounded-xl special-font text-center text-[2.5rem] sm:text-3xl md:text-4xl lg:text-5xl xl:text-[7rem] font-zentry font-thin uppercase text-white mb-2 tracking-wide">
+            <h1 className="p-3 special-font text-center text-[2.5rem] sm:text-3xl md:text-4xl lg:text-5xl xl:text-[7rem] font-zentry font-thin uppercase text-white mb-2 tracking-wide">
               the gl<b>o</b>bal cl<b>a</b>sh
             </h1>
             <h2
               className="special-font text-center text-[2.5rem] sm:text-3xl md:text-4xl lg:text-5xl xl:text-[5rem] font-zentry font-thin uppercase text-white mb-6"
             >
-              <span className="bg-black/50 rounded-xl px-4 py-2 rounded-md"><b>o</b>f te<b>c</b>h<b>n</b>o t<b>a</b>lents</span>
+              <span className="px-4 py-2"><b>o</b>f <span className="bg-black/50 p-2 rounded-xl text-blue-400"> te<b>c</b>h<b>n</b>o t<b>a</b>lents</span></span>
             </h2>
             <p className="text-base text-end mr-15 md:text-lg text-white font-zentry mb-8">
               <span className="bg-black/50 px-4 py-2 rounded-md">POWERED BY <span className="text-blue-400 font-bold ml-2">STUDENTS UNION</span></span>
@@ -248,22 +251,19 @@ const Hero = () => {
             <div className="flex-center mt-6 gap-6">
               <Button
                 title="REGISTER NOW"
-                containerClass="bg-purple-600 hover:bg-purple-700 flex-center gap-2 px-8 py-4 rounded-full font-zentry font-semibold transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 border border-purple-500 pointer-events-auto"
+                titleClass="font-bold"
+                containerClass="bg-blue-400 font-bold flex-center gap-2 px-8 py-4 rounded-xl font-zentry text-xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 pointer-events-auto"
                 leftIcon={<TiLocationArrow className="w-5 h-5 group-hover:animate-bounce" />}
               />
               <Button
                 title="EXPLORE EVENTS"
-                containerClass="border-2 border-white/40 hover:bg-white/10 flex-center gap-2 px-8 py-4 rounded-full font-zentry font-semibold transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 backdrop-blur-sm pointer-events-auto"
+                containerClass="bg-white font-bold flex-center gap-2 px-8 py-4 rounded-xl font-zentry text-xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 pointer-events-auto"
                 leftIcon={<TiLocationArrow className="w-5 h-5 group-hover:animate-bounce" />}
               />
             </div>
           </div>
         </div>
       </div>
-
-      <h1 className="special-font z-[-50] font-zentry text-[3rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[7rem] font-thin uppercase absolute bottom-15 right-15 text-black hidden lg:block">
-        20<b>2</b>6
-      </h1>
     </div>
   );
 };
