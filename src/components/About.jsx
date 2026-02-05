@@ -1,9 +1,11 @@
-"use client"
+"use client";
+
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/all";
 
 import AnimatedTitle from "./AnimatedTitle";
+import VantaBackground from "./ui/VantaBackground";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -20,7 +22,7 @@ const About = () => {
       },
     });
 
-    clipAnimation.to(".mask-clip-path", {
+    clipAnimation.to(".prize-pool-card", {
       width: "100vw",
       height: "100vh",
       borderRadius: 0,
@@ -37,25 +39,28 @@ const About = () => {
   });
 
   return (
-    <div className="min-h-screen w-full overflow-hidden mt-32 md:mt-40">
-
-      <div className="h-dvh w-full" id="clip">
-        <div className="mask-clip-path about-image">
-          <img
-            src="img/hey.jpeg"
-            alt="Background"
-            className="absolute left-0 top-0 size-full object-cover"
-          />
-          {/* Prize pool text overlay */}
-          <div className="prize-pool-text absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 opacity-100 scale-75">
-            <AnimatedTitle
-              title="<b>P</b>rize <b>P</b>ool <br /> 6,00,000"
-              containerClass="special-font !text-white text-center drop-shadow-[0_0_30px_rgba(255,255,255,0.5)]"
-            />
-          </div>
+    <>
+      <section id='clip' className="prize-section min-h-screen w-full bg-black flex justify-center items-center overflow-hidden">
+        <div
+          className="prize-pool-card relative bg-gray-900 flex justify-center items-center"
+          style={{
+            width: "70vw",
+            height: "70vh",
+            borderRadius: "20px",
+            overflow: "hidden",
+          }}
+        >
+          <VantaBackground>
+            <div className="prize-pool-text w-full absolute inset-0 flex flex-col justify-center items-center text-center">
+              <AnimatedTitle
+                title="<b>P</b>rize <b>P</b>ool <br /> 6,00,000"
+                containerClass="special-font !text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.5)]"
+              />
+            </div>
+          </VantaBackground>
         </div>
-      </div>
-    </div>
+      </section>
+    </>
   );
 };
 
