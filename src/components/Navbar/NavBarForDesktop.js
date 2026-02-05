@@ -14,6 +14,10 @@ import PaperNav from "./PaperNav";
 import { IoMdLogOut } from "react-icons/io";
 import { eventService } from "../../services/eventservice";
 
+// Featured event IDs
+const GOLD_EVENT_IDS = ["EVNT34", "EVNT20", "EVNT09", "EVNT25", "EVNT32"];
+const PLATINUM_EVENT_IDS = ["EVNT40"];
+
 const NavBarForDesktop = () => {
   const [events, setEvents] = useState([]);
   const [workshops, setWorkshops] = useState([]);
@@ -42,24 +46,56 @@ const NavBarForDesktop = () => {
           .sort((a, b) => a.name.localeCompare(b.name));
         setEvents(sortedEvents);
 
-        // Filter gold and platinum events
-        setGoldEvents(sortedEvents.filter((event) => event.category === "Gold"));
-        setPlatinumEvents(sortedEvents.filter((event) => event.category === "Platinum"));
+        // Fetch Gold and Platinum events by specific IDs
+        try {
+          const goldPromises = GOLD_EVENT_IDS.map(id => eventService.getEventById(id));
+          const goldResponses = await Promise.all(goldPromises);
+          const goldEvents = goldResponses.map(res => {
+            const event = res?.event || res;
+            return {
+              name: event.eventName || event.name,
+              category: event.category,
+              id: event.eventId || event.id,
+            };
+          });
+          console.log("🏆 Gold Events (by ID):", goldEvents);
+          setGoldEvents(goldEvents);
+
+          const platinumPromises = PLATINUM_EVENT_IDS.map(id => eventService.getEventById(id));
+          const platinumResponses = await Promise.all(platinumPromises);
+          const platinumEvents = platinumResponses.map(res => {
+            const event = res?.event || res;
+            return {
+              name: event.eventName || event.name,
+              category: event.category,
+              id: event.eventId || event.id,
+            };
+          });
+          console.log("💎 Platinum Events (by ID):", platinumEvents);
+          setPlatinumEvents(platinumEvents);
+        } catch (error) {
+          console.error("Error fetching featured events by ID:", error);
+        }
 
         // Fetch workshops
         const workshopsResponse = await eventService.getAllWorkshops();
-        const workshopsData = Array.isArray(workshopsResponse) ? workshopsResponse : workshopsResponse?.data || [];
+        console.log("📚 Workshops API Response:", workshopsResponse);
+        const workshopsData = Array.isArray(workshopsResponse.workshops) ? workshopsResponse.workshops : workshopsResponse?.data?.workshops || [];
+        console.log("📚 Workshops Data Array:", workshopsData);
         const sortedWorkshops = workshopsData
           .map((workshop) => ({
-            name: workshop.workName || workshop.name,
-            id: workshop.wid || workshop.id,
+            name: workshop.workshopName || workshop.name,
+            id: workshop.workshopId || workshop.id,
           }))
           .sort((a, b) => a.name.localeCompare(b.name));
         setWorkshops(sortedWorkshops);
+        console.log("📚 Sorted Workshops (set to state):", sortedWorkshops);
 
         // Fetch papers
         const papersResponse = await eventService.getAllPapers();
-        const papersData = Array.isArray(papersResponse) ? papersResponse : papersResponse?.data || [];
+        console.log("📄 Papers API Response:", papersResponse);
+        const papersData = Array.isArray(papersResponse.papers) ? papersResponse.papers : papersResponse?.data?.papers || [];
+        console.log("📄 Papers Data Array:", papersData);
         const sortedPapers = papersData
           .map((paper) => ({
             name: paper.eventName || paper.name,
@@ -67,6 +103,7 @@ const NavBarForDesktop = () => {
           }))
           .sort((a, b) => a.name.localeCompare(b.name));
         setPapers(sortedPapers);
+        console.log("📄 Sorted Papers (set to state):", sortedPapers);
 
       } catch (error) {
         console.error("Error fetching navbar data:", error);

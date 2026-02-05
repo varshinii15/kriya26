@@ -12,8 +12,14 @@ import "../../../styles/Landing.css";
 
 const TextFont = "Helonik";
 
+// Featured event IDs
+const GOLD_EVENT_IDS = ["EVNT34", "EVNT20", "EVNT09", "EVNT25", "EVNT32"];
+const PLATINUM_EVENT_IDS = ["EVNT40"];
+
 const EventList = () => {
   const [events, setEvents] = useState([]);
+  const [featuredGoldEvents, setFeaturedGoldEvents] = useState([]);
+  const [featuredPlatinumEvents, setFeaturedPlatinumEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const searchParams = useSearchParams();
@@ -62,6 +68,48 @@ const EventList = () => {
         console.log("✅ Categories:", [...new Set(mappedEvents.map(e => e.category))]);
 
         setEvents(mappedEvents);
+
+        // Fetch featured events by ID
+        const fetchFeaturedEvents = async () => {
+          try {
+            // Fetch Gold events
+            const goldPromises = GOLD_EVENT_IDS.map(id => eventService.getEventById(id));
+            const goldResponses = await Promise.all(goldPromises);
+            const goldEvents = goldResponses.map(res => {
+              const event = res?.event || res;
+              return {
+                name: event.eventName || event.name,
+                id: event.eventId || event.id,
+                date: event.date ? new Date(event.date).toLocaleDateString() : "TBA",
+                category: event.category,
+                time: event.timing || event.time || "TBA",
+              };
+            });
+            setFeaturedGoldEvents(goldEvents);
+
+            // Fetch Platinum events
+            const platinumPromises = PLATINUM_EVENT_IDS.map(id => eventService.getEventById(id));
+            const platinumResponses = await Promise.all(platinumPromises);
+            const platinumEvents = platinumResponses.map(res => {
+              const event = res?.event || res;
+              return {
+                name: event.eventName || event.name,
+                id: event.eventId || event.id,
+                date: event.date ? new Date(event.date).toLocaleDateString() : "TBA",
+                category: event.category,
+                time: event.timing || event.time || "TBA",
+              };
+            });
+            setFeaturedPlatinumEvents(platinumEvents);
+
+            console.log("✅ Featured Gold Events:", goldEvents);
+            console.log("✅ Featured Platinum Events:", platinumEvents);
+          } catch (error) {
+            console.error("Error fetching featured events:", error);
+          }
+        };
+
+        fetchFeaturedEvents();
         setError(null);
       } catch (error) {
         console.error("Error loading events:", error);
@@ -147,27 +195,19 @@ const EventList = () => {
             ✨ EVENTS ✨
           </h1>
         </div> */}
-            <div
-              hidden={
-                filteredEvents.filter((i) => i.category === "Platinum").length ===
-                0
-              }
-            >
+            {/* FEATURED PLATINUM EVENTS (by ID) */}
+            <div hidden={featuredPlatinumEvents.length === 0}>
               <h1
                 className={`${TextFont} text-4xl bg-gradient-to-r from-[#d1c5bc] to-[#a89e97] bg-clip-text text-transparent lg:text-5xl tracking-wide font-bold text-center text-[#d1c5bc] pt-8`}
                 id="platinum"
-                hidden={
-                  filteredEvents.filter((i) => i.category === "Platinum")
-                    .length === 0
-                }
               >
-                PLATINUM EVENTS
+                FEATURED PLATINUM EVENTS
               </h1>
               <EventsGrid
                 imgurl={"/thumbnail/platinumthumb.jpg"}
                 arrowCircleStart="from-[#9c8f86]"
                 arrowCircleEnd="to-[#d1c5bc]"
-                obj={filteredEvents.filter((i) => i.category === "Platinum")}
+                obj={featuredPlatinumEvents}
                 topCurve="bg-[#010101]"
                 rightCurve="bg-[#010101]"
                 iconImg={
@@ -176,25 +216,19 @@ const EventList = () => {
               />
             </div>
 
-            <div
-              hidden={
-                filteredEvents.filter((i) => i.category === "Gold").length === 0
-              }
-            >
+            {/* FEATURED GOLD EVENTS (by ID) */}
+            <div hidden={featuredGoldEvents.length === 0}>
               <h1
                 className={`${TextFont} text-4xl bg-gradient-to-r from-[#ffee35] to-[#ffa228] bg-clip-text text-transparent lg:text-5xl tracking-wide font-bold text-center text-[#FFC92F] pt-8`}
                 id="gold"
-                hidden={
-                  filteredEvents.filter((i) => i.category === "Gold").length === 0
-                }
               >
-                GOLD EVENTS
+                FEATURED GOLD EVENTS
               </h1>
               <EventsGrid
                 imgurl={"/thumbnail/goldthumb.jpg"}
                 arrowCircleStart="from-[#8B5523]"
                 arrowCircleEnd="to-[#F2CC3E]"
-                obj={filteredEvents.filter((i) => i.category === "Gold")}
+                obj={featuredGoldEvents}
                 topCurve="bg-[#010101]"
                 rightCurve="bg-[#010101]"
                 iconImg={
