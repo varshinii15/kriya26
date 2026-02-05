@@ -70,7 +70,7 @@ const Hero = () => {
     });
   });
 
-  const getVideoSrc = (index) => `videos/hero.mp4`;
+  const getVideoSrc = (index) => `videos/hero-5.mp4`;
 
   return (
     <div className="relative h-dvh w-full overflow-x-hidden">
@@ -97,7 +97,7 @@ const Hero = () => {
             className="absolute left-0 top-0 size-full object-cover object-center"
           />
         </div>
-        
+
         {/* Mobile Layout */}
         <div className="absolute inset-0 z-20 flex lg:hidden justify-center items-center px-4 py-8 pointer-events-none">
           <div className="bg-white/20 backdrop-blur-md rounded-3xl p-6 text-center border border-white/30 w-full max-w-md mx-auto relative">
@@ -105,7 +105,7 @@ const Hero = () => {
             <h1 className="special-font font-zentry text-4xl font-thin uppercase absolute top-4 right-4 z-40 text-white">
               20<b>2</b>6
             </h1>
-            
+
             {/* Logo */}
             <Image
               src="/Logo/kriya26white.png"
@@ -114,29 +114,29 @@ const Hero = () => {
               height={240}
               className="h-32 w-auto mx-auto mb-6"
             />
-            
+
             {/* Social Links */}
             <div className="flex justify-center gap-4 mb-8">
-              <a 
-                href="mailto:helpdesk.kriya@psgtech.ac.in" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href="mailto:helpdesk.kriya@psgtech.ac.in"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group p-3 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-all duration-300 transform hover:scale-110 border border-white/40 hover:border-white/60 pointer-events-auto"
               >
                 <FaEnvelope className="w-5 h-5 text-white group-hover:scale-110 transition-transform duration-300" />
               </a>
-              <a 
-                href="https://www.linkedin.com/company/studentsunion-psgtech/" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href="https://www.linkedin.com/company/studentsunion-psgtech/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group p-3 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-all duration-300 transform hover:scale-110 border border-white/40 hover:border-white/60 pointer-events-auto"
               >
                 <FaLinkedin className="w-5 h-5 text-white group-hover:scale-110 transition-transform duration-300" />
               </a>
-              <a 
-                href="https://www.instagram.com/kriya_psgtech/" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href="https://www.instagram.com/kriya_psgtech/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group p-3 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-all duration-300 transform hover:scale-110 border border-white/40 hover:border-white/60 pointer-events-auto"
               >
                 <FaInstagram className="w-5 h-5 text-white group-hover:scale-110 transition-transform duration-300" />
@@ -204,9 +204,9 @@ const Hero = () => {
         <div className="absolute inset-0 z-20 m-20 hidden lg:flex flex-row justify-center items-center gap-15 pointer-events-none">
 
           <h1 className="special-font font-zentry text-[3rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-10xl 2xl:text-[7rem] font-zentry font-thin uppercase absolute bottom-[-25px] right-[-25px] z-40 text-[#dfdff2]">
-          20<b>2</b>6
-        </h1>
-  
+            20<b>2</b>6
+          </h1>
+
           <div className="bg-white/20 backdrop-blur-md rounded-3xl p-6 md:p-8 text-center border border-white/30">
             <Image
               src="/Logo/kriya26white.png"
@@ -217,26 +217,26 @@ const Hero = () => {
             />
             <p className="text-white text-base md:text-xl font-zentry font-semibold mb-1">POWERED BY <span className="text-blue-400 text-base md:text-xl font-zentry font-bold mb-4">STUDENTS UNION</span></p>
             <div className="flex justify-center gap-4 mt-6">
-              <a 
-                href="mailto:helpdesk.kriya@psgtech.ac.in" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href="mailto:helpdesk.kriya@psgtech.ac.in"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group p-3 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-all duration-300 transform hover:scale-110 hover:-translate-y-2 active:animate-bounce border border-white/40 hover:border-white/60 pointer-events-auto"
               >
                 <FaEnvelope className="w-6 h-6 text-white group-hover:scale-110 transition-transform duration-300" />
               </a>
-              <a 
-                href="https://www.linkedin.com/company/studentsunion-psgtech/" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href="https://www.linkedin.com/company/studentsunion-psgtech/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group p-3 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-all duration-300 transform hover:scale-110 hover:-translate-y-2 active:animate-bounce border border-white/40 hover:border-white/60 pointer-events-auto"
               >
                 <FaLinkedin className="w-6 h-6 text-white group-hover:scale-110 transition-transform duration-300" />
               </a>
-              <a 
-                href="https://www.instagram.com/kriya_psgtech/" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href="https://www.instagram.com/kriya_psgtech/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group p-3 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-all duration-300 transform hover:scale-110 hover:-translate-y-2 active:animate-bounce border border-white/40 hover:border-white/60 pointer-events-auto"
               >
                 <FaInstagram className="w-6 h-6 text-white group-hover:scale-110 transition-transform duration-300" />
@@ -246,29 +246,29 @@ const Hero = () => {
 
           <div className="flex flex-col gap-4">
             <div className="bg-white/20 backdrop-blur-md rounded-2xl p-4 md:p-13 border border-white/30">
-                <div className="grid grid-cols-3 gap-6 md:gap-15">
-                  <div className="text-center">
-                    <h3 className="text-2xl md:text-7xl font-zentry font-bold text-white">
-                      30<span className="text-purple-400 ml-2">+</span>
-                    </h3>
-                    <p className="text-white/80 text-xs md:text-xl font-zentry uppercase tracking-wide">EVENTS</p>
-                  </div>
-                  <div className="text-center">
-                    <h3 className="text-2xl md:text-7xl font-zentry font-bold text-white">
-                      10<span className="text-purple-400 ml-2">+</span>
-                    </h3>
-                    <p className="text-white/80 text-xs md:text-xl font-zentry uppercase tracking-wide">WORKSHOPS</p>
-                  </div>
-                  <div className="text-center">
-                    <h3 className="text-2xl md:text-7xl font-zentry font-bold text-white">
-                      5<span className="text-purple-400 ml-2">+</span>
-                    </h3>
-                    <p className="text-white/80 text-xs md:text-xl font-zentry uppercase tracking-wide">PAPER PRESENTATIONS</p>
-                  </div>
+              <div className="grid grid-cols-3 gap-6 md:gap-15">
+                <div className="text-center">
+                  <h3 className="text-2xl md:text-7xl font-zentry font-bold text-white">
+                    30<span className="text-purple-400 ml-2">+</span>
+                  </h3>
+                  <p className="text-white/80 text-xs md:text-xl font-zentry uppercase tracking-wide">EVENTS</p>
+                </div>
+                <div className="text-center">
+                  <h3 className="text-2xl md:text-7xl font-zentry font-bold text-white">
+                    10<span className="text-purple-400 ml-2">+</span>
+                  </h3>
+                  <p className="text-white/80 text-xs md:text-xl font-zentry uppercase tracking-wide">WORKSHOPS</p>
+                </div>
+                <div className="text-center">
+                  <h3 className="text-2xl md:text-7xl font-zentry font-bold text-white">
+                    5<span className="text-purple-400 ml-2">+</span>
+                  </h3>
+                  <p className="text-white/80 text-xs md:text-xl font-zentry uppercase tracking-wide">PAPER PRESENTATIONS</p>
                 </div>
               </div>
+            </div>
 
-          <div className="bg-white/20 backdrop-blur-md rounded-2xl p-8 md:p-10 text-center border border-white/30">
+            <div className="bg-white/20 backdrop-blur-md rounded-2xl p-8 md:p-10 text-center border border-white/30">
               {/* Date Section */}
               <div className="text-center mb-8">
                 <div className="flex items-baseline justify-center gap-3 special-font font-zentry font-thin">
@@ -284,7 +284,7 @@ const Hero = () => {
                   </div>
                 </div>
               </div>
-              
+
               {/* Title Section */}
               <h1 className="special-font text-center text-[2.5rem] sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-zentry font-thin uppercase text-white mb-2 tracking-wide">
                 the gl<b>o</b>bal cl<b>a</b>sh <b>o</b>f

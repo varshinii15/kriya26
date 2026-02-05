@@ -8,10 +8,20 @@ export const eventService = {
         return response.data;
     },
 
-    // Get event by ID
+    // Get event by ID (using eventId field, not MongoDB _id)
     getEventById: async (eventId) => {
-        const response = await api.get(`/api/events/${eventId}`);
-        return response.data;
+        const response = await api.get(`/api/events?eventId=${eventId}`);
+        const data = response.data;
+
+        // Handle different response formats
+        if (Array.isArray(data)) {
+            if (data.length === 0) {
+                throw new Error(`Event with eventId ${eventId} not found`);
+            }
+            return data[0];
+        }
+
+        return data;
     },
 
     // Register for an event
@@ -88,7 +98,7 @@ export const eventService = {
     submitPaper: async (paperId, file) => {
         const formData = new FormData();
         formData.append('file', file);
-        
+
         const response = await api.post(`/api/events/paper/${paperId}/submit`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
@@ -96,7 +106,7 @@ export const eventService = {
         });
         return response.data;
     },
-    
+
     // Save paper chat/comments (if applicable)
     savePaperChat: async (paperId, data) => {
         const response = await api.post(`/api/events/paper/${paperId}/chat`, data);
@@ -123,6 +133,6 @@ export const eventService = {
         const response = await api.get('/api/events/papers/registrations');
         //console.log(response.data);
         return response.data;
-        
+
     }
 };

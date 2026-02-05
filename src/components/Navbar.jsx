@@ -53,19 +53,14 @@ const NavBar = () => {
 
   useEffect(() => {
     if (currentScrollY === 0) {
-      // At top: show navbar and logo, no floating
+      // At top: show full navbar with logo
       setIsNavVisible(true);
       setShowLogo(true);
       navContainerRef.current.classList.remove("floating-nav");
-    } else if (currentScrollY > lastScrollY) {
-      // Scrolling down: hide navbar
-      setIsNavVisible(false);
-      setShowLogo(false);
-      navContainerRef.current.classList.add("floating-nav");
-    } else if (currentScrollY < lastScrollY) {
-      // Scrolling up: show navbar but hide logo (unless at top)
+    } else {
+      // When scrolling: keep navbar visible, hide logo, add floating style
       setIsNavVisible(true);
-      setShowLogo(currentScrollY === 0);
+      setShowLogo(false);
       navContainerRef.current.classList.add("floating-nav");
     }
 
@@ -74,8 +69,8 @@ const NavBar = () => {
 
   useEffect(() => {
     gsap.to(navContainerRef.current, {
-      y: isNavVisible ? 0 : -100,
-      opacity: isNavVisible ? 1 : 0,
+      y: 0,
+      opacity: 1,
       duration: 0.2,
     });
   }, [isNavVisible]);
