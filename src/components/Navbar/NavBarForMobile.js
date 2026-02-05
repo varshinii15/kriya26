@@ -58,7 +58,6 @@ const NavBarForMobile = () => {
               id: event.eventId || event.id,
             };
           });
-          console.log("🏆 Mobile Gold Events (by ID):", goldEvents);
           setGoldEvents(goldEvents);
 
           const platinumPromises = PLATINUM_EVENT_IDS.map(id => eventService.getEventById(id));
@@ -71,7 +70,6 @@ const NavBarForMobile = () => {
               id: event.eventId || event.id,
             };
           });
-          console.log("💎 Mobile Platinum Events (by ID):", platinumEvents);
           setPlatinumEvents(platinumEvents);
         } catch (error) {
           console.error("Error fetching featured events by ID:", error);
@@ -79,9 +77,7 @@ const NavBarForMobile = () => {
 
         // Fetch workshops
         const workshopsResponse = await eventService.getAllWorkshops();
-        console.log("📚 Mobile Workshops API Response:", workshopsResponse);
         const workshopsData = Array.isArray(workshopsResponse.workshops) ? workshopsResponse.workshops : workshopsResponse?.data || [];
-        console.log("📚 Mobile Workshops Data Array:", workshopsData);
         const sortedWorkshops = workshopsData
           .map((workshop) => ({
             name: workshop.workshopName || workshop.name,
@@ -89,13 +85,10 @@ const NavBarForMobile = () => {
           }))
           .sort((a, b) => a.name.localeCompare(b.name));
         setWorkshops(sortedWorkshops);
-        console.log("📚 Mobile Sorted Workshops:", sortedWorkshops);
 
         // Fetch papers
         const papersResponse = await eventService.getAllPapers();
-        console.log("📄 Mobile Papers API Response:", papersResponse);
         const papersData = Array.isArray(papersResponse.papers) ? papersResponse.papers : papersResponse?.data?.papers || [];
-        console.log("📄 Mobile Papers Data Array:", papersData);
         const sortedPapers = papersData
           .map((paper) => ({
             name: paper.eventName || paper.name,
@@ -103,7 +96,6 @@ const NavBarForMobile = () => {
           }))
           .sort((a, b) => a.name.localeCompare(b.name));
         setPapers(sortedPapers);
-        console.log("📄 Mobile Sorted Papers:", sortedPapers);
 
         // Fetch token
         const t = localStorage.getItem("token");

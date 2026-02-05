@@ -38,9 +38,6 @@ const EventList = () => {
         setLoading(true);
         const response = await eventService.getAllEvents();
 
-        console.log("🔍 API Response:", response);
-        console.log("🔍 Response Type:", typeof response, Array.isArray(response) ? "(Array)" : "");
-
         // Handle different response formats
         let eventsData = [];
         if (Array.isArray(response)) {
@@ -51,9 +48,6 @@ const EventList = () => {
           eventsData = response.events;
         }
 
-        console.log("🔍 Extracted events data:", eventsData);
-        console.log("🔍 Events count:", eventsData.length);
-
         // Map to the format needed for the UI
         const mappedEvents = eventsData.map((event) => ({
           name: event.eventName || event.name,
@@ -62,10 +56,6 @@ const EventList = () => {
           category: event.category,
           time: event.timing || event.time || "TBA",
         })).sort((a, b) => a.name.localeCompare(b.name));
-
-        console.log("✅ Mapped events:", mappedEvents);
-        console.log("✅ Total events count:", mappedEvents.length);
-        console.log("✅ Categories:", [...new Set(mappedEvents.map(e => e.category))]);
 
         setEvents(mappedEvents);
 
@@ -101,9 +91,6 @@ const EventList = () => {
               };
             });
             setFeaturedPlatinumEvents(platinumEvents);
-
-            console.log("✅ Featured Gold Events:", goldEvents);
-            console.log("✅ Featured Platinum Events:", platinumEvents);
           } catch (error) {
             console.error("Error fetching featured events:", error);
           }
