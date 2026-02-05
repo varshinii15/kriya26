@@ -190,13 +190,11 @@ const WorkshopCard = ({ item, isHovered, isSiblingHovered, onHover, onLeave, ind
           fill
           className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
         />
-        {/* Gradient Overlay - Lighter as requested */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-        {/* Removed hover darkening as requested */}
       </div>
 
       {/* Content Container */}
-      <div className="absolute inset-0 flex flex-row items-end p-6 md:p-8 overflow-hidden gap-6">
+      <div className="absolute bg-black/50 inset-0 flex flex-row items-end p-6 md:p-8 overflow-hidden gap-6">
 
         {/* LEFT COLUMN: Title, Date, Button */}
         {/* Grows to fill space, but respects Right Column when present */}

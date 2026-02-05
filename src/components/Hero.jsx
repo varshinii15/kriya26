@@ -87,9 +87,9 @@ const Hero = () => {
   return (
     <div id="hero-frame" className="relative h-dvh w-full overflow-x-hidden rounded-lg">
       {/* Background 2026 Text */}
-      <h1 className="special-font absolute z-0 font-zentry text-[3rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[7rem] font-thin uppercase bottom-15 right-15 text-black/30 hidden lg:block">
+      {/* <h1 className="special-font absolute z-0 font-zentry text-[3rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[7rem] font-thin uppercase bottom-15 right-15 text-black/30 hidden lg:block">
         20<b>2</b>6
-      </h1>
+      </h1> */}
       
       <div
         ref={vantaRef}
@@ -99,9 +99,9 @@ const Hero = () => {
       {/* Mobile Layout */}
       <div className="absolute bg-black/50 inset-0 z-20 flex lg:hidden justify-center items-center px-4 py-8 pointer-events-none">
         <div className="rounded-3xl p-6 mt-22 text-center w-full max-w-md mx-auto relative">
-          <h1 className="special-font font-zentry text-4xl font-thin uppercase absolute top-4 right-4 z-40 text-white">
+          {/* <h1 className="special-font font-zentry text-4xl font-thin uppercase absolute top-4 right-4 z-40 text-white">
             20<b>2</b>6
-          </h1>
+          </h1> */}
 
           <Image
             src="/Logo/kriya26white.png"
@@ -184,9 +184,9 @@ const Hero = () => {
       {/* Desktop Layout */}
       <div className="absolute inset-0 z-20 p-20 bg-black/50 hidden lg:flex flex-row justify-center items-center gap-10 pointer-events-none">
 
-        <h1 className="special-font font-zentry text-[3rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-10xl 2xl:text-[7rem] font-zentry font-thin uppercase absolute bottom-5 right-5 z-40 text-[#dfdff2]">
+        {/* <h1 className="special-font font-zentry text-[3rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-10xl 2xl:text-[7rem] font-zentry font-thin uppercase absolute bottom-5 right-5 z-40 text-[#dfdff2]">
           20<b>2</b>6
-        </h1>
+        </h1> */}
 
         <div className="rounded-3xl p-6 md:p-8 text-center">
           <Image
