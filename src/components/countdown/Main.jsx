@@ -37,9 +37,9 @@ const Home = () => {
     <div className='flex items-center '>
       <div className="flex flex-col items-center lg:items-start md:py-6 lg:py-8 px-14">
         <div className="mb-2">
-          <h1 className="special-font text-4xl md:text-5xl lg:text-6xl font-black uppercase text-white text-center lg:text-left">
-            <b>M</b>ark <b>Y</b>our <br className="block lg:hidden" />
-            <span style={{ color: '#3B82F6' }}><b>C</b>alendar !</span>
+          <h1 className="special-font text-4xl md:text-5xl lg:text-7xl font-black uppercase text-white text-center lg:text-left">
+            <b>M</b><b>ark </b><b>Y</b><b>our </b><br className="block lg:hidden" />
+            <span style={{ color: '#3B82F6' }}><b>C</b><b>alendar !</b></span>
           </h1>
         </div>
 

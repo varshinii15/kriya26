@@ -128,8 +128,8 @@ const PaperPresentation = () => {
                         title="<b>R</b>esearch <br /> <b>P</b>aper <br /> <b>P</b>resentations"
                         containerClass="special-font text-black drop-shadow-[0_0_30px_rgba(255,255,255,0.4)]"
                     />
-                    <p className="special-font text-3xl md:text-4xl lg:text-5xl font-black uppercase tracking-wider mt-4" style={{ color: '#9146FF' }}>
-                        (<b>K</b>riya 2026)
+                    <p className="special-font text-3xl md:text-4xl lg:text-5xl font-black uppercase tracking-wider mt-4  text-blue-400 text-center ">
+                        <b>( K</b><b>r</b><b>iya 2026 )</b>
                     </p>
                 </div>
             </div>
