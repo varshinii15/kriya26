@@ -138,7 +138,7 @@ const Hero = () => {
 
           {/* Global Clash Title */}
           <div className="mb-10 mt-5">
-            <h1 className="special-font text-center text-5xl font-zentry font-thin uppercase text-white mb-1 tracking-wide">
+            <h1 className="special-font text-center text-4xl font-zentry font-thin uppercase text-white mb-1 tracking-wide">
               <span className="bg-black/50 p-2 py-1 rounded-xl">the gl<b>o</b>bal</span>
             </h1>
             <h1 className="special-font text-center text-5xl font-zentry font-thin uppercase text-white mb-1 tracking-wide">
@@ -170,10 +170,10 @@ const Hero = () => {
               leftIcon={<TiLocationArrow className="w-4 h-4" />}
             />
             <Button
-              title="EXPLORE EVENTS"
-              containerClass="border-2 border-white/40 hover:bg-white/10 flex-center gap-2 px-4 py-3 rounded-full font-zentry font-semibold transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 backdrop-blur-sm pointer-events-auto w-full"
-              leftIcon={<TiLocationArrow className="w-5 h-5 group-hover:animate-bounce" />}
-            />
+                title="EXPLORE EVENTS"
+                containerClass="border-2 border-white/40 hover:bg-white/10 flex-center gap-2 px-4 py-3 rounded-full font-zentry font-semibold transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 backdrop-blur-sm pointer-events-auto w-full"
+                leftIcon={<TiLocationArrow className="w-5 h-5 group-hover:animate-bounce" />}
+              />
           </div>
         </div>
       </div>
@@ -185,13 +185,13 @@ const Hero = () => {
           20<b>2</b>6
         </h1>
 
-        <div className="bg-white/20 backdrop-blur-md rounded-3xl p-6 md:p-8 text-center border border-white/30">
+        <div className="rounded-3xl p-6 md:p-8 text-center">
           <Image
             src="/Logo/kriya26white.png"
             alt="Kriya 2026 Logo"
             width={500}
             height={400}
-            className="h-30 md:h-60 w-auto mx-auto mb-4"
+            className="h-30 md:h-75 w-auto mx-auto mb-4"
           />
           <p className="text-white text-base md:text-xl font-zentry font-semibold mb-1">POWERED BY <span className="text-blue-400 text-base md:text-xl font-zentry font-bold mb-4">STUDENTS UNION</span></p>
           <div className="flex justify-center gap-4 mt-6">
@@ -223,55 +223,18 @@ const Hero = () => {
         </div>
 
         <div className="flex flex-col gap-4">
-          <div className="bg-white/20 backdrop-blur-md rounded-2xl p-4 md:p-13 border border-white/30">
-            <div className="grid grid-cols-3 gap-6 md:gap-15">
-              <div className="text-center">
-                <h3 className="text-2xl md:text-7xl font-zentry font-bold text-white">
-                  30<span className="text-purple-400 ml-2">+</span>
-                </h3>
-                <p className="text-white/80 text-xs md:text-xl font-zentry uppercase tracking-wide">EVENTS</p>
-              </div>
-              <div className="text-center">
-                <h3 className="text-2xl md:text-7xl font-zentry font-bold text-white">
-                  10<span className="text-purple-400 ml-2">+</span>
-                </h3>
-                <p className="text-white/80 text-xs md:text-xl font-zentry uppercase tracking-wide">WORKSHOPS</p>
-              </div>
-              <div className="text-center">
-                <h3 className="text-2xl md:text-7xl font-zentry font-bold text-white">
-                  5<span className="text-purple-400 ml-2">+</span>
-                </h3>
-                <p className="text-white/80 text-xs md:text-xl font-zentry uppercase tracking-wide">PAPER PRESENTATIONS</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white/20 backdrop-blur-md rounded-2xl p-8 md:p-10 text-center border border-white/30">
-            {/* Date Section */}
-            <div className="text-center mb-8">
-              <div className="flex items-baseline justify-center gap-3 special-font font-zentry font-thin">
-                <h2 className="special-font text-italic text-center text-[2.5rem] sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl 2xl:text-8xl font-zentry font-thin uppercase bg-gradient-to-r from-[#FA9212] via-[#F48B11] to-[#FFE014] bg-clip-text text-transparent mb-6">
-                  Ma<b>r</b>c<b>h</b>
-                </h2>
-                <div className="flex items-center gap-2 text-[2.5rem] sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-white">
-                  <span>14</span>
-                  <span className="text-purple-400">,</span>
-                  <span>15</span>
-                  <span className="text-purple-400">,</span>
-                  <span>16</span>
-                </div>
-              </div>
-            </div>
-
+          <div className="rounded-2xl p-8 md:p-10 text-center">
             {/* Title Section */}
-            <h1 className="special-font text-center text-[2.5rem] sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-zentry font-thin uppercase text-white mb-2 tracking-wide">
-              the gl<b>o</b>bal cl<b>a</b>sh <b>o</b>f
+            <h1 className="bg-black/50 p-2 m-2 rounded-xl special-font text-center text-[2.5rem] sm:text-3xl md:text-4xl lg:text-5xl xl:text-[7rem] font-zentry font-thin uppercase text-white mb-2 tracking-wide">
+              the gl<b>o</b>bal cl<b>a</b>sh
             </h1>
-            <h2 className="special-font text-center text-[2.5rem] sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-zentry font-thin uppercase bg-gradient-to-r from-[#FA9212] via-[#F48B11] to-[#FFE014] bg-clip-text text-transparent mb-6">
-              te<b>c</b>h<b>n</b>o t<b>a</b>lents
+            <h2
+              className="special-font text-center text-[2.5rem] sm:text-3xl md:text-4xl lg:text-5xl xl:text-[5rem] font-zentry font-thin uppercase text-white mb-6"
+            >
+              <span className="bg-black/50 rounded-xl px-4 py-2 rounded-md"><b>o</b>f te<b>c</b>h<b>n</b>o t<b>a</b>lents</span>
             </h2>
-            <p className="text-base md:text-lg text-white/80 font-zentry mb-8">
-              POWERED BY <span className="text-purple-400 font-bold ml-2">STUDENTS UNION</span>
+            <p className="text-base text-end mr-15 md:text-lg text-white font-zentry mb-8">
+              <span className="bg-black/50 px-4 py-2 rounded-md">POWERED BY <span className="text-blue-400 font-bold ml-2">STUDENTS UNION</span></span>
             </p>
             <div className="flex-center mt-6 gap-6">
               <Button
