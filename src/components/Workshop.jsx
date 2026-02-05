@@ -526,7 +526,7 @@ const Workshop = () => {
   return (
     <section
       ref={containerRef}
-      className="relative w-full overflow-visible bg-black py-2 md:py-24 z-10"
+      className="relative w-full overflow-visible bg-black pt-2 md:pt-4 pb-12 md:pb-24 z-10"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -547,7 +547,7 @@ const Workshop = () => {
       </div>
 
       {/* Header */}
-      <div className="container mx-auto mb-4 md:mb-12 px-12 text-center relative z-10">
+      <div className="container mx-auto mb-4 md:mb-2 px-12 text-center relative z-10">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}

@@ -301,7 +301,7 @@ const FloatingImage = () => {
   return (
     <div
       id="story"
-      className="min-h-dvh w-full bg-white text-black overflow-x-hidden overflow-y-auto"
+      className="min-h-dvh w-full bg-white text-black overflow-hidden"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
