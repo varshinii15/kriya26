@@ -40,7 +40,7 @@ const ANIMATION_CONFIG = {
 const CARD_DISTANCE = 60;
 const VERTICAL_DISTANCE = 30; // Reduced to prevent header overlap
 const SKEW_AMOUNT = 3;
-const AUTO_SWAP_DELAY = 5000;
+const AUTO_SWAP_DELAY = 1000;
 
 // Calculate slot position for each card in the stack
 // Cards stack to the right and slightly down (behind)
@@ -69,7 +69,6 @@ const placeNow = (el, slot, skew, totalCards) =>
 
 const FloatingImage = () => {
   const [isAnimating, setIsAnimating] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const cardsRef = useRef([]);
@@ -202,14 +201,6 @@ const FloatingImage = () => {
 
   // Auto-swap interval - works on both mobile and desktop
   useEffect(() => {
-    if (isPaused) {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
-      return;
-    }
-
     // Start auto-swap interval
     intervalRef.current = setInterval(() => {
       swap();
@@ -221,25 +212,7 @@ const FloatingImage = () => {
         intervalRef.current = null;
       }
     };
-  }, [swap, isPaused]);
-
-  // Pause/Resume on hover
-  const handleMouseEnter = () => {
-    setIsPaused(true);
-    if (tlRef.current) {
-      tlRef.current.pause();
-    }
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    setIsPaused(false);
-    if (tlRef.current) {
-      tlRef.current.play();
-    }
-  };
+  }, [swap]);
 
   // Navigate to next slide (manual)
   const nextSlide = useCallback(() => {
@@ -352,8 +325,6 @@ const FloatingImage = () => {
             ref={containerRef}
             className="relative w-full h-[50vh] md:h-[60vh] flex items-center justify-center group pt-20"
             style={{ perspective: "900px" }}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
           >
             {/* Card Stack */}
             <div
