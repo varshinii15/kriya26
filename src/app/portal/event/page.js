@@ -1,12 +1,10 @@
 "use client";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { FaSoundcloud } from "react-icons/fa";
 import { useRouter, useSearchParams } from "next/navigation";
 import { eventService } from "../../../services/eventservice";
 import "../../../styles/gradientAnimation.css";
-import Particles from "react-tsparticles";
-import { loadSlim } from "tsparticles-slim";
-import particleOptions from "../../../../ParticleOptions";
+import PixelSnow from "../../../components/PixelSnow/PixelSnow";
 import EventGrid from "../../../components/Event/EventGrid";
 import "../../../styles/Landing.css";
 
@@ -24,12 +22,6 @@ const EventList = () => {
   const [error, setError] = useState(null);
   const searchParams = useSearchParams();
   const [searchTerm, setSearchTerm] = useState("");
-
-  const particlesInit = useCallback(async (engine) => {
-    await loadSlim(engine);
-  }, []);
-
-  const particlesLoaded = (container) => { };
 
   // Fetch events from eventService
   useEffect(() => {
@@ -139,14 +131,20 @@ const EventList = () => {
   }, []);
   return (
     <div className="w-full  h-screen py-12 pt-24 overflow-y-scroll font-poppins lg:pt-12">
-      <Particles
-        id="tsparticles"
-        init={particlesInit}
-        loaded={particlesLoaded}
-        className="absolute top-0 left-0"
-        height="100vh"
-        width="100vh"
-        options={particleOptions}
+      <PixelSnow
+        className="fixed top-0 left-0 w-full h-full"
+        color="#ffffff"
+        flakeSize={0.01}
+        minFlakeSize={1.25}
+        pixelResolution={200}
+        speed={1.25}
+        depthFade={8}
+        farPlane={20}
+        brightness={1}
+        gamma={0.4545}
+        density={0.3}
+        variant="snowflake"
+        direction={125}
       />
 
       {loading ? (
@@ -188,7 +186,7 @@ const EventList = () => {
                 className={`${TextFont} text-4xl bg-gradient-to-r from-[#d1c5bc] to-[#a89e97] bg-clip-text text-transparent lg:text-5xl tracking-wide font-bold text-center text-[#d1c5bc] pt-8`}
                 id="platinum"
               >
-                FEATURED PLATINUM EVENTS
+                PLATINUM EVENTS
               </h1>
               <EventsGrid
                 imgurl={"/thumbnail/platinumthumb.jpg"}
@@ -209,7 +207,7 @@ const EventList = () => {
                 className={`${TextFont} text-4xl bg-gradient-to-r from-[#ffee35] to-[#ffa228] bg-clip-text text-transparent lg:text-5xl tracking-wide font-bold text-center text-[#FFC92F] pt-8`}
                 id="gold"
               >
-                FEATURED GOLD EVENTS
+                GOLD EVENTS
               </h1>
               <EventsGrid
                 imgurl={"/thumbnail/goldthumb.jpg"}
