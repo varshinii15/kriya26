@@ -104,7 +104,7 @@ const Features = () => {
     <section className="bg-black py-20 pt-30">
       <div className="container mx-auto px-3 md:px-10">
 
-        <BentoTilt className="bento-tilt_1 relative mb-7 h-96 w-full overflow-hidden rounded-md md:h-[65vh]">
+        <BentoTilt className="bento-tilt_1 relative mb-7 h-48 w-full overflow-hidden rounded-md md:h-[65vh]">
           <BentoCard
             src="videos/feature-1.mp4"
             title={
@@ -118,7 +118,7 @@ const Features = () => {
           />
         </BentoTilt>
 
-        <div className="grid h-[135vh] w-full grid-cols-2 grid-rows-3 gap-7">
+        <div className="grid h-[50vh] w-full grid-cols-2 grid-rows-2 gap-7 md:h-[65vh]">
           {/* Left side - Science & Technology and Fashion Technology stacked */}
           <BentoTilt className="bento-tilt_1 row-span-1 md:col-span-1">
             <BentoCard
@@ -133,48 +133,7 @@ const Features = () => {
             />
           </BentoTilt>
 
-          <BentoTilt className="bento-tilt_1 row-span-1 md:col-span-1">
-            <BentoCard
-              src="videos/feature-4.mp4"
-              title={
-                <>
-                
-                  <b>C</b>ore <b>E</b>ngineering
-                </>
-              }
-              description="Textile innovation and fashion-forward design meeting cutting-edge technology."
-              isComingSoon
-            />
-          </BentoTilt>
-
-          {/* Right side - Bot taking 2 rows */}
-          <BentoTilt className="bento-tilt_1 row-span-2 md:col-span-1 md:row-start-1 md:col-start-2">
-            <BentoCard
-              src="videos/feature-2.mp4"
-              title={
-                <>
-                  <b>F</b>ashion <b>T</b>echnology
-                </>
-              }
-              description="Robotics and automation challenges - build, program, and compete with intelligent machines."
-              isComingSoon
-            />
-          </BentoTilt>
-
-          <BentoTilt className="bento-tilt_2">
-            <BentoCard
-              src="videos/feature-5.mp4"
-              title={
-                <>
-                  <b>B</b>ot
-                </>
-              }
-              description="Programming contests and algorithm challenges for coding enthusiasts."
-              isComingSoon
-            />
-          </BentoTilt>
-
-          <BentoTilt className="bento-tilt_2">
+          <BentoTilt className="bento-tilt_2 row-span-1">
             <BentoCard
               src="videos/feature-6.mp4"
               title={
@@ -186,7 +145,36 @@ const Features = () => {
               isComingSoon
             />
           </BentoTilt>
+
+
+          {/* Right side - Bot taking 2 rows */}
+          <BentoTilt className="bento-tilt_1 row-span-2 col-start-2 row-start-1 md:col-span-1 md:row-start-1 md:col-start-2">
+            <BentoCard
+              src="videos/feature-2.mp4"
+              title={
+                <>
+                  <b>F</b>ashion <b>T</b>echnology
+                </>
+              }
+              description="Robotics and automation challenges - build, program, and compete with intelligent machines."
+              isComingSoon
+            />
+          </BentoTilt>
         </div>
+
+        <BentoTilt className="bento-tilt_1 relative mb-7 mt-7 h-48 w-full overflow-hidden rounded-md md:h-[65vh]">
+          <BentoCard
+            src="videos/feature-5.mp4"
+            title={
+              <>
+              
+                <b>C</b>ore <b>E</b>ngineering
+              </>
+            }
+            description="Textile innovation and fashion-forward design meeting cutting-edge technology."
+            isComingSoon
+          />
+        </BentoTilt>
       </div>
     </section>
   );
