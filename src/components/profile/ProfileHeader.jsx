@@ -15,7 +15,7 @@ const ProfileHeader = ({ user }) => {
     const [college, setCollege] = React.useState(user?.college || "PSG College of Technology");
 
     return (
-        <div className="relative w-full overflow-hidden rounded-xl bg-[#181818] border border-white/10 p-6 md:p-8">
+        <div className="relative w-full overflow-hidden rounded-xl bg-white/5 backdrop-blur-md border border-white/10 p-6 md:p-8">
             <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
 
                 {/* Avatar Section */}

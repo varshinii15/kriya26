@@ -15,7 +15,7 @@ const StatsGrid = ({ stats }) => {
     return (
         <div className="grid grid-cols-3 gap-3 md:gap-4">
             {/* Payment Status */}
-            <BentoTilt className="col-span-3 md:col-span-1 border border-white/10 bg-[#121212] rounded-xl min-h-[100px] md:min-h-[120px]">
+            <BentoTilt className="col-span-3 md:col-span-1 border border-white/10 bg-white/5 backdrop-blur-md rounded-xl min-h-[100px] md:min-h-[120px]">
                 <div className="h-full p-4 md:p-5 flex flex-col justify-center">
                     <h3 className="font-general text-[10px] uppercase tracking-widest text-blue-500 font-bold mb-2">General Fee:</h3>
                     <div className={`flex items-center gap-2 ${stats?.isPaid ? 'text-green-400' : 'text-red-400'}`}>
@@ -32,7 +32,7 @@ const StatsGrid = ({ stats }) => {
             </BentoTilt>
 
             {/* Events Count */}
-            <BentoTilt className="col-span-1 md:col-span-1 border border-white/10 bg-[#121212] rounded-xl min-h-[100px] md:min-h-[120px]">
+            <BentoTilt className="col-span-1 md:col-span-1 border border-white/10 bg-white/5 backdrop-blur-md rounded-xl min-h-[100px] md:min-h-[120px]">
                 <StatCard
                     label="Registered"
                     value={stats?.eventsCount || "0"}
@@ -42,7 +42,7 @@ const StatsGrid = ({ stats }) => {
             </BentoTilt>
 
             {/* Workshops Count */}
-            <BentoTilt className="col-span-2 md:col-span-1 border border-white/10 bg-[#121212] rounded-xl min-h-[100px] md:min-h-[120px]">
+            <BentoTilt className="col-span-2 md:col-span-1 border border-white/10 bg-white/5 backdrop-blur-md rounded-xl min-h-[100px] md:min-h-[120px]">
                 <StatCard
                     label="Enrolled"
                     value={stats?.workshopsCount || "0"}

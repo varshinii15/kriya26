@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const EventTicket = ({ event }) => {
     return (
-        <BentoTilt className="relative w-full shrink-0 border border-white/10 bg-[#1a1a1a] rounded-xl overflow-hidden">
+        <BentoTilt className="relative w-full shrink-0 border border-white/20 bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden">
             {/* Left Color Bar */}
             <div className={`absolute left-0 top-0 w-2 h-full ${event.color || "bg-blue-500"}`}></div>
 
