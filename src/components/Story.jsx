@@ -304,18 +304,76 @@ const FloatingImage = () => {
     }
   };
 
+  // Vanta Trunk Background Effect
+  const vantaRef = useRef(null);
+
+  useEffect(() => {
+    let vantaEffect = null;
+
+    const loadVanta = async () => {
+      if (typeof window !== 'undefined') {
+        // Load p5.js (required for TRUNK effect)
+        if (!window.p5) {
+          const p5Script = document.createElement('script');
+          p5Script.src = 'https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js';
+          document.head.appendChild(p5Script);
+
+          await new Promise((resolve) => {
+            p5Script.onload = resolve;
+          });
+        }
+
+        // Load Vanta Trunk
+        if (!window.VANTA || !window.VANTA.TRUNK) {
+          const vantaScript = document.createElement('script');
+          vantaScript.src = 'https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.trunk.min.js';
+          document.head.appendChild(vantaScript);
+
+          await new Promise((resolve) => {
+            vantaScript.onload = resolve;
+          });
+        }
+
+        // Initialize Vanta effect
+        if (window.VANTA && window.VANTA.TRUNK && vantaRef.current) {
+          vantaEffect = window.VANTA.TRUNK({
+            el: vantaRef.current,
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            color: 0x1352c5,
+            backgroundColor: 0xffffff,
+            spacing: 10.00,
+            chaos: 3.00
+          });
+        }
+      }
+    };
+
+    loadVanta();
+
+    return () => {
+      if (vantaEffect) vantaEffect.destroy();
+    };
+  }, []);
+
   // Get current front card for indicators
   const currentIndex = orderRef.current[0] || 0;
 
   return (
     <div
+      ref={vantaRef}
       id="story"
-      className="min-h-dvh w-full bg-white text-black overflow-hidden"
+      className="relative min-h-dvh w-full bg-white text-black overflow-hidden"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      <div className="flex size-full flex-col items-center py-10 pb-24">
+      <div className="relative z-10 flex size-full flex-col items-center py-10 pb-24">
         <div className="flex flex-col items-center justify-center text-center">
           <motion.p
             initial={{ opacity: 0, transform: "rotateX(-30deg) scale(0.9)" }}
