@@ -21,11 +21,6 @@ const QRCodeSection = ({ ticketId }) => {
                             <p className="text-white text-[10px] font-mono">QR CODE</p>
                             <div className="absolute top-0 left-0 w-full h-full bg-linear-to-b from-transparent via-blue-500/50 to-transparent -translate-y-full animate-scan"></div>
                         </div>
-                        {/* Corner Markers */}
-                        <div className="absolute top-0 left-0 w-3 h-3 border-l-2 border-t-2 border-black -translate-x-0.5 -translate-y-0.5"></div>
-                        <div className="absolute top-0 right-0 w-3 h-3 border-r-2 border-t-2 border-black translate-x-0.5 -translate-y-0.5"></div>
-                        <div className="absolute bottom-0 left-0 w-3 h-3 border-l-2 border-b-2 border-black -translate-x-0.5 translate-y-0.5"></div>
-                        <div className="absolute bottom-0 right-0 w-3 h-3 border-r-2 border-b-2 border-black translate-x-0.5 translate-y-0.5"></div>
                     </div>
 
                     {/* Kriya ID in Blue */}
@@ -68,11 +63,6 @@ const QRCodeSection = ({ ticketId }) => {
                                     <p className="text-white text-xs font-mono">QR CODE</p>
                                     <div className="absolute top-0 left-0 w-full h-full bg-linear-to-b from-transparent via-blue-500/50 to-transparent -translate-y-full animate-scan-modal"></div>
                                 </div>
-                                {/* Corner Markers */}
-                                <div className="absolute top-0 left-0 w-5 h-5 border-l-2 border-t-2 border-black -translate-x-1 -translate-y-1"></div>
-                                <div className="absolute top-0 right-0 w-5 h-5 border-r-2 border-t-2 border-black translate-x-1 -translate-y-1"></div>
-                                <div className="absolute bottom-0 left-0 w-5 h-5 border-l-2 border-b-2 border-black -translate-x-1 translate-y-1"></div>
-                                <div className="absolute bottom-0 right-0 w-5 h-5 border-r-2 border-b-2 border-black translate-x-1 translate-y-1"></div>
                             </div>
 
                             {/* Kriya ID in Blue */}

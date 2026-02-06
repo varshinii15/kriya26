@@ -332,7 +332,7 @@ const FloatingImage = () => {
           {/* Card Stack Container */}
           <div
             ref={containerRef}
-            className="relative w-full h-[50vh] md:h-[60vh] flex items-center justify-center group pt-20"
+            className="relative w-full h-[50vh] md:h-[70vh] flex items-center justify-center group pt-20"
             style={{ perspective: "900px" }}
           >
             {/* Card Stack */}
@@ -366,7 +366,7 @@ const FloatingImage = () => {
                   onClick={() => window.location.href = '#'}
                 >
                   {/* Top Image Section */}
-                  <div className="h-[55%] w-full relative">
+                  <div className="h-[65%] w-full relative">
                     <img
                       src={slide.image}
                       alt={slide.alt}
@@ -376,7 +376,7 @@ const FloatingImage = () => {
 
                   {/* Bottom Info Section - Dynamic Color Background */}
                   <div
-                    className="h-[45%] w-full p-4 md:p-6 lg:p-8 flex items-start justify-between text-black relative"
+                    className="h-[35%] w-full p-4 md:p-6 lg:p-8 flex items-start justify-between text-black relative"
                     style={{ backgroundColor: slide.color }}
                   >
                     <div className="flex flex-col h-full justify-between z-10">
