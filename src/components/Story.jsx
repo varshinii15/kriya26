@@ -4,6 +4,15 @@ import { useRef, useState, useCallback, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import { eventService } from "../services/eventservice";
 
+const STATIC_IMAGES = [
+  "/img/flagship/fl1.png",
+  "/img/flagship/fl2.png",
+  "/img/flagship/fl3.png",
+  "/img/flagship/fl4.png",
+  "/img/flagship/fl5.png",
+  "/img/flagship/fl6.png",
+];
+
 // Event IDs to fetch
 const FLAGSHIP_EVENT_IDS = ["EVNT34", "EVNT20", "EVNT09", "EVNT25", "EVNT32", "EVNT40"];
 
@@ -98,7 +107,7 @@ const FloatingImage = () => {
           const { day, month, year } = formatEventDate(event.date);
           return {
             id: event.eventId,
-            image: "/img/entrance.webp",
+            image: STATIC_IMAGES[index % STATIC_IMAGES.length],
             alt: event.eventName,
             title: event.eventName,
             location: event.hall,
