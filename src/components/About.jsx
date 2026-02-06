@@ -32,7 +32,7 @@ const About = () => {
     clipAnimation.to(
       ".prize-pool-text",
       {
-        scale: 1.5, // Grow the text size
+        scale: 2.0, // Grow the text size
       },
       0 // Start at the same time as image expansion
     );
@@ -40,7 +40,7 @@ const About = () => {
 
   return (
     <>
-      <section id='clip' className="prize-section min-h-screen w-full bg-black flex justify-center items-center overflow-hidden">
+      <section id='clip' className="prize-section min-h-screen w-full bg-white flex justify-center items-center overflow-hidden">
         <div
           className="prize-pool-card relative bg-gray-900 flex justify-center items-center"
           style={{
@@ -51,7 +51,7 @@ const About = () => {
           }}
         >
           <VantaBackground>
-            <div className="prize-pool-text w-full absolute inset-0 flex flex-col justify-center items-center text-center">
+            <div className="prize-pool-text bg-black/50 xl:bg-transparent w-full absolute inset-0 flex flex-col justify-center items-center text-center">
               <AnimatedTitle
                 title="<b>P</b>rize <b>P</b>ool <br /> 6,00,000"
                 containerClass="special-font !text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.5)]"

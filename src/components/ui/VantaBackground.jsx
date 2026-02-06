@@ -53,7 +53,7 @@ const VantaBackground = ({ children }) => {
   }, []);
 
   return (
-    <div ref={vantaRef} style={{ width: '100vw', height: '100vh', position: 'absolute', top: 0, left: 0, zIndex: 0 }}>
+    <div ref={vantaRef} style={{ width: '100vw', height: '100vh', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 0 }}>
       {children}
     </div>
   );

@@ -36,7 +36,7 @@ const NavBarForDesktop = () => {
 
         // Fetch events
         const eventsResponse = await eventService.getAllEvents();
-        const eventsData = Array.isArray(eventsResponse) ? eventsResponse : eventsResponse?.data || [];
+        const eventsData = Array.isArray(eventsResponse.events) ? eventsResponse.events : eventsResponse?.data || [];
         const sortedEvents = eventsData
           .map((event) => ({
             name: event.eventName || event.name,
@@ -180,12 +180,12 @@ const NavBarForDesktop = () => {
 
           <GoldNav noMargin goldEvents={platinumEvents} />
 
-          <EventNav category="Coding" events={events} />
-          <EventNav category="Science and Technology" noMargin events={events} />
-          <EventNav category="Bot" events={events} />
-          <EventNav category="Quiz" events={events} />
-          <EventNav category="Core Engineering" events={events} />
-          <EventNav category="Fashion and Textile" events={events} />
+          <EventNav category="Coding" events={events.filter((e) => e.category === "Coding")} />
+          <EventNav category="Science and Technology" noMargin events={events.filter((e) => e.category === "Science and Technology")} />
+          <EventNav category="Bot" events={events.filter((e) => e.category === "Bot")} />
+          <EventNav category="Quiz" events={events.filter((e) => e.category === "Quiz")} />
+          <EventNav category="Core Engineering" events={events.filter((e) => e.category === "Core Engineering")} />
+          <EventNav category="Fashion and Textile" events={events.filter((e) => e.category === "Fashion and Textile")} />
           <h3 className="py-3 font-semibold text-white">Gold Events</h3>
           <GoldNav noMargin goldEvents={goldEvents} />
           <h3 className="py-3 font-semibold text-white">
