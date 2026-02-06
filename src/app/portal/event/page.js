@@ -104,9 +104,29 @@ const EventList = () => {
 
   const filteredEvents = events.filter(
     (event) =>
+      searchTerm === "" ||
       event.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      event.date.includes(searchTerm) ||
-      event.time.includes(searchTerm)
+      event.date.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      event.time.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (event.category && event.category.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
+
+  const filteredPlatinumEvents = featuredPlatinumEvents.filter(
+    (event) =>
+      searchTerm === "" ||
+      event.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      event.date.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      event.time.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (event.category && event.category.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
+
+  const filteredGoldEvents = featuredGoldEvents.filter(
+    (event) =>
+      searchTerm === "" ||
+      event.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      event.date.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      event.time.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (event.category && event.category.toLowerCase().includes(searchTerm.toLowerCase()))
   );
   useEffect(() => {
     if (!searchParams || !searchParams.get("ctg")) return;
@@ -134,13 +154,13 @@ const EventList = () => {
       <PixelSnow
         className="fixed top-0 left-0 w-full h-full"
         color="#ffffff"
-        flakeSize={0.01}
+        flakeSize={0.015}
         minFlakeSize={1.25}
         pixelResolution={200}
-        speed={1.25}
+        speed={1.5}
         depthFade={8}
         farPlane={20}
-        brightness={1}
+        brightness={10}
         gamma={0.4545}
         density={0.3}
         variant="snowflake"
@@ -163,13 +183,13 @@ const EventList = () => {
         </div>
       ) : (
         <div>
-          <div className="flex justify-center mb-8 px-4">
+          <div className="flex justify-center mb-8 px-4 relative z-30">
             <input
               type="text"
-              placeholder="Search by name, date, or time..."
+              placeholder="Search events by name, category, date, or time..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="px-4 py-2 border rounded-lg shadow-md w-full sm:w-3/4 lg:w-1/2 max-w-lg text-black"
+              className="px-4 py-3 border-2 border-white/30 shadow-lg w-full sm:w-3/4 lg:w-1/2 max-w-lg text-white bg-black/40 backdrop-blur-md placeholder:text-white/60 focus:outline-none focus:border-white/60 focus:bg-black/50 transition-all"
             />
           </div>
           <section className="relative flex flex-col items-center w-full  px-6 overflow-x-hidden h-fit lg:overflow-hidden font-poppins lg:px-8 lg:block">
@@ -181,44 +201,48 @@ const EventList = () => {
           </h1>
         </div> */}
             {/* FEATURED PLATINUM EVENTS (by ID) */}
-            <div hidden={featuredPlatinumEvents.length === 0}>
+            <div hidden={filteredPlatinumEvents.length === 0}>
               <h1
-                className={`${TextFont} text-4xl bg-gradient-to-r from-[#d1c5bc] to-[#a89e97] bg-clip-text text-transparent lg:text-5xl tracking-wide font-bold text-center text-[#d1c5bc] pt-8`}
+                className="special-font text-4xl lg:text-5xl tracking-wide font-black text-center pt-8 uppercase"
+                style={{ color: '#C0C0C0' }}
                 id="platinum"
               >
-                PLATINUM EVENTS
+                <b>PLATINUM EVENTS</b>
               </h1>
               <EventsGrid
-                imgurl={"/thumbnail/platinumthumb.jpg"}
+                imgurl="/thumbnail/platinumthumb.png"
                 arrowCircleStart="from-[#9c8f86]"
                 arrowCircleEnd="to-[#d1c5bc]"
-                obj={featuredPlatinumEvents}
+                obj={filteredPlatinumEvents}
                 topCurve="bg-[#010101]"
                 rightCurve="bg-[#010101]"
                 iconImg={
                   "https://cdn-icons-png.flaticon.com/512/3309/3309977.png"
                 }
+                categoryOverride="platinum"
               />
             </div>
 
             {/* FEATURED GOLD EVENTS (by ID) */}
-            <div hidden={featuredGoldEvents.length === 0}>
+            <div hidden={filteredGoldEvents.length === 0}>
               <h1
-                className={`${TextFont} text-4xl bg-gradient-to-r from-[#ffee35] to-[#ffa228] bg-clip-text text-transparent lg:text-5xl tracking-wide font-bold text-center text-[#FFC92F] pt-8`}
+                className="special-font text-4xl lg:text-5xl tracking-wide font-black text-center pt-8 uppercase"
+                style={{ color: '#FFD700' }}
                 id="gold"
               >
-                GOLD EVENTS
+                <b>GOLD EVENTS</b>
               </h1>
               <EventsGrid
-                imgurl={"/thumbnail/goldthumb.jpg"}
+                imgurl="/thumbnail/goldthumb.png"
                 arrowCircleStart="from-[#8B5523]"
                 arrowCircleEnd="to-[#F2CC3E]"
-                obj={featuredGoldEvents}
+                obj={filteredGoldEvents}
                 topCurve="bg-[#010101]"
                 rightCurve="bg-[#010101]"
                 iconImg={
                   "https://cdn-icons-png.flaticon.com/512/3309/3309977.png"
                 }
+                categoryOverride="gold"
               />
             </div>
             <div
@@ -227,18 +251,17 @@ const EventList = () => {
               }
             >
               <h1
-                className={`${TextFont} text-3xl lg:text-4xl font-bold text-center pt-8 `}
+                className="special-font text-3xl lg:text-4xl font-black text-center pt-8 uppercase"
+                style={{ color: '#98D0FF' }}
                 id="quiz"
                 hidden={
                   filteredEvents.filter((i) => i.category === "Quiz").length === 0
                 }
               >
-                <span className="bg-clip-text [-webkit-text-fill-color:transparent] bg-[#e425cc]">
-                  QUIZ
-                </span>
+                <b>QUIZ</b>
               </h1>
               <EventsGrid
-                imgurl={"/thumbnail/quizthumb.jpg"}
+                imgurl={"/thumbnail/quizthumb.png"}
                 arrowCircleStart="from-[#121a43]"
                 arrowCircleEnd="to-[#a21cd9]"
                 obj={filteredEvents.filter((i) => i.category === "Quiz")}
@@ -255,19 +278,18 @@ const EventList = () => {
               }
             >
               <h1
-                className={`${TextFont} text-3xl lg:text-4xl font-bold text-center pt-8`}
+                className="special-font text-3xl lg:text-4xl font-black text-center pt-8 uppercase"
+                style={{ color: '#F34F44' }}
                 id="core"
                 hidden={
                   filteredEvents.filter((i) => i.category === "Core Engineering")
                     .length === 0
                 }
               >
-                <span className="${TextFont} bg-clip-text [-webkit-text-fill-color:transparent] bg-[#01c3d3]">
-                  CORE ENGINEERING
-                </span>
+                <b>CORE ENGINEERING</b>
               </h1>
               <EventsGrid
-                imgurl={"/thumbnail/corethumb.jpg"}
+                imgurl={"/thumbnail/corethumb.png"}
                 arrowCircleStart="from-[#121a43]"
                 arrowCircleEnd="to-[#58B0B0]"
                 obj={filteredEvents.filter(
@@ -284,19 +306,18 @@ const EventList = () => {
               }
             >
               <h1
-                className={`${TextFont} text-3xl lg:text-4xl font-bold text-center pt-8`}
+                className="special-font text-3xl lg:text-4xl font-black text-center pt-8 uppercase"
+                style={{ color: '#3AC49C' }}
                 id="coding"
                 hidden={
                   filteredEvents.filter((i) => i.category === "Coding").length ===
                   0
                 }
               >
-                <span className="bg-clip-text [-webkit-text-fill-color:transparent] bg-[#FFAF74]">
-                  CODING
-                </span>
+                <b>CODING</b>
               </h1>
               <EventsGrid
-                imgurl={"/thumbnail/codingthumb.jpg"}
+                imgurl={"/thumbnail/codingthumb.png"}
                 arrowCircleStart="from-[#A76B40]"
                 arrowCircleEnd="to-[#D19872]"
                 obj={filteredEvents.filter((i) => i.category === "Coding")}
@@ -312,15 +333,14 @@ const EventList = () => {
               className="w-full "
             >
               <h1
-                className={`${TextFont} text-3xl lg:text-4xl font-bold text-center pt-8`}
+                className="special-font text-3xl lg:text-4xl font-black text-center pt-8 uppercase"
+                style={{ color: '#3AC49C' }}
                 id="bot"
                 hidden={
                   filteredEvents.filter((i) => i.category === "Bot").length === 0
                 }
               >
-                <span className="bg-clip-text [-webkit-text-fill-color:transparent] bg-[#FCB1AE]">
-                  BOT
-                </span>
+                <b>BOT</b>
               </h1>
               <EventsGrid
                 imgurl={"/thumbnail/botthumb.jpg"}
@@ -340,7 +360,8 @@ const EventList = () => {
               className="h-[10%]"
             >
               <h1
-                className={`${TextFont} text-3xl lg:text-4xl font-bold text-center pt-8`}
+                className="special-font text-3xl lg:text-4xl font-black text-center pt-8 uppercase"
+                style={{ color: '#B48EEB' }}
                 id="fashion"
                 hidden={
                   filteredEvents.filter(
@@ -348,12 +369,10 @@ const EventList = () => {
                   ).length === 0
                 }
               >
-                <span className="bg-clip-text [-webkit-text-fill-color:transparent] bg-[#ea20e3]">
-                  FASHION & TEXTILE
-                </span>
+                <b>FASHION & TEXTILE</b>
               </h1>
               <EventsGrid
-                imgurl={"/thumbnail/fashionthumb.jpg"}
+                imgurl={"/thumbnail/fashionthumb.png"}
                 arrowCircleStart="from-[#9B1E55]"
                 arrowCircleEnd="to-[#5F0D2E]"
                 obj={filteredEvents.filter(
@@ -371,19 +390,18 @@ const EventList = () => {
               }
             >
               <h1
-                className={`${TextFont} text-3xl lg:text-4xl font-bold text-center pt-8`}
+                className="special-font text-3xl lg:text-4xl font-black text-center pt-8 uppercase"
+                style={{ color: '#B0E369' }}
                 id="science"
                 hidden={
                   filteredEvents.filter((i) => i.category === "Science and Technology")
                     .length === 0
                 }
               >
-                <span className="bg-clip-text [-webkit-text-fill-color:transparent] bg-[#AEFCC4]">
-                  SCIENCE & TECHNOLOGY
-                </span>
+                <b>SCIENCE & TECHNOLOGY</b>
               </h1>
               <EventsGrid
-                imgurl={"/thumbnail/sciencethumb.jpg"}
+                imgurl={"/thumbnail/sciencethumb.png"}
                 arrowCircleStart="from-[#5BBF7A]"
                 arrowCircleEnd="to-[#2E8050]"
                 obj={filteredEvents.filter((i) => i.category === "Science and Technology")}
@@ -403,13 +421,11 @@ const EventList = () => {
 
                   return (
                     <div key={category}>
-                      <h1 className={` text-3xl lg:text-4xl font-bold text-center pt-8`}>
-                        <span className="bg-clip-text [-webkit-text-fill-color:transparent] bg-gradient-to-r from-purple-400 to-pink-600">
-                          {category.toUpperCase()}
-                        </span>
+                      <h1 className="special-font text-3xl lg:text-4xl font-black text-center pt-8 uppercase" style={{ color: '#FFD700' }}>
+                        {category.toUpperCase()}
                       </h1>
                       <EventsGrid
-                        imgurl={"/thumbnail/goldthumb.jpg"}
+                        imgurl={"/thumbnail/goldthumb.png"}
                         arrowCircleStart="from-purple-500"
                         arrowCircleEnd="to-pink-500"
                         obj={categoryEvents}
@@ -438,6 +454,8 @@ const EventsGrid = ({
   topCurve,
   rightCurve,
   iconImg,
+  titleColor = "text-white",
+  categoryOverride = "",
 }) => {
   const toTitleCase = (phrase) => {
     const wordsToIgnore = ["of", "in", "for", "and", "a", "an", "or"];
@@ -476,6 +494,8 @@ const EventsGrid = ({
             topCurve={topCurve}
             rightCurve={rightCurve}
             to={`/portal/event/${i.id}`}
+            titleColor={titleColor}
+            category={categoryOverride || i.category}
           />
         ))
       ) : (
