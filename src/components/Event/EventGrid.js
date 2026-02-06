@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 const EventGrid = ({
-  handleClick = () => {},
+  handleClick = () => { },
   title = "",
   description = "",
   className = "",
@@ -63,11 +63,10 @@ const EventGrid = ({
           />
         </div>
         <div
-          className={`absolute inset-0 flex items-center justify-center font-semibold text-white drop-shadow-lg tracking-wide text-center  px-4 ${
-            title.length > 15
-              ? "text-2xl sm:text-3xl md:text-5xl lg:text-2xl"
-              : "text-3xl sm:text-4xl md:text-6xl lg:text-3xl"
-          }`}
+          className={`absolute inset-0 flex items-center justify-center font-semibold text-white drop-shadow-lg tracking-wide text-center  px-4 ${title.length > 15
+            ? "text-2xl sm:text-3xl md:text-5xl lg:text-2xl"
+            : "text-3xl sm:text-4xl md:text-6xl lg:text-3xl"
+            }`}
         >
           {title}
         </div>
@@ -119,7 +118,7 @@ const EventGrid = ({
                 <sup>th</sup>March
               </p>
               <p className="text-center font-poppins font-semibold">{dateToDayMap[date]}</p>
-              </div>
+            </div>
             <div>
               <p className="font-semibold">{time}</p>
               <p className="text-sm">Time</p>

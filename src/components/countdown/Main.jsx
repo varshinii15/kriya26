@@ -35,21 +35,21 @@ const Home = () => {
 
   return (
     <div className='flex items-center '>
-      <div className="flex flex-col items-center lg:items-start md:py-6 lg:py-8 px-14">
+      <div className="flex flex-col items-center lg:items-start md:py-6 lg:py-8 px-14 pb-10 md:pb-6">
         <div className="mb-2">
-          <h1 className="special-font text-4xl md:text-5xl lg:text-7xl font-black uppercase text-white text-center lg:text-left">
+          <h1 className="special-font text-[3rem] md:text-[3rem] lg:text-[5rem] font-black uppercase text-white text-center lg:text-left">
             <b>M</b><b>ark </b><b>Y</b><b>our </b><br className="block lg:hidden" />
-            <span style={{ color: '#3B82F6' }}><b>C</b><b>alendar !</b></span>
+            <span className='text-[#3B82F6] text-[5rem]'><b>C</b><b>alendar !</b></span>
           </h1>
         </div>
 
 
-        <p className="my-3 text-white text-sm md:text-base lg:text-lg text-center lg:text-left">{eventDetails.description}</p>
+        <p className="my-3 text-white text-base md:text-base lg:text-lg text-center lg:text-left">{eventDetails.description}</p>
 
         <div className="flex items-center space-x-4 mt-2">
           <button
             onClick={handleAddToCalendar}
-            className="px-6 py-2 text-sm font-semibold text-white transition-all duration-300 ease-in-out transform rounded-full shadow-lg lg:text-base hover:scale-105 hover:shadow-xl"
+            className="px-6 py-2 text-base font-semibold text-white transition-all duration-300 ease-in-out transform rounded-full shadow-lg lg:text-base hover:scale-105 hover:shadow-xl"
             style={{
               backgroundColor: '#3B82F6',
               boxShadow: '0 0 30px rgba(145, 70, 255, 0.4)'

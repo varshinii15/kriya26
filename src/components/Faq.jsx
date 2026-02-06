@@ -5,30 +5,30 @@ import "@/components/FAQ/faq.css";
 const faqData = {
   General: [
     {
-      question: "What is KRIYA 2025?",
+      question: "What is KRIYA 2026?",
       answer:
-        "KRIYA 2025 is a premier intercollegiate techno fest organized by PSG College of Technology. It features an exciting lineup of technical events, workshops, and competitions.",
+        "KRIYA 2026 is a premier intercollegiate techno fest organized by PSG College of Technology. It features an exciting lineup of technical events, workshops, and competitions.",
     },
     {
-      question: "Who can participate in KRIYA 2025?",
+      question: "Who can participate in KRIYA 2026?",
       answer:
         "Students from any engineering institution are welcome to participate.",
     },
     {
-      question: "What are the dates for KRIYA 2025?",
-      answer: "KRIYA 2025 will take place from 14th March to 16th March 2025.",
+      question: "What are the dates for KRIYA 2026?",
+      answer: "KRIYA 2026 will take place from 14th March to 16th March 2026.",
     },
     {
       question: "How can I stay updated about the event?",
       answer:
-        "Stay informed through the official KRIYA 2025 website, social media channels, and email updates.",
+        "Stay informed through the official KRIYA 2026 website, social media channels, and email updates.",
     },
   ],
   Registration: [
     {
-      question: "How can I register for KRIYA 2025?",
+      question: "How can I register for KRIYA 2026?",
       answer:
-        "You can register by visiting the official KRIYA 2025 website and following the registration process.",
+        "You can register by visiting the official KRIYA 2026 website and following the registration process.",
     },
     {
       question: "Is registration mandatory to participate in the events?",
@@ -48,7 +48,7 @@ const faqData = {
   ],
   Workshops: [
     {
-      question: "What workshops are available during KRIYA 2025?",
+      question: "What workshops are available during KRIYA 2026?",
       answer:
         "Workshops cover topics like artificial intelligence, robotics, and more. Detailed information can be found on the official website.",
     },
@@ -74,8 +74,8 @@ const faqData = {
   ],
   Events: [
     {
-      question: "What types of events will be held at KRIYA 2025?",
-      answer: "KRIYA 2025 will feature technical competitions and hackathons.",
+      question: "What types of events will be held at KRIYA 2026?",
+      answer: "KRIYA 2026 will feature technical competitions and hackathons.",
     },
     {
       question: "Can I participate in multiple events?",
@@ -98,9 +98,9 @@ const faqData = {
   ],
   Logistics: [
     {
-      question: "Where is KRIYA 2025 being held?",
+      question: "Where is KRIYA 2026 being held?",
       answer:
-        "KRIYA 2025 will take place at PSG College of Technology, Coimbatore.",
+        "KRIYA 2026 will take place at PSG College of Technology, Coimbatore.",
     },
     {
       question: "Will food be available at the venue?",
@@ -119,7 +119,7 @@ const faqData = {
   Refunds: [
     {
       question: "Can I get a refund if I cancel my registration?",
-      answer: "No, KRIYA 2025 follows a strict no-refund policy.",
+      answer: "No, KRIYA 2026 follows a strict no-refund policy.",
     },
     {
       question: "Are workshop fees refundable?",

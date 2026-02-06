@@ -1,5 +1,6 @@
 "use client"
 import { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { TiLocationArrow } from "react-icons/ti";
 
 export const BentoTilt = ({ children, className = "", onClick }) => {
@@ -33,14 +34,14 @@ export const BentoTilt = ({ children, className = "", onClick }) => {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
-      style={{ transform: transformStyle }}
+      style={{ transform: transformStyle, cursor: onClick ? 'pointer' : 'default' }}
     >
       {children}
     </div>
   );
 };
 
-export const BentoCard = ({ src, title, description, isComingSoon }) => {
+export const BentoCard = ({ src, title, description, isComingSoon, onClick }) => {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [hoverOpacity, setHoverOpacity] = useState(0);
   const hoverButtonRef = useRef(null);
@@ -81,6 +82,7 @@ export const BentoCard = ({ src, title, description, isComingSoon }) => {
             onMouseMove={handleMouseMove}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
+            onClick={onClick}
             className="border-hsla relative flex w-fit cursor-pointer items-center gap-1 overflow-hidden rounded-full bg-black px-5 py-2 text-xs uppercase text-white/20"
           >
             {/* Radial gradient hover effect */}
@@ -101,11 +103,20 @@ export const BentoCard = ({ src, title, description, isComingSoon }) => {
 };
 
 const Features = () => {
+  const router = useRouter();
+
+  const handleCategoryClick = (category) => {
+    router.push(`/portal/event?ctg=${category}`);
+  };
+
   return (
     <section className="bg-black py-20 pt-30">
       <div className="container mx-auto px-3 md:px-10">
 
-        <BentoTilt className="bento-tilt_1 relative mb-7 h-96 w-full overflow-hidden rounded-md md:h-[65vh]">
+        <BentoTilt
+          className="bento-tilt_1 relative mb-7 h-48 w-full overflow-hidden rounded-md md:h-[65vh]"
+          onClick={() => handleCategoryClick('science')}
+        >
           <BentoCard
             src="videos/feature-1.mp4"
             title={
@@ -114,14 +125,18 @@ const Features = () => {
                 <b>S</b>cience & <b>T</b>echnology
               </>
             }
-            description="Mechanical, Civil, and Electrical engineering events showcasing innovation and technical excellence."
+            description="Scientific research and technological innovations pushing the boundaries of knowledge."
             isComingSoon
+            onClick={() => handleCategoryClick('science')}
           />
         </BentoTilt>
 
-        <div className="grid h-[135vh] w-full grid-cols-2 grid-rows-3 gap-7">
+        <div className="grid h-[50vh] w-full grid-cols-2 grid-rows-2 gap-7 md:h-[90vh]">
           {/* Left side - Science & Technology and Fashion Technology stacked */}
-          <BentoTilt className="bento-tilt_1 row-span-1 md:col-span-1">
+          <BentoTilt
+            className="bento-tilt_1 row-span-1 md:col-span-1"
+            onClick={() => handleCategoryClick('coding')}
+          >
             <BentoCard
               src="videos/feature-3.mp4"
               title={
@@ -129,53 +144,16 @@ const Features = () => {
                   <b>C</b>oding
                 </>
               }
-              description="Scientific research and technological innovations pushing the boundaries of knowledge."
+              description="Coding challenges and hackathons to test your programming skills and creativity."
               isComingSoon
+              onClick={() => handleCategoryClick('coding')}
             />
           </BentoTilt>
 
-          <BentoTilt className="bento-tilt_1 row-span-1 md:col-span-1">
-            <BentoCard
-              src="videos/feature-4.mp4"
-              title={
-                <>
-
-                  <b>C</b>ore <b>E</b>ngineering
-                </>
-              }
-              description="Textile innovation and fashion-forward design meeting cutting-edge technology."
-              isComingSoon
-            />
-          </BentoTilt>
-
-          {/* Right side - Bot taking 2 rows */}
-          <BentoTilt className="bento-tilt_1 row-span-2 md:col-span-1 md:row-start-1 md:col-start-2">
-            <BentoCard
-              src="videos/feature-2.mp4"
-              title={
-                <>
-                  <b>F</b>ashion <b>T</b>echnology
-                </>
-              }
-              description="Robotics and automation challenges - build, program, and compete with intelligent machines."
-              isComingSoon
-            />
-          </BentoTilt>
-
-          <BentoTilt className="bento-tilt_2">
-            <BentoCard
-              src="videos/feature-5.mp4"
-              title={
-                <>
-                  <b>B</b>ot
-                </>
-              }
-              description="Programming contests and algorithm challenges for coding enthusiasts."
-              isComingSoon
-            />
-          </BentoTilt>
-
-          <BentoTilt className="bento-tilt_2">
+          <BentoTilt
+            className="bento-tilt_2 row-span-1"
+            onClick={() => handleCategoryClick('quiz')}
+          >
             <BentoCard
               src="videos/feature-6.mp4"
               title={
@@ -185,9 +163,47 @@ const Features = () => {
               }
               description="Test your knowledge across diverse domains in our technical quiz competitions."
               isComingSoon
+              onClick={() => handleCategoryClick('quiz')}
+            />
+          </BentoTilt>
+
+
+          {/* Right side - Bot taking 2 rows */}
+          <BentoTilt
+            className="bento-tilt_1 row-span-2 col-start-2 row-start-1 md:col-span-1 md:row-start-1 md:col-start-2"
+            onClick={() => handleCategoryClick('fashion')}
+          >
+            <BentoCard
+              src="videos/feature-2.mp4"
+              title={
+                <>
+                  <b>F</b>ashion <b>T</b>echnology
+                </>
+              }
+              description="Textile innovation and fashion-forward design meeting cutting-edge technology."
+              isComingSoon
+              onClick={() => handleCategoryClick('fashion')}
             />
           </BentoTilt>
         </div>
+
+        <BentoTilt
+          className="bento-tilt_1 relative mb-7 mt-7 h-48 w-full overflow-hidden rounded-md md:h-[65vh]"
+          onClick={() => handleCategoryClick('core')}
+        >
+          <BentoCard
+            src="videos/feature-5.mp4"
+            title={
+              <>
+
+                <b>C</b>ore <b>E</b>ngineering
+              </>
+            }
+            description="Mechanical, Civil, and Electrical engineering events showcasing innovation and technical excellence."
+            isComingSoon
+            onClick={() => handleCategoryClick('core')}
+          />
+        </BentoTilt>
       </div>
     </section>
   );
