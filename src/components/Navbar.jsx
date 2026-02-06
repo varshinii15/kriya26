@@ -1,10 +1,12 @@
 "use client"
 import Image from "next/image";
+import Link from "next/link";
 import clsx from "clsx";
 import gsap from "gsap";
 import { useWindowScroll } from "react-use";
 import { useEffect, useRef, useState } from "react";
-import { TiLocationArrow } from "react-icons/ti";
+import { TiLocationArrow, TiHome } from "react-icons/ti";
+import { usePathname } from "next/navigation";
 
 import Button from "./Button";
 
@@ -24,6 +26,7 @@ const NavBar = () => {
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [showLogo, setShowLogo] = useState(true);
+  const pathname = usePathname();
 
   // Toggle audio and visual indicator
   const toggleAudioIndicator = () => {
@@ -173,18 +176,25 @@ const NavBar = () => {
                 ))}
               </button>
 
-              {/* Profile Icon */}
-              <button className="relative group p-2">
-                <div className="absolute inset-0 bg-white/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300" />
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="w-6 h-6 md:w-7 md:h-7 text-white group-hover:text-blue-400 transition-colors relative z-10"
-                >
-                  <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clipRule="evenodd" />
-                </svg>
-              </button>
+              {/* Profile/Home Icon */}
+              {pathname === '/profile' ? (
+                <Link href="/" className="relative group p-2">
+                  <div className="absolute inset-0 bg-white/10 scale-0 group-hover:scale-100 transition-transform duration-300" />
+                  <TiHome className="w-6 h-6 md:w-7 md:h-7 text-white group-hover:text-blue-400 transition-colors relative z-10" />
+                </Link>
+              ) : (
+                <Link href="/profile" className="relative group p-2">
+                  <div className="absolute inset-0 bg-white/10 scale-0 group-hover:scale-100 transition-transform duration-300" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="w-6 h-6 md:w-7 md:h-7 text-white group-hover:text-blue-400 transition-colors relative z-10"
+                  >
+                    <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clipRule="evenodd" />
+                  </svg>
+                </Link>
+              )}
             </div>
 
           </div>
