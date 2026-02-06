@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
-import "../../styles/gradientAnimation.css";
-import NavBarForDesktop from "../../components/Navbar/NavBarForDesktop";
-import NavBarForMobile from "../../components/Navbar/NavBarForMobile";
+import "../../../styles/gradientAnimation.css";
+import NavBarForDesktop from "../../../components/Navbar/NavBarForDesktop";
+import NavBarForMobile from "../../../components/Navbar/NavBarForMobile";
 
 const PortalWrapper = ({ children }) => {
   return (
