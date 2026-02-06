@@ -194,7 +194,7 @@ const WorkshopCard = ({ item, isHovered, isSiblingHovered, onHover, onLeave, ind
       </div>
 
       {/* Content Container */}
-      <div className="absolute bg-black/50 inset-0 flex flex-row items-end p-6 md:p-8 overflow-hidden gap-6">
+      <div className="absolute bg-black/60 inset-0 flex flex-row items-end p-6 md:p-8 overflow-hidden gap-6">
 
         {/* LEFT COLUMN: Title, Date, Button */}
         {/* Grows to fill space, but respects Right Column when present */}
@@ -202,7 +202,7 @@ const WorkshopCard = ({ item, isHovered, isSiblingHovered, onHover, onLeave, ind
           <div className="mt-auto w-full">
 
             {/* Title - Always shows full text, wraps naturally */}
-            <h3 className="text-2xl md:text-3xl font-bold uppercase leading-tight text-white mb-3 drop-shadow-md">
+            <h3 className="text-2xl md:text-[28px] font-bold uppercase leading-tight text-white mb-3 drop-shadow-md">
               {item.title}
             </h3>
 
@@ -295,7 +295,7 @@ const WorkshopCard = ({ item, isHovered, isSiblingHovered, onHover, onLeave, ind
                   transition={{ delay: 0.12, duration: 0.15 }}
                 >
                   <span className="text-blue-400 text-[10px] uppercase font-bold tracking-widest mb-1">About</span>
-                  <p className="text-white/90 text-xs leading-relaxed font-circular-web line-clamp-4 text-shadow-sm">
+                  <p className="text-white/90 text-xs leading-relaxed font-circular-web max-h-[150px] overflow-y-auto pointer-events-auto pr-2 text-shadow-sm">
                     {item.desc}
                   </p>
                 </motion.div>
