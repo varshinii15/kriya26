@@ -40,7 +40,7 @@ const About = () => {
 
   return (
     <>
-      <section id='clip' className="prize-section min-h-screen w-full bg-black flex justify-center items-center overflow-hidden">
+      <section id='clip' className="prize-section min-h-screen w-full bg-white flex justify-center items-center overflow-hidden">
         <div
           className="prize-pool-card relative bg-gray-900 flex justify-center items-center"
           style={{

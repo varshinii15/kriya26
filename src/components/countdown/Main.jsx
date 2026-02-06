@@ -37,9 +37,9 @@ const Home = () => {
     <div className='flex items-center '>
       <div className="flex flex-col items-center lg:items-start md:py-6 lg:py-8 px-14 pb-10 md:pb-6">
         <div className="mb-2">
-          <h1 className="special-font text-[3rem] md:text-[3rem] lg:text-[5rem] font-black uppercase text-white text-center lg:text-left">
+          <h1 className="special-font text-[2.5rem] md:text-[2.5rem] lg:text-[4rem] font-black uppercase text-white text-center lg:text-left">
             <b>M</b><b>ark </b><b>Y</b><b>our </b><br className="block lg:hidden" />
-            <span className='text-[#3B82F6] text-[5rem]'><b>C</b><b>alendar !</b></span>
+            <span className='text-[#3B82F6] text-[4rem]'><b>C</b><b>alendar !</b></span>
           </h1>
         </div>
 

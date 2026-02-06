@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
+import Navbar from "@/components/Navbar";
 import ProfileHeader from "@/components/profile/ProfileHeader";
 import StatsGrid from "@/components/profile/StatsGrid";
 import QRCodeSection from "@/components/profile/QRCodeSection";
@@ -102,6 +103,7 @@ export default function ProfilePage() {
 
     return (
         <div className="min-h-screen w-full bg-black text-white pt-28 pb-20 px-4 md:px-8 lg:px-12 relative">
+            <Navbar />
             {/* Vanta Waves Background - Fixed to screen */}
             <div ref={vantaRef} className="fixed inset-0 w-screen h-screen z-0"></div>
 
