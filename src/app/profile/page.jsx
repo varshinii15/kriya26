@@ -94,7 +94,6 @@ export default function ProfilePage() {
     // Vanta Waves Background Effect
     useEffect(() => {
         let vantaEffect = null;
-        let isMounted = true;
 
         const loadVanta = async () => {
             if (typeof window !== 'undefined') {
@@ -109,7 +108,7 @@ export default function ProfilePage() {
                 }
 
                 // Load Vanta Waves
-                if (!window.VANTA?.WAVES) {
+                if (!window.VANTA || !window.VANTA.WAVES) {
                     const vantaScript = document.createElement('script');
                     vantaScript.src = 'https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js';
                     document.head.appendChild(vantaScript);
@@ -119,11 +118,8 @@ export default function ProfilePage() {
                     });
                 }
 
-                // Wait a frame to ensure DOM is ready
-                await new Promise((resolve) => requestAnimationFrame(resolve));
-
                 // Initialize Vanta effect
-                if (isMounted && window.VANTA?.WAVES && vantaRef.current) {
+                if (window.VANTA && vantaRef.current) {
                     vantaEffect = window.VANTA.WAVES({
                         el: vantaRef.current,
                         mouseControls: true,
@@ -146,7 +142,6 @@ export default function ProfilePage() {
         loadVanta();
 
         return () => {
-            isMounted = false;
             if (vantaEffect) vantaEffect.destroy();
         };
     }, []);
@@ -174,30 +169,30 @@ export default function ProfilePage() {
     // Filter paper presentations
     const hasPaperPresentations = papers.length > 0;
 
-    // Show loading state
-    if (authLoading || (isAuthenticated && dataLoading)) {
-        return (
-            <div className="min-h-screen w-full bg-black text-white flex items-center justify-center">
-                <div className="text-center">
-                    <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                    <p className="font-general text-sm uppercase tracking-wider text-gray-400">Loading Profile...</p>
-                </div>
-            </div>
-        );
-    }
-
-    // Don't render if not authenticated (redirect will happen)
-    if (!isAuthenticated) {
+    // Don't render anything if not authenticated (redirect will happen)
+    if (!authLoading && !isAuthenticated) {
         return null;
     }
 
+    const isLoading = authLoading || (isAuthenticated && dataLoading);
+
     return (
         <div className="min-h-screen w-full bg-black text-white pt-28 pb-20 px-4 md:px-8 lg:px-12 relative">
-            <Navbar />
-            {/* Vanta Waves Background - Fixed to screen */}
+            {!isLoading && <Navbar />}
+            {/* Vanta Waves Background - Fixed to screen, always mounted */}
             <div ref={vantaRef} className="fixed inset-0 w-screen h-screen z-0"></div>
 
-            {/* Content */}
+            {/* Loading Overlay */}
+            {isLoading ? (
+                <div className="fixed inset-0 z-10 flex items-center justify-center">
+                    <div className="text-center">
+                        <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                        <p className="font-general text-sm uppercase tracking-wider text-gray-400">Loading Profile...</p>
+                    </div>
+                </div>
+            ) : (
+
+            /* Content */
             <div className="max-w-4xl mx-auto space-y-6 relative z-10">
 
                 {/* Tab Navigation */}
@@ -312,6 +307,7 @@ export default function ProfilePage() {
                 )}
 
             </div>
+            )}
         </div>
     );
 }
