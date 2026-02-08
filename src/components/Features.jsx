@@ -110,7 +110,7 @@ const Features = () => {
   };
 
   return (
-    <section className="bg-black py-20 pt-30">
+    <section id="features-section" className="bg-black py-20 pt-30">
       <div className="container mx-auto px-3 md:px-10">
 
         <BentoTilt

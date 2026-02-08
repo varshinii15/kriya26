@@ -523,6 +523,7 @@ const Workshop = () => {
 
   return (
     <section
+      id="workshops-section"
       ref={containerRef}
       className="relative w-full overflow-visible bg-black pt-2 md:pt-4 pb-12 md:pb-24 z-10"
       onMouseEnter={() => setIsPaused(true)}

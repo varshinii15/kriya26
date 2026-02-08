@@ -10,7 +10,7 @@ export default function CountDown() {
     const sectionRef = useRef(null);
 
     return (
-        <main className="flex flex-col w-screen sm:h-screen overflow-hidden bg-black md:h-auto lg:h-screen xl:h-screen">
+        <main id="countdown-section" className="flex flex-col w-screen sm:h-screen overflow-hidden bg-black md:h-auto lg:h-screen xl:h-screen">
             {/* Date Slider - Always at top */}
             <div className="pt-6 pb-4 px-4">
                 <DateSlider />
