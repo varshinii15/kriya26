@@ -505,16 +505,12 @@ export default function RegisterComponent() {
                                         <span className="leading-relaxed">Upload your <strong className="text-white">College ID card</strong> on the portal and carry the same during the event.</span>
                                     </li>
                                     <li className="flex gap-6 items-start">
-                                        <span className="text-blue-400 font-zentry text-lg">03/</span>
-                                        <span className="leading-relaxed">A participant can attend only <strong className="text-white">one workshop</strong> – Fixed Fee: ₹350.</span>
+                                        <span className="text-blue-400 font-zentry text-lg">04/</span>
+                                        <span className="leading-relaxed">Payment of  ₹250 <strong className="text-white">DOES NOT</strong> guarantee entry to any event or paper presentation. Users should register in the pages of the respective events and paper presentations.</span>
                                     </li>
                                     <li className="flex gap-6 items-start">
                                         <span className="text-blue-400 font-zentry text-lg">04/</span>
-                                        <span className="leading-relaxed">By paying <strong className="text-white">₹150</strong>, a participant can attend any number of technical events.</span>
-                                    </li>
-                                    <li className="flex gap-6 items-start">
-                                        <span className="text-blue-400 font-zentry text-lg">05/</span>
-                                        <span className="leading-relaxed"><strong className="text-white">Accommodation</strong> is provided on FCFS basis (First 100 students).</span>
+                                        <span className="leading-relaxed">By paying <strong className="text-white">₹250</strong>, a participant can attend any number of events and paper presentations.</span>
                                     </li>
                                 </ul>
                             </div>

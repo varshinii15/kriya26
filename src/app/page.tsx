@@ -10,6 +10,7 @@ import Contact from "@/components/Contact";
 import CountDown from "@/components/Countdown";
 import Faq from "@/components/Faq";
 import Team from "@/components/Team";
+import StatsSection from "@/components/StatsSection";
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <CountDown />
+      <StatsSection />
       <PrizePool />
       <Flagship />
       <Events />

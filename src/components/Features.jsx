@@ -118,7 +118,7 @@ const Features = () => {
           onClick={() => handleCategoryClick('science')}
         >
           <BentoCard
-            src="videos/feature-1.mp4"
+            src="https://res.cloudinary.com/dkashskr5/video/upload/v1770518235/feature-1_lbavjc.mp4"
             title={
               <>
 
@@ -138,7 +138,7 @@ const Features = () => {
             onClick={() => handleCategoryClick('coding')}
           >
             <BentoCard
-              src="videos/feature-3.mp4"
+              src="https://res.cloudinary.com/dkashskr5/video/upload/v1770518243/feature-3_etye1i.mp4"
               title={
                 <>
                   <b>C</b>oding
@@ -155,7 +155,7 @@ const Features = () => {
             onClick={() => handleCategoryClick('quiz')}
           >
             <BentoCard
-              src="videos/feature-6.mp4"
+              src="https://res.cloudinary.com/dkashskr5/video/upload/v1770518246/feature-6_fea1gk.mp4"
               title={
                 <>
                   <b>Q</b>uiz
@@ -192,7 +192,7 @@ const Features = () => {
           onClick={() => handleCategoryClick('core')}
         >
           <BentoCard
-            src="videos/feature-5.mp4"
+            src="https://res.cloudinary.com/dkashskr5/video/upload/v1770518276/feature-5_zrlqby.mp4"
             title={
               <>
 

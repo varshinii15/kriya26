@@ -17,6 +17,7 @@ const navItems = ["Accommodation", "Campus Map", "Contact"];
 const SECTION_HEADER_COLORS = {
   'hero-frame': false, // black header
   'countdown-section': true, // white header
+  'stats-section': false, // black header (Stats - dark video bg)
   'clip': true, // white header (PrizePool)
   'story': false, // black header (Flagship Events)
   'features-section': true, // white header (Event categories)
