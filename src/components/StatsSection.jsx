@@ -21,7 +21,7 @@ const StatsSection = () => {
         playsInline
         className="absolute inset-0 w-full h-full object-cover"
       >
-        <source src="/videos/stats-bg-3.mp4" type="video/mp4" />
+        <source src="https://res.cloudinary.com/dkashskr5/video/upload/v1770701397/stats-bg-3_z2fmay.mp4" type="video/mp4" />
       </video>
 
       {/* Dark overlay for readability */}

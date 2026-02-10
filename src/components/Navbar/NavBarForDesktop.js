@@ -128,10 +128,10 @@ const NavBarForDesktop = () => {
         <div className="flex flex-col w-full py-8">
           {(!userDetails || !localStorage.getItem("token")) && (
             <button
-              onClick={() => router.push("/auth?type=signup&page=switch")}
+              onClick={() => window.open("https://www.youtube.com/watch?v=YeFJPRFhmCM", "_blank")}
               className="px-6 py-3 mb-4 text-md text-black bg-white rounded-lg"
-            >
-              Register / Login
+              >
+              How to Register
             </button>
           )}
           <Link

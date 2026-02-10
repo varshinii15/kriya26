@@ -11,31 +11,61 @@ gsap.registerPlugin(ScrollTrigger);
 
 const About = () => {
   useGSAP(() => {
-    const clipAnimation = gsap.timeline({
-      scrollTrigger: {
-        trigger: "#clip",
-        start: "center center",
-        end: "+=800 center",
-        scrub: 0.5,
-        pin: true,
-        pinSpacing: true,
-      },
+    const mm = ScrollTrigger.matchMedia();
+
+    // Desktop/tablet: keep the zoom (text scale) animation
+    mm.add("(min-width: 768px)", () => {
+      const clipAnimation = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#clip",
+          start: "center center",
+          end: "+=800 center",
+          scrub: 0.5,
+          pin: true,
+          pinSpacing: true,
+        },
+      });
+
+      clipAnimation.to(".prize-pool-card", {
+        width: "100vw",
+        height: "100vh",
+        borderRadius: 0,
+      });
+
+      // Animate the prize pool text to grow as the image expands
+      clipAnimation.to(
+        ".prize-pool-text",
+        {
+          scale: 2.0, // Grow the text size
+        },
+        0 // Start at the same time as image expansion
+      );
     });
 
-    clipAnimation.to(".prize-pool-card", {
-      width: "100vw",
-      height: "100vh",
-      borderRadius: 0,
+    // Mobile: remove the prize pool "zoom" (text scaling) animation
+    mm.add("(max-width: 767px)", () => {
+      // Ensure text is not scaled on mobile
+      gsap.set(".prize-pool-text", { scale: 1 });
+
+      const clipAnimation = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#clip",
+          start: "center center",
+          end: "+=800 center",
+          scrub: 0.5,
+          pin: true,
+          pinSpacing: true,
+        },
+      });
+
+      clipAnimation.to(".prize-pool-card", {
+        width: "100vw",
+        height: "100vh",
+        borderRadius: 0,
+      });
     });
 
-    // Animate the prize pool text to grow as the image expands
-    clipAnimation.to(
-      ".prize-pool-text",
-      {
-        scale: 2.0, // Grow the text size
-      },
-      0 // Start at the same time as image expansion
-    );
+    return () => mm.revert();
   });
 
   return (

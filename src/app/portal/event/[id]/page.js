@@ -10,6 +10,9 @@ import Image from "next/image";
 import { SiGmail } from "react-icons/si";
 import EventDetailsModal from "@/components/EventDetailsModal";
 import { useAuth } from "@/context/AuthContext";
+import { getWhatsAppLink } from "@/data/whatsappLinks";
+
+const DEFAULT_YOUTUBE_URL = "https://www.youtube.com/watch?v=YeFJPRFhmCM";
 
 const toTitleCase = (phrase) => {
   const wordsToIgnore = ["of", "in", "for", "and", "an", "or"];
@@ -46,6 +49,26 @@ export default function Home({ params }) {
   const [isLearnMoreOpen, setIsLearnMoreOpen] = useState(false);
 
   const mail = "events.kriya@psgtech.ac.in";
+
+  // Get YouTube URL - use default if database value is empty
+  // Convert watch URL to embed format for iframe
+  const getYouTubeUrl = () => {
+    const url = eventDetail?.youtubeUrl || DEFAULT_YOUTUBE_URL;
+    
+    // If already an embed URL, return as is
+    if (url.includes('/embed/')) {
+      return url;
+    }
+    
+    // Extract video ID from watch URL format
+    const videoIdMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/);
+    if (videoIdMatch && videoIdMatch[1]) {
+      return `https://www.youtube.com/embed/${videoIdMatch[1]}`;
+    }
+    
+    // If no match, try to use the URL as-is (might already be embed format)
+    return url;
+  };
 
   // Set general payment status from auth context
   useEffect(() => {
@@ -203,25 +226,80 @@ export default function Home({ params }) {
             )}</>}
           </button>
 
-          {eventDetail.youtubeUrl && (
-            <button
-              className="px-7 py-3 bg-black text-white font-bold uppercase tracking-wider text-xs md:text-base hover:bg-white hover:text-black border-2 border-black transition-all duration-300 w-fit shadow-lgr"
-              onClick={() => setShowVideo(true)}
-            >
-              OVERVIEW
-            </button>
-          )}
+          <button
+            className="px-7 py-3 bg-black text-white font-bold uppercase tracking-wider text-xs md:text-base hover:bg-white hover:text-black border-2 border-black transition-all duration-300 w-fit shadow-lgr"
+            onClick={() => setShowVideo(true)}
+          >
+            OVERVIEW
+          </button>
         </div>
       </div>
 
       <div className="flex flex-col flex-1 w-full px-4 md:px-8 py-6 gap-8">
-        <div className="flex flex-col justify-center lg:flex-row w-full gap-8 lg:h-[50vh]">
-          {/* Left: Video Placeholder */}
-          <div className="w-full lg:w-7/12 h-full min-h-[300px] bg-gray-100 rounded-xl overflow-hidden relative shadow-lg flex items-center justify-center">
-            {eventDetail.youtubeUrl ? (
+        {/* Top Section: Event Name, Category, Description, and YouTube Embed */}
+        <div className="flex flex-col lg:flex-row w-full gap-8">
+          {/* Left: Event Info */}
+          <div className="w-full lg:w-1/2 flex flex-col gap-6">
+            {/* Event Name */}
+            <div className="flex flex-col gap-2">
+              <h1 className="special-font text-4xl md:text-6xl lg:text-7xl font-black font-poppins text-black leading-none uppercase tracking-wider">
+                <b>{eventDetail.eventName}</b>
+              </h1>
+              <p className="special-font text-xl md:text-3xl font-bold text-blue-600 uppercase tracking-widest">
+                <b>{eventDetail.category} Event</b>
+              </p>
+            </div>
+
+            {/* Event Description */}
+            <div className="mt-4">
+              <div className="text-base md:text-lg text-gray-800 leading-relaxed">
+                {id === "EVNT82"
+                  ? eventDetail.description
+                      .replace(/\r\n/g, "\n\r")
+                      .split("\n")
+                      .map((line, index) => (
+                        <div key={index}>
+                          <p
+                            className={`text-base md:text-lg text-justify text-gray-800 flex items-start mb-2 ${line.startsWith("\r") ? "ml-[5%]" : ""}`}
+                          >
+                            <span className="mr-2">•</span> {line.trim()}
+                          </p>
+                        </div>
+                      ))
+                  : eventDetail.description}
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-wrap gap-4 mt-4">
+              <button
+                onClick={() => setIsLearnMoreOpen(true)}
+                className="px-6 py-2 md:px-10 md:py-3 bg-black text-white font-bold uppercase tracking-wider text-xs md:text-base hover:bg-white hover:text-black border-2 border-black transition-all duration-300 w-fit shadow-lg"
+              >
+                Learn More
+              </button>
+              
+              {/* WhatsApp Button - Only show if user is registered */}
+              {isRegisteredForEvent() && (
+                <a
+                  href={getWhatsAppLink(id)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-6 py-2 md:px-10 md:py-3 bg-[#25D366] text-white font-bold uppercase tracking-wider text-xs md:text-base hover:bg-[#20BA5A] border-2 border-[#25D366] transition-all duration-300 w-fit shadow-lg flex items-center gap-2"
+                >
+                  <IoLogoWhatsapp className="text-lg md:text-xl" />
+                  WhatsApp Group
+                </a>
+              )}
+            </div>
+          </div>
+
+          {/* Right: YouTube Embed */}
+          <div className="w-full lg:w-1/2 h-[400px] lg:h-[500px] bg-gray-100 rounded-xl overflow-hidden relative shadow-lg flex items-center justify-center">
+            {eventDetail ? (
               <iframe
                 className="w-full h-full"
-                src={eventDetail.youtubeUrl}
+                src={getYouTubeUrl()}
                 title="Event Video"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -230,10 +308,10 @@ export default function Home({ params }) {
             ) : (
               <div className="w-full h-full relative">
                 <Image
-                  src={`/eventdetails/${eventDetail.eventId}.jpg`}
+                  src={`/eventdetails/${eventDetail?.eventId || 'default'}.jpg`}
                   fill
-                  sizes="(max-width: 768px) 100vw, 60vw"
-                  alt={eventDetail.eventName}
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  alt={eventDetail?.eventName || "Event"}
                   className="object-cover opacity-90 hover:scale-105 transition-transform duration-700"
                 />
                 {/* Overlay for aesthetic */}
@@ -243,24 +321,8 @@ export default function Home({ params }) {
           </div>
         </div>
 
-        <div className="w-full flex flex-col lg:flex-row jutsify-around px-5">
+        <div className="w-full flex flex-col lg:flex-row jutsify-around px-5 gap-8 lg:gap-12">
           <div className="w-full">
-            {/* Middle Section: Title */}
-            <div className="flex flex-col gap-1 mt-4">
-              <h1 className="special-font text-4xl md:text-7xl lg:text-8xl font-black font-poppins text-black leading-none uppercase tracking-wider">
-                <b>{eventDetail.eventName}</b>
-              </h1>
-              <p className="special-font text-2xl md:text-5xl font-bold text-blue-600 uppercase tracking-widest">
-                <b>{eventDetail.category} Event</b>
-              </p>
-
-              <button
-                onClick={() => setIsLearnMoreOpen(true)}
-                className="mt-4 md:mt-6 px-6 py-2 md:px-10 md:py-3 bg-black text-white font-bold uppercase tracking-wider text-xs md:text-base hover:bg-white hover:text-black border-2 border-black transition-all duration-300 w-fit shadow-lg"
-              >
-                Learn More
-              </button>
-            </div>
 
             {/* Logistics - Mobile Only */}
             <div className="w-full flex lg:hidden flex-col justify-center gap-6 p-2 mt-8">
@@ -282,7 +344,7 @@ export default function Home({ params }) {
                 </div>
 
                 <div className="col-span-2">
-                  <p className="text-2xl md:text-2xl special-font text-blue-600 font-bold uppercase tracking-widest mb-1"><b>Members</b></p>
+                  <p className="text-2xl md:text-2xl special-font text-blue-600 font-bold uppercase tracking-widest mb-1"><b>Team Size</b></p>
                   <p className="text-xl md:text-xl font-bold text-black">
                     {eventDetail.teamSize} Member{eventDetail.teamSize !== "1" ? "s" : ""}
                   </p>
@@ -309,6 +371,49 @@ export default function Home({ params }) {
                 ))}
               </div>
             </div>
+
+            {/* Round Details Section - Bottom Left */}
+            {eventDetail.rounds && eventDetail.rounds.length > 0 && (
+              <div className="flex flex-col items-start mt-10 mb-8 w-full">
+                <h3 className="text-3xl md:text-3xl special-font font-bold uppercase tracking-widest border-b-2 border-black pb-1 mb-6 w-full"><b>Round Details</b></h3>
+                <div className="w-full space-y-8">
+                  {eventDetail.rounds.map((round, index) => {
+                    const roundNumber = index + 1;
+                    return round ? (
+                      <div key={roundNumber} className="w-full">
+                        <div className="flex items-center mb-4">
+                          <h4 className="mr-4 text-4xl md:text-5xl font-bold">
+                            {roundNumber}
+                          </h4>
+                          <div>
+                            <h5 className="font-bold text-lg md:text-xl">
+                              ROUND {roundNumber}
+                            </h5>
+                            <p className="font-semibold text-base md:text-lg">
+                              ({round.title})
+                            </p>
+                          </div>
+                        </div>
+                        <div className="ml-12 md:ml-16">
+                          {round.description
+                            .replace(/\r\n/g, "\n\r")
+                            .split("\n")
+                            .map((line, idx) => (
+                              <div key={idx}>
+                                <p
+                                  className={`text-base md:text-lg text-justify text-gray-800 flex items-start mb-2 ${line.startsWith("\r") ? "ml-[5%]" : ""}`}
+                                >
+                                  <span className="mr-2">•</span> {line.trim()}
+                                </p>
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+                    ) : null;
+                  })}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Right: Logistics - Desktop Only */}
@@ -336,7 +441,7 @@ export default function Home({ params }) {
 
               <div className="flex items-center gap-5">
                 <div>
-                  <p className="text-2xl md:text-2xl special-font text-blue-600 font-bold uppercase tracking-widest mb-1"><b>Members</b></p>
+                  <p className="text-2xl md:text-2xl special-font text-blue-600 font-bold uppercase tracking-widest mb-1"><b>Team Size</b></p>
                   <p className="text-lg md:text-xl font-bold text-black">
                     {eventDetail.teamSize} Member{eventDetail.teamSize !== "1" ? "s" : ""}
                   </p>
@@ -366,8 +471,7 @@ export default function Home({ params }) {
       <div className="w-full" id="info">
         {showDetails && (
           <div
-            className={`w-full p-8 text-black  ${inter.variable} ${jetBrainsMono.variable
-              } bg-gradient-to-r ${eventDetail.category === "Gold"
+            className={`w-full p-8 text-black bg-gradient-to-r ${eventDetail.category === "Gold"
                 ? "from-[#FAF8C8] to-[#FAF8C8]"
                 : eventDetail.category === "Platinum"
                   ? "from-[#d1c5bc] to-[#c7b8ae]"
