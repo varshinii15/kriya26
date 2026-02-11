@@ -47,8 +47,8 @@ const Hero = () => {
         // Wait a frame to ensure DOM is ready and scripts are fully initialized
         await new Promise((resolve) => requestAnimationFrame(resolve));
 
-        // Initialize Vanta effect only if component is still mounted
-        if (isMounted && window.VANTA?.RINGS && vantaRef.current) {
+        // Initialize Vanta effect only if component is still mounted and not already initialized
+        if (isMounted && window.VANTA?.RINGS && vantaRef.current && !vantaEffect) {
           vantaEffect = window.VANTA.RINGS({
             el: vantaRef.current,
             mouseControls: true,

@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import LazyVideo from "./ui/LazyVideo";
 
 const stats = [
   { number: "30+", label: "Events" },
@@ -14,15 +15,10 @@ const StatsSection = () => {
       className="relative w-full min-h-[70vh] md:min-h-[80vh] flex items-center justify-center overflow-hidden"
     >
       {/* Background Video */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
+      <LazyVideo
+        src="https://res.cloudinary.com/dkashskr5/video/upload/f_auto,q_auto/v1770701397/stats-bg-3_z2fmay.mp4"
         className="absolute inset-0 w-full h-full object-cover"
-      >
-        <source src="https://res.cloudinary.com/dkashskr5/video/upload/v1770701397/stats-bg-3_z2fmay.mp4" type="video/mp4" />
-      </video>
+      />
 
       {/* Dark overlay for readability */}
       <div className="absolute inset-0 bg-black/60" />

@@ -2,6 +2,7 @@
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { TiLocationArrow } from "react-icons/ti";
+import LazyVideo from "./ui/LazyVideo";
 
 export const BentoTilt = ({ children, className = "", onClick }) => {
   const [transformStyle, setTransformStyle] = useState("");
@@ -61,11 +62,8 @@ export const BentoCard = ({ src, title, description, isComingSoon, onClick }) =>
 
   return (
     <div className="relative size-full">
-      <video
+      <LazyVideo
         src={src}
-        loop
-        muted
-        autoPlay
         className="absolute left-0 top-0 size-full object-cover object-center"
       />
       <div className="relative z-10 flex size-full flex-col justify-between p-5 text-blue-75">
@@ -174,7 +172,7 @@ const Features = () => {
             onClick={() => handleCategoryClick('fashion')}
           >
             <BentoCard
-              src="videos/feature-2.mp4"
+              src="https://res.cloudinary.com/dkashskr5/video/upload/f_auto,q_auto/v1770518296/feature-2_vjtpsw.mp4"
               title={
                 <>
                   <b>F</b>ashion <b>T</b>echnology

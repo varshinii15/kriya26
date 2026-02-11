@@ -49,6 +49,10 @@ const VantaBackground = ({ children }) => {
 
     return () => {
       isMounted = false;
+      if (vantaEffectRef.current) {
+        vantaEffectRef.current.destroy();
+        vantaEffectRef.current = null;
+      }
     };
   }, []);
 

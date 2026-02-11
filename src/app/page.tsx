@@ -1,16 +1,19 @@
+import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import PrizePool from "@/components/About";
-import Events from "@/components/Features";
-import Flagship from "@/components/Story";
-import PaperPresentation from "@/components/PaperPresentation";
-import Workshops from "@/components/Workshop";
-import Sponsors from "@/components/Sponsors";
-import Contact from "@/components/Contact";
 import CountDown from "@/components/Countdown";
-import Faq from "@/components/Faq";
-import Team from "@/components/Team";
-import StatsSection from "@/components/StatsSection";
+
+// Dynamically import components that are below the fold
+const StatsSection = dynamic(() => import("@/components/StatsSection"));
+const PrizePool = dynamic(() => import("@/components/About"));
+const Flagship = dynamic(() => import("@/components/Story"));
+const Events = dynamic(() => import("@/components/Features"));
+const Workshops = dynamic(() => import("@/components/Workshop"));
+const PaperPresentation = dynamic(() => import("@/components/PaperPresentation"));
+const Sponsors = dynamic(() => import("@/components/Sponsors"));
+const Team = dynamic(() => import("@/components/Team"));
+const Faq = dynamic(() => import("@/components/Faq"));
+const Contact = dynamic(() => import("@/components/Contact"));
 
 export default function Home() {
   return (
@@ -28,7 +31,6 @@ export default function Home() {
       <Team />
       <Faq />
       <Contact />
-
     </main>
   );
 }
