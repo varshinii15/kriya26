@@ -14,6 +14,22 @@ import { getWhatsAppLink } from "@/data/whatsappLinks";
 
 const DEFAULT_YOUTUBE_URL = "https://www.youtube.com/watch?v=YeFJPRFhmCM";
 
+// Category accent colors for the dark theme
+const CATEGORY_ACCENTS = {
+  Gold: { primary: "#D9972B", secondary: "#F2CC3E", bg: "rgba(217,151,43,0.12)" },
+  Platinum: { primary: "#C0C0C0", secondary: "#E8E8E8", bg: "rgba(192,192,192,0.10)" },
+  Quiz: { primary: "#98D0FF", secondary: "#5724ff", bg: "rgba(87,36,255,0.10)" },
+  "Core Engineering": { primary: "#F34F44", secondary: "#FF7B73", bg: "rgba(243,79,68,0.10)" },
+  Coding: { primary: "#3AC49C", secondary: "#50E3B9", bg: "rgba(58,196,156,0.10)" },
+  Bot: { primary: "#3AC49C", secondary: "#FF6B8A", bg: "rgba(251,225,228,0.08)" },
+  "Fashion and Textile": { primary: "#B48EEB", secondary: "#DCA2D2", bg: "rgba(180,142,235,0.10)" },
+  Science: { primary: "#B0E369", secondary: "#7BC74D", bg: "rgba(176,227,105,0.10)" },
+  Technology: { primary: "#B0E369", secondary: "#7BC74D", bg: "rgba(176,227,105,0.10)" },
+  "Science and Technology": { primary: "#B0E369", secondary: "#7BC74D", bg: "rgba(176,227,105,0.10)" },
+};
+
+const DEFAULT_ACCENT = { primary: "#5724ff", secondary: "#8B5CF6", bg: "rgba(87,36,255,0.10)" };
+
 const toTitleCase = (phrase) => {
   const wordsToIgnore = ["of", "in", "for", "and", "an", "or"];
   const wordsToCapitalize = ["it", "cad"];
@@ -34,7 +50,7 @@ const toTitleCase = (phrase) => {
 };
 
 export default function Home({ params }) {
-  const { id } = useParams(params); // Unwrap the Promise in Next.js 16
+  const { id } = useParams(params);
   const { user, isAuthenticated, loading: authLoading } = useAuth();
 
   const [showDetails, setShowDetails] = useState(false);
@@ -48,41 +64,29 @@ export default function Home({ params }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLearnMoreOpen, setIsLearnMoreOpen] = useState(false);
 
-  const mail = "events.kriya@psgtech.ac.in";
+  const accent = CATEGORY_ACCENTS[eventDetail?.category] || DEFAULT_ACCENT;
 
   // Get YouTube URL - use default if database value is empty
-  // Convert watch URL to embed format for iframe
   const getYouTubeUrl = () => {
     const url = eventDetail?.youtubeUrl || DEFAULT_YOUTUBE_URL;
-    
-    // If already an embed URL, return as is
-    if (url.includes('/embed/')) {
-      return url;
-    }
-    
-    // Extract video ID from watch URL format
+    if (url.includes('/embed/')) return url;
     const videoIdMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/);
     if (videoIdMatch && videoIdMatch[1]) {
       return `https://www.youtube.com/embed/${videoIdMatch[1]}`;
     }
-    
-    // If no match, try to use the URL as-is (might already be embed format)
     return url;
   };
 
-  // Set general payment status from auth context
   useEffect(() => {
     if (user) {
       setGeneralPayment(user.generalFeePaid || user.isPaid || false);
     }
   }, [user]);
 
-  // Fetch user's registered events
   useEffect(() => {
     if (isAuthenticated) {
       setRegistrationLoading(true);
       eventService.getUserEvents().then((res) => {
-        // Safe extraction - API may return {events: [...]} or array directly
         let eventData = [];
         if (Array.isArray(res)) {
           eventData = res;
@@ -91,7 +95,6 @@ export default function Home({ params }) {
         } else if (res?.data && Array.isArray(res.data)) {
           eventData = res.data;
         }
-        console.log('User events loaded:', eventData.map(e => e.eventId || e._id));
         setUserEventDetails(eventData);
       }).catch(err => console.error("Error fetching user events:", err))
         .finally(() => setRegistrationLoading(false));
@@ -104,39 +107,24 @@ export default function Home({ params }) {
     const fetchData = async () => {
       try {
         const res1 = await eventService.getEventById(id);
-        const eventData = res1?.event
-        console.log(eventData)
+        const eventData = res1?.event;
         setEventDetail(eventData);
       } catch (error) {
         console.error("Error fetching event details:", error);
       }
     };
-
     fetchData();
   }, [id]);
 
-  useEffect(() => {
-    if (showDetails && geeksForGeeksRef.current) {
-      geeksForGeeksRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [showDetails]);
-
-  const toggleDetails = () => {
-    setShowDetails((prev) => !prev);
-  };
-
-  // Helper to check if user is registered for current event (handles different field names)
   const isRegisteredForEvent = () => {
     if (!userEventDetails || !Array.isArray(userEventDetails)) return false;
-    const registered = userEventDetails.some((e) =>
+    return userEventDetails.some((e) =>
       e.eventId === id || e.event_id === id || e._id === id
     );
-    console.log('Checking registration for event:', id, 'User events:', userEventDetails.map(e => e.eventId || e._id), 'Registered:', registered);
-    return registered;
   };
+
   const handleRegister = async () => {
     if (!isAuthenticated) {
-      // Include callback URL so user returns to this event after auth
       const callbackUrl = encodeURIComponent(`/portal/event/${id}`);
       router.push(`/auth?type=register&callbackUrl=${callbackUrl}`);
     } else if (!generalPayment) {
@@ -152,142 +140,116 @@ export default function Home({ params }) {
     }
   };
 
-  useEffect(() => {
-    if (showDetails) {
-      const targetDiv = document.getElementById("info");
-      if (targetDiv) {
-        targetDiv.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }
-    }
-  }, [showDetails]);
-
   return !eventDetail ? (
-    <div className="flex items-center justify-center h-full">
-      <p className="text-lg font-semibold text-gray-600 animate-pulse">
+    <div className="flex items-center justify-center h-full bg-[#0a0a0a]">
+      <p className="text-lg font-semibold text-white/60 animate-pulse">
         Loading event...
       </p>
     </div>
   ) : (
-    <div
-      className={`w-full min-h-screen mt-10 flex flex-col overflow-y-auto ${eventDetail.category === "Gold"
-        ? "bg-[#FAF8C8]"
-        : eventDetail.category === "Platinum"
-          ? "bg-[#d1c5bc]"
-          : eventDetail.category === "Quiz"
-            ? "bg-[#eadffd]"
-            : eventDetail.category === "Core Engineering"
-              ? "bg-[#D7FFFF]"
-              : eventDetail.category === "Coding"
-                ? "bg-[#FFE2C2]"
-                : eventDetail.category === "Bot"
-                  ? "bg-[#FBE1E4]"
-                  : eventDetail.category === "Fashion and Textile"
-                    ? "bg-[#DCA2D2]"
-                    : eventDetail.category === "Science" ||
-                      eventDetail.category === "Technology"
-                      ? "bg-[#E3FCE9]"
-                      : "bg-gray-200"
-        } z-20 relative lg:mt-0`}
-    >
+    <div className="w-full min-h-screen flex flex-col overflow-y-auto bg-[#0a0a0a] z-20 relative lg:mt-0">
+
+      {/* ===== Background Effects ===== */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        {/* Floating gradient orbs — colored by category */}
+        <div
+          className="event-bg-orb event-bg-orb-1"
+          style={{ background: accent.primary }}
+        />
+        <div
+          className="event-bg-orb event-bg-orb-2"
+          style={{ background: accent.secondary }}
+        />
+        <div
+          className="event-bg-orb event-bg-orb-3"
+          style={{ background: accent.primary, opacity: 0.15 }}
+        />
+        {/* Dot grid */}
+        <div className="dot-grid-overlay" />
+        {/* Noise texture */}
+        <div className="noise-overlay" />
+      </div>
+
+      {/* ===== Top Gradient Accent Line ===== */}
       <div
-        className="sticky top-0 z-20 w-full p-4 mt-2 md:px-6 lg:px-8 lg:mt-0 backdrop-blur-2xl flex items-center justify-between"
-      >
-        <h1 className="special-font text-2xl md:text-5xl font-bold text-black font-poppins truncate max-w-[50%]">
+        className="w-full h-[2px] relative z-10"
+        style={{ background: `linear-gradient(90deg, transparent, ${accent.primary}, transparent)` }}
+      />
+
+      {/* ===== Sticky Header ===== */}
+      <div className="sticky top-0 z-30 w-full p-4 md:px-6 lg:px-8 backdrop-blur-xl bg-black/40 border-b border-white/5 flex items-center justify-between">
+        <h1 className="special-font text-2xl md:text-5xl font-bold text-white font-poppins truncate max-w-[50%]">
           <b>{eventDetail.eventName}</b>
         </h1>
 
-        <div className="flex items-center gap-4 ">
+        <div className="flex items-center gap-3">
           <button
-            className="px-7 py-3 bg-black text-white font-bold uppercase tracking-wider text-xs md:text-base hover:bg-white hover:text-black border-2 border-black transition-all duration-300 w-fit shadow-lgr"
+            className="px-5 py-2.5 md:px-7 md:py-3 font-bold uppercase tracking-wider text-xs md:text-sm transition-all duration-300 w-fit border"
             disabled={isRegisteredForEvent() || eventDetail.closed}
-            onClick={() => {
-              setIsModalOpen(true);
+            onClick={() => setIsModalOpen(true)}
+            style={{
+              background: isRegisteredForEvent() ? accent.primary : 'transparent',
+              color: isRegisteredForEvent() ? '#0a0a0a' : 'white',
+              borderColor: accent.primary,
             }}
           >
             {userEventDetails && (
               <>
-                {isRegisteredForEvent() ? (
-                  "Registered"
-                ) : eventDetail.closed ? (
-                  "Registrations Closed"
-                ) : (
-                  "Register"
-                )}
+                {isRegisteredForEvent() ? "Registered" : eventDetail.closed ? "Closed" : "Register"}
               </>
             )}
-
-            {!userEventDetails && <>{eventDetail.closed ? (
-              "Registrations Closed"
-            ) : (
-              "Register"
-            )}</>}
+            {!userEventDetails && <>{eventDetail.closed ? "Closed" : "Register"}</>}
           </button>
 
           <button
-            className="px-7 py-3 bg-black text-white font-bold uppercase tracking-wider text-xs md:text-base hover:bg-white hover:text-black border-2 border-black transition-all duration-300 w-fit shadow-lgr"
-            onClick={() => setShowVideo(true)}
+            className="px-5 py-2.5 md:px-7 md:py-3 text-white font-bold uppercase tracking-wider text-xs md:text-sm border border-white/20 hover:bg-white/10 transition-all duration-300 w-fit"
+            onClick={() => setIsLearnMoreOpen(true)}
           >
-            OVERVIEW
+            Learn More
           </button>
         </div>
       </div>
 
-      <div className="flex flex-col flex-1 w-full px-4 md:px-8 py-6 gap-8">
-        {/* Top Section: Event Name, Category, Description, and YouTube Embed */}
+      {/* ===== Main Content ===== */}
+      <div className="flex flex-col flex-1 w-full px-4 md:px-8 py-8 gap-10 relative z-10">
+
+        {/* Hero Section: Name + Description | YouTube */}
         <div className="flex flex-col lg:flex-row w-full gap-8">
           {/* Left: Event Info */}
           <div className="w-full lg:w-1/2 flex flex-col gap-6">
-            {/* Event Name */}
-            <div className="flex flex-col gap-2">
-              <h1 className="special-font text-4xl md:text-6xl lg:text-7xl font-black font-poppins text-black leading-none uppercase tracking-wider">
-                <b>{eventDetail.eventName}</b>
-              </h1>
-              <p className="special-font text-xl md:text-3xl font-bold text-blue-600 uppercase tracking-widest">
-                <b>{eventDetail.category} Event</b>
-              </p>
+            {/* Category Badge */}
+            <div
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full w-fit text-xs font-bold uppercase tracking-widest"
+              style={{ background: accent.bg, color: accent.primary, border: `1px solid ${accent.primary}30` }}
+            >
+              <span
+                className="w-2 h-2 rounded-full animate-pulse"
+                style={{ background: accent.primary }}
+              />
+              {eventDetail.category} Event
             </div>
 
-            {/* Event Description */}
-            <div className="mt-4">
-              <div className="text-base md:text-lg text-gray-800 leading-relaxed">
-                {id === "EVNT82"
-                  ? eventDetail.description
-                      .replace(/\r\n/g, "\n\r")
-                      .split("\n")
-                      .map((line, index) => (
-                        <div key={index}>
-                          <p
-                            className={`text-base md:text-lg text-justify text-gray-800 flex items-start mb-2 ${line.startsWith("\r") ? "ml-[5%]" : ""}`}
-                          >
-                            <span className="mr-2">•</span> {line.trim()}
-                          </p>
-                        </div>
-                      ))
-                  : eventDetail.description}
-              </div>
+            {/* Event Name */}
+            <h1 className="special-font text-4xl md:text-6xl lg:text-7xl font-black font-poppins text-white leading-none uppercase tracking-wider">
+              <b>{eventDetail.eventName}</b>
+            </h1>
+
+            {/* Description */}
+            <div className="text-base md:text-lg text-white/70 leading-relaxed mt-2">
+              {eventDetail.description}
             </div>
 
             {/* Action Buttons */}
             <div className="flex flex-wrap gap-4 mt-4">
-              <button
-                onClick={() => setIsLearnMoreOpen(true)}
-                className="px-6 py-2 md:px-10 md:py-3 bg-black text-white font-bold uppercase tracking-wider text-xs md:text-base hover:bg-white hover:text-black border-2 border-black transition-all duration-300 w-fit shadow-lg"
-              >
-                Learn More
-              </button>
-              
               {/* WhatsApp Button - Only show if user is registered */}
               {isRegisteredForEvent() && (
                 <a
                   href={getWhatsAppLink(id)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-6 py-2 md:px-10 md:py-3 bg-[#25D366] text-white font-bold uppercase tracking-wider text-xs md:text-base hover:bg-[#20BA5A] border-2 border-[#25D366] transition-all duration-300 w-fit shadow-lg flex items-center gap-2"
+                  className="px-6 py-2.5 md:px-8 md:py-3 bg-[#25D366] text-white font-bold uppercase tracking-wider text-xs md:text-sm hover:bg-[#20BA5A] transition-all duration-300 w-fit flex items-center gap-2 rounded-sm"
                 >
-                  <IoLogoWhatsapp className="text-lg md:text-xl" />
+                  <IoLogoWhatsapp className="text-lg" />
                   WhatsApp Group
                 </a>
               )}
@@ -295,117 +257,112 @@ export default function Home({ params }) {
           </div>
 
           {/* Right: YouTube Embed */}
-          <div className="w-full lg:w-1/2 h-[400px] lg:h-[500px] bg-gray-100 rounded-xl overflow-hidden relative shadow-lg flex items-center justify-center">
-            {eventDetail ? (
-              <iframe
-                className="w-full h-full"
-                src={getYouTubeUrl()}
-                title="Event Video"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
-            ) : (
-              <div className="w-full h-full relative">
-                <Image
-                  src={`/eventdetails/${eventDetail?.eventId || 'default'}.jpg`}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  alt={eventDetail?.eventName || "Event"}
-                  className="object-cover opacity-90 hover:scale-105 transition-transform duration-700"
-                />
-                {/* Overlay for aesthetic */}
-                <div className="absolute inset-0 bg-black/10"></div>
-              </div>
-            )}
+          <div className="w-full lg:w-1/2 h-[350px] md:h-[400px] lg:h-[480px] rounded-2xl overflow-hidden relative shadow-2xl flex items-center justify-center border border-white/10">
+            <iframe
+              className="w-full h-full"
+              src={getYouTubeUrl()}
+              title="Event Video"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+            {/* Corner accent */}
+            <div
+              className="absolute top-0 left-0 w-20 h-20 pointer-events-none"
+              style={{
+                background: `linear-gradient(135deg, ${accent.primary}20 0%, transparent 60%)`,
+              }}
+            />
           </div>
         </div>
 
-        <div className="w-full flex flex-col lg:flex-row jutsify-around px-5 gap-8 lg:gap-12">
-          <div className="w-full">
-
-            {/* Logistics - Mobile Only */}
-            <div className="w-full flex lg:hidden flex-col justify-center gap-6 p-2 mt-8">
-              <div className="flex special-font items-center gap-4 text-3xl md:text-6xl font-bold uppercase tracking-wider mb-2">
-                <h1><b>{eventDetail.closed ? "Closed" : "Live"}</b></h1>
-                <span className="w-2 h-2 bg-black rounded-full mx-2 animate-pulse"></span>
-                <h1><b>Free</b></h1>
-              </div>
-
-              <div className="grid grid-cols-2 gap-6 w-full">
-                <div>
-                  <p className="text-2xl md:text-2xl special-font text-blue-600 font-bold uppercase tracking-widest mb-1"><b>Timing</b></p>
-                  <p className="text-xl md:text-xl font-bold text-black">{eventDetail.timing}</p>
-                </div>
-
-                <div>
-                  <p className="text-2xl md:text-2xl special-font text-blue-600 font-bold uppercase tracking-widest mb-1"><b>Venue</b></p>
-                  <p className="text-xl md:text-xl font-bold text-black">{eventDetail.hall || "TBA"}</p>
-                </div>
-
-                <div className="col-span-2">
-                  <p className="text-2xl md:text-2xl special-font text-blue-600 font-bold uppercase tracking-widest mb-1"><b>Team Size</b></p>
-                  <p className="text-xl md:text-xl font-bold text-black">
-                    {eventDetail.teamSize} Member{eventDetail.teamSize !== "1" ? "s" : ""}
-                  </p>
-                </div>
-              </div>
+        {/* Info Cards Row */}
+        <div className="flex flex-col lg:flex-row gap-6 w-full">
+          {/* Logistics Card */}
+          <div className="glass-card p-6 md:p-8 flex-1">
+            <div className="flex items-center gap-3 mb-6">
+              <div
+                className="w-3 h-3 rounded-full pulse-glow"
+                style={{ color: accent.primary, background: accent.primary }}
+              />
+              <span className="text-white font-bold uppercase tracking-widest text-sm">
+                {eventDetail.closed ? "Registrations Closed" : "Live Now"}
+              </span>
+              <span className="text-white/30 mx-2">|</span>
+              <span className="text-white/60 font-bold uppercase tracking-widest text-sm">Free</span>
             </div>
 
-            {/* Bottom Section: Convenors */}
-            <div className="flex flex-col items-start mt-10 mb-8">
-              <h3 className="text-3xl md:text-3xl special-font font-bold uppercase tracking-widest border-b-2 border-black pb-1 mb-6"><b>Convenors</b></h3>
-              <div className="flex flex-col md:flex-row gap-8 md:gap-16 w-full">
-                {eventDetail.contacts && eventDetail.contacts.map((contact, index) => (
-                  contact && (
-                    <div key={index} className="flex items-center gap-4 group">
-                      <div className="w-10 h-10 shrink-0 bg-black text-white rounded-full flex items-center justify-center text-lg shadow-lg group-hover:scale-110 transition-transform">
-                        <IoMdCall />
-                      </div>
-                      <div>
-                        <p className="font-bold text-lg uppercase leading-tight">{toTitleCase(contact.name)}</p>
-                        <p className="text-gray-600 font-mono text-sm tracking-wide">{contact.mobile}</p>
-                      </div>
-                    </div>
-                  )
-                ))}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              <div>
+                <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Timing</p>
+                <p className="text-white font-semibold text-lg">{eventDetail.timing || "TBA"}</p>
+              </div>
+              <div>
+                <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Venue</p>
+                <p className="text-white font-semibold text-lg">{eventDetail.hall || "TBA"}</p>
+              </div>
+              <div>
+                <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Team Size</p>
+                <p className="text-white font-semibold text-lg">
+                  {eventDetail.teamSize} Member{eventDetail.teamSize !== "1" ? "s" : ""}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Date</p>
+                <p className="text-white font-semibold text-lg">{eventDetail.date || "TBA"} March</p>
               </div>
             </div>
+          </div>
+        </div>
 
-            {/* Round Details Section - Bottom Left */}
+        {/* Bottom Section: Rounds + Convenors */}
+        <div className="flex flex-col lg:flex-row gap-8 w-full">
+          {/* Left: Rounds + Convenors */}
+          <div className="w-full lg:w-7/12 flex flex-col gap-8">
+
+            {/* Round Details */}
             {eventDetail.rounds && eventDetail.rounds.length > 0 && (
-              <div className="flex flex-col items-start mt-10 mb-8 w-full">
-                <h3 className="text-3xl md:text-3xl special-font font-bold uppercase tracking-widest border-b-2 border-black pb-1 mb-6 w-full"><b>Round Details</b></h3>
-                <div className="w-full space-y-8">
+              <div className="glass-card p-6 md:p-8">
+                <h3 className="special-font text-2xl md:text-3xl font-bold uppercase tracking-widest text-white mb-6 flex items-center gap-3">
+                  <span
+                    className="w-1 h-8 rounded-full"
+                    style={{ background: accent.primary }}
+                  />
+                  <b>Round Details</b>
+                </h3>
+                <div className="space-y-8">
                   {eventDetail.rounds.map((round, index) => {
                     const roundNumber = index + 1;
                     return round ? (
                       <div key={roundNumber} className="w-full">
-                        <div className="flex items-center mb-4">
-                          <h4 className="mr-4 text-4xl md:text-5xl font-bold">
-                            {roundNumber}
-                          </h4>
+                        <div className="flex items-center mb-4 gap-4">
+                          <span
+                            className="text-4xl md:text-5xl font-black"
+                            style={{ color: accent.primary, opacity: 0.6 }}
+                          >
+                            {String(roundNumber).padStart(2, '0')}
+                          </span>
                           <div>
-                            <h5 className="font-bold text-lg md:text-xl">
-                              ROUND {roundNumber}
+                            <h5 className="font-bold text-base md:text-lg text-white uppercase tracking-wide">
+                              Round {roundNumber}
                             </h5>
-                            <p className="font-semibold text-base md:text-lg">
-                              ({round.title})
+                            <p className="text-white/50 font-semibold text-sm">
+                              {round.title}
                             </p>
                           </div>
                         </div>
-                        <div className="ml-12 md:ml-16">
+                        <div className="ml-16 md:ml-20 border-l border-white/10 pl-4">
                           {round.description
                             .replace(/\r\n/g, "\n\r")
                             .split("\n")
                             .map((line, idx) => (
-                              <div key={idx}>
-                                <p
-                                  className={`text-base md:text-lg text-justify text-gray-800 flex items-start mb-2 ${line.startsWith("\r") ? "ml-[5%]" : ""}`}
-                                >
-                                  <span className="mr-2">•</span> {line.trim()}
-                                </p>
-                              </div>
+                              <p
+                                key={idx}
+                                className={`text-sm md:text-base text-white/60 flex items-start mb-1.5 ${line.startsWith("\r") ? "ml-4" : ""}`}
+                              >
+                                <span className="mr-2 mt-1" style={{ color: accent.primary }}>•</span>
+                                {line.trim()}
+                              </p>
                             ))}
                         </div>
                       </div>
@@ -414,53 +371,95 @@ export default function Home({ params }) {
                 </div>
               </div>
             )}
+
+            {/* Convenors */}
+            {eventDetail.contacts && eventDetail.contacts.length > 0 && (
+              <div className="glass-card p-6 md:p-8">
+                <h3 className="special-font text-2xl md:text-3xl font-bold uppercase tracking-widest text-white mb-6 flex items-center gap-3">
+                  <span
+                    className="w-1 h-8 rounded-full"
+                    style={{ background: accent.primary }}
+                  />
+                  <b>Convenors</b>
+                </h3>
+                <div className="flex flex-col md:flex-row gap-6 w-full">
+                  {eventDetail.contacts.map((contact, index) => (
+                    contact && (
+                      <div key={index} className="flex items-center gap-4 group glass-card-light px-4 py-3">
+                        <div
+                          className="w-10 h-10 shrink-0 rounded-full flex items-center justify-center text-lg shadow-lg group-hover:scale-110 transition-transform text-white"
+                          style={{ background: accent.primary }}
+                        >
+                          <IoMdCall />
+                        </div>
+                        <div>
+                          <p className="font-bold text-base uppercase leading-tight text-white">{toTitleCase(contact.name)}</p>
+                          <p className="text-white/40 font-mono text-sm tracking-wide">{contact.mobile}</p>
+                        </div>
+                      </div>
+                    )
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Right: Logistics - Desktop Only */}
-          <div className="hidden lg:flex w-full lg:w-5/12 flex-col justify-center gap-6 p-2">
-            <div className="flex special-font items-center gap-4 text-3xl md:text-6xl font-bold uppercase tracking-wider mb-2">
-              <h1><b>{eventDetail.closed ? "Closed" : "Live"}</b></h1>
-              <span className="w-2 h-2 bg-black rounded-full mx-2 animate-pulse"></span>
-              <h1><b>Free</b></h1>
-            </div>
-
-            <div className="space-y-6">
-              <div className="flex items-center gap-5">
-                <div>
-                  <p className="text-2xl md:text-2xl special-font text-blue-600 font-bold uppercase tracking-widest mb-1"><b>Timing</b></p>
-                  <p className="text-lg md:text-xl font-bold text-black">{eventDetail.timing}</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-5">
-                <div>
-                  <p className="text-2xl md:text-2xl special-font text-blue-600 font-bold uppercase tracking-widest mb-1"><b>Venue</b></p>
-                  <p className="text-lg md:text-xl font-bold text-black">{eventDetail.hall || "TBA"}</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-5">
-                <div>
-                  <p className="text-2xl md:text-2xl special-font text-blue-600 font-bold uppercase tracking-widest mb-1"><b>Team Size</b></p>
-                  <p className="text-lg md:text-xl font-bold text-black">
-                    {eventDetail.teamSize} Member{eventDetail.teamSize !== "1" ? "s" : ""}
-                  </p>
-                </div>
+          {/* Right: Event Image / Visual */}
+          <div className="w-full lg:w-5/12 flex flex-col gap-6">
+            <div className="glass-card overflow-hidden rounded-2xl h-[350px] lg:h-[420px] relative">
+              <Image
+                src={`/eventdetails/${eventDetail.eventId}.jpg`}
+                fill
+                sizes="(max-width: 768px) 100vw, 40vw"
+                alt={eventDetail.eventName}
+                className="object-cover opacity-80 hover:scale-105 transition-transform duration-700"
+              />
+              {/* Gradient overlay */}
+              <div
+                className="absolute inset-0"
+                style={{
+                  background: `linear-gradient(180deg, transparent 40%, ${accent.primary}15 70%, #0a0a0a 100%)`,
+                }}
+              />
+              {/* Event name overlay */}
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                <p className="text-white/40 text-xs uppercase tracking-widest font-bold mb-1">{eventDetail.category}</p>
+                <h3 className="special-font text-2xl md:text-3xl font-bold text-white uppercase">
+                  <b>{eventDetail.eventName}</b>
+                </h3>
               </div>
             </div>
 
-            {/* {eventDetail.teamSize !== "1" && (
-              <div className="bg-white/60 p-4 rounded-lg mt-4 border-l-4 border-black backdrop-blur-sm">
-                <p className="font-bold text-xs uppercase tracking-wide mb-1 opacity-70">Note</p>
-                <p className="text-sm font-medium leading-relaxed">
-                  For team events, <span className="font-bold">every member</span> is required to register.
-                </p>
+            {/* Rules Summary (if available) */}
+            {eventDetail.eventRules && eventDetail.eventRules.length > 0 && (
+              <div className="glass-card p-6">
+                <h3 className="text-sm font-bold uppercase tracking-widest text-white/50 mb-4">Rules</h3>
+                <div className="text-white/50 text-sm space-y-1.5 max-h-[300px] overflow-y-auto pr-2">
+                  {eventDetail.eventRules
+                    .split("\n")
+                    .filter(line => line.trim())
+                    .map((line, index) => (
+                      <p
+                        key={index}
+                        className={
+                          line.includes("RULES:")
+                            ? "mt-3 font-bold text-white/70"
+                            : line.startsWith("->")
+                              ? "ml-4"
+                              : ""
+                        }
+                      >
+                        {line.startsWith("->") ? line.substring(2) : line}
+                      </p>
+                    ))}
+                </div>
               </div>
-            )} */}
+            )}
           </div>
         </div>
       </div>
 
+      {/* ===== Learn More Modal ===== */}
       {isLearnMoreOpen && (
         <EventDetailsModal
           eventDetail={eventDetail}
@@ -468,186 +467,7 @@ export default function Home({ params }) {
         />
       )}
 
-      <div className="w-full" id="info">
-        {showDetails && (
-          <div
-            className={`w-full p-8 text-black bg-gradient-to-r ${eventDetail.category === "Gold"
-                ? "from-[#FAF8C8] to-[#FAF8C8]"
-                : eventDetail.category === "Platinum"
-                  ? "from-[#d1c5bc] to-[#c7b8ae]"
-                  : eventDetail.category === "Quiz"
-                    ? "from-[#eadffd] to-[#eadffd]"
-                    : eventDetail.category === "Core Engineering"
-                      ? "from-[#D7FFFF] to-[#D7FFFF]"
-                      : eventDetail.category === "Coding"
-                        ? "from-[#FFE2C2] to-[#FFE2C2]"
-                        : eventDetail.category === "Bot"
-                          ? "from-[#FBE1E4] to-[#FBE1E4]"
-                          : eventDetail.category === "Fashion and Textile"
-                            ? "from-[#DCA2D2] to-[#DCA2D2]"
-                            : eventDetail.category === "Science" ||
-                              eventDetail.category === "Technology"
-                              ? "from-[#E3FCE9] to-[#E3FCE9]"
-                              : "from-gray-200 to-gray-50"
-              }  antialiased`}
-          >
-            <div className="flex flex-col items-start justify-between lg:flex-row">
-              <div>
-                <h2 className="mt-2 text-lg font-bold">
-                  {"( "}
-                  {eventDetail.category} {" )"}
-                </h2>
-                {/* <h3 className="mt-1 text-5xl font-bold">Nextech</h3> */}
-                <h3
-                  className={`font-bold mt-1 text-black ${(eventDetail?.eventName?.length || 0) > 15
-                    ? "text-3xl"
-                    : "text-5xl"
-                    }`}
-                >
-                  {eventDetail.eventName || "Event"}
-                </h3>
-              </div>
-
-              <div className="text-3xl font-bold lg:text-right sm:text-left flex flex-col items-end lg:mt-[-1rem]">
-                <div className="hidden items-center sm:mr-8=10 xl:text-right sm:text-left sm:mt-0 mt-2 mr-2 lg:flex">
-                  <span className="mr-2 font-bold text-7xl sm:text-left">
-                    {eventDetail.date}
-                  </span>
-                  <div className="mb-3 sm:text-left">
-                    <p className="text-xl font-bold leading-tight">MARCH</p>
-                    <p className="-mt-1 text-lg font-bold">
-                      {"("}2026{")"}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-start w-full gap-2 my-2 lg:justify-end lg:my-0">
-              <div className="flex flex-col items-center text-center lg:gap-2 lg:text-start lg:flex-row">
-                <p className="py-3 text-xl font-semibold text-gray-600 lg:text-2xl lg:px-3 lg:text-md">
-                  <MdAccessTime />
-                </p>
-                <p className="mt-1 text-xs text-gray-600 lg:text-md">
-                  {eventDetail.timing}
-                </p>
-              </div>
-              <div className="flex flex-col items-center text-center lg:gap-2 lg:text-start lg:flex-row ">
-                <p className="py-3 text-xl font-semibold text-gray-600 lg:text-2xl lg:px-3">
-                  <MdOutlineLocationOn />
-                </p>
-                <p className="text-xs font-semibold text-black ">
-                  {eventDetail.hall}
-                </p>
-              </div>
-              <div className="flex flex-col items-center text-center lg:gap-2 lg:text-start lg:flex-row">
-                <p className="p-3 text-xl font-semibold text-gray-600 lg:text-2xl">
-                  {eventDetail.teamSize !== "1" ? (
-                    <AiOutlineTeam />
-                  ) : (
-                    <AiOutlineUser />
-                  )}
-                </p>
-                <p className="mt-1 text-xs text-gray-700">
-                  {eventDetail.teamSize} Member
-                  {eventDetail.teamSize !== 1 ? "s" : ""}
-                </p>
-              </div>
-            </div>
-            <div className="w-full bg-gray-500 h-[1px]"></div>
-            <p className="pt-4 mt-1 text-gray-700 text-md/6">
-              <p className="pt-4 mt-1 text-gray-700 text-md/6">
-                {id === "EVNT82"
-                  ? eventDetail.description
-                    .replace(/\r\n/g, "\n\r")
-                    .split("\n")
-                    .map((line, index) => (
-                      <div key={index}>
-                        <p
-                          className={`text-m text-justify text-gray-700  flex items-start mb-[1%] ${line.startsWith("\r") ? "ml-[5%]" : "" // Extra indentation for lines with "\r"
-                            }`}
-                        >
-                          <span className="mr-2">•</span> {line.trim()}
-                        </p>
-                      </div>
-                    ))
-                  : eventDetail.description}
-              </p>
-            </p>
-
-            {/* Flex container for Rounds and Convenors */}
-            <div className="flex flex-col gap-12 mt-4 lg:flex-row">
-              {/* Rounds Section */}
-              <div className="w-full lg:w-4/5">
-                {/** Loop through rounds dynamically */}
-                {/** Loop through rounds dynamically */}
-                {eventDetail.rounds && eventDetail.rounds.map((round, index) => {
-                  const roundNumber = index + 1;
-                  return round ? (
-                    <div key={roundNumber}>
-                      <div className="flex items-center mb-[2%]">
-                        <h4 className="mr-4 text-6xl font-bold">
-                          {roundNumber}
-                        </h4>
-                        <div>
-                          <h5 className="font-bold text-m">
-                            ROUND {roundNumber}
-                          </h5>
-                          <p className="font-semibold text-m">
-                            ({round.title})
-                          </p>
-                        </div>
-                      </div>
-                      <div className="mb-[2%]" key={roundNumber}>
-                        {round.description
-                          .replace(/\r\n/g, "\n\r")
-                          .split("\n")
-                          .map((line, idx) => (
-                            <div key={idx}>
-                              <p
-                                key={idx}
-                                className={`text-m text-justify text-gray-700 ml-[5%] flex items-start mb-[1%] ${line.startsWith("\r") ? "ml-[10%]" : "" // Add extra margin if line starts with space (indicates a tab)
-                                  }`}
-                              >
-                                <span className="mr-2">•</span> {line.trim()}
-                              </p>
-                            </div>
-                          ))}
-                      </div>
-                    </div>
-                  ) : null;
-                })}
-              </div>
-
-              {/* Convenors Section (takes 20% width on larger screens) */}
-              {eventDetail.eventRules &&
-                eventDetail.eventRules.length > 0 && (
-                  <div className="w-full lg:w-2/5 xl:border-l sm:border-0 xl:pl-8 sm:pl-1 xl:mt-1 sm:mt-[1.5rem]">
-                    <p className="font-bold sm:text-left">■ RULES ■</p>
-                    <div className="text-gray-800 text-m whitespace-pre-wrap">
-                      {eventDetail.eventRules
-                        .split("\n")
-                        .map((line, index) => (
-                          <p
-                            key={index}
-                            className={
-                              line.includes("RULES:")
-                                ? "mt-4 font-bold" // Increase space before "RULES" sections
-                                : line.startsWith("->")
-                                  ? " mb-1" // Reduce space between subrules
-                                  : "mb-2" // Normal spacing for regular rules
-                            }
-                          >
-                            {line.startsWith("->") ? line.substring(2) : line}
-                          </p>
-                        ))}
-                    </div>
-                  </div>
-                )}
-            </div>
-          </div>
-        )}
-      </div>
-
+      {/* ===== Registration Modal ===== */}
       {isModalOpen && (
         <ConfirmationModal
           onConfirm={handleRegister}

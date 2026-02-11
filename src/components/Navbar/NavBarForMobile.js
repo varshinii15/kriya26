@@ -182,12 +182,18 @@ const NavBarForMobile = () => {
               Dashboard
             </Link>
           ) : (
-            <Link
-              onClick={() => window.open("https://www.youtube.com/watch?v=YeFJPRFhmCM", "_blank")}
+            <button
+              type="button"
+              onClick={() =>
+                window.open(
+                  "https://www.youtube.com/watch?v=YeFJPRFhmCM",
+                  "_blank"
+                )
+              }
               className="w-full py-2 text-left text-white text-gray-600 hover:text-gray-300"
             >
               How to Register
-            </Link>
+            </button>
           )}
           <Link
             href="/#section3"
