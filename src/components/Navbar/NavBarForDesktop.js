@@ -92,7 +92,7 @@ const NavBarForDesktop = () => {
         const sortedPapers = papersData
           .map((paper) => ({
             name: paper.eventName || paper.name,
-            id: paper.ppid || paper.id,
+            paperId: paper.paperId || paper.id,
           }))
           .sort((a, b) => a.name.localeCompare(b.name));
         setPapers(sortedPapers);
@@ -130,7 +130,7 @@ const NavBarForDesktop = () => {
             <button
               onClick={() => window.open("https://www.youtube.com/watch?v=YeFJPRFhmCM", "_blank")}
               className="px-6 py-3 mb-4 text-md text-black bg-white rounded-lg"
-              >
+            >
               How to Register
             </button>
           )}

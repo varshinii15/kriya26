@@ -92,7 +92,7 @@ const NavBarForMobile = () => {
         const sortedPapers = papersData
           .map((paper) => ({
             name: paper.eventName || paper.name,
-            id: paper.ppid || paper.id,
+            paperId: paper.paperId || paper.id,
           }))
           .sort((a, b) => a.name.localeCompare(b.name));
         setPapers(sortedPapers);

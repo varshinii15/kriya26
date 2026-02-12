@@ -48,7 +48,7 @@ const PaperNav = ({
 						</button>
 					) : (
 						<Link key={index}
-							href={`/portal/paper/${e.id}`}
+							href={`/portal/paper/${e.paperId}`}
 							className="block w-full px-4 py-2 text-md text-white text-left text-gray-600 hover:text-gray-300"
 						>
 							{toTitleCase(e.name)}

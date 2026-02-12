@@ -11,7 +11,7 @@ const PaperPresentationItemDesktop = ({
 
   return (
     <Link
-      href={`/portal/paper/${data.ppid}`}
+      href={`/portal/paper/${data.paperId}`}
       onMouseEnter={() => setOnMouseHoverIndex(index)}
       onMouseLeave={() => setOnMouseHoverIndex(0)}
       className={`text-left rounded-xl shadow-lg ${isHovered ? "h-[90%] w-2/6" : "h-[85%] w-1/6"
@@ -21,7 +21,7 @@ const PaperPresentationItemDesktop = ({
     >
       {/* Gradient overlay - black and white theme */}
       <div className={`w-full h-full absolute top-0 left-0 z-20 
-        bg-gradient-to-t from-black via-black/40 to-transparent
+        bg-linear-to-t from-black via-black/40 to-transparent
         transition-all duration-300 ${isHovered ? 'from-black/90' : 'from-black/80'}`}
       />
 
@@ -36,7 +36,7 @@ const PaperPresentationItemDesktop = ({
             alt={data.eventName || "Paper Presentation"}
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900">
+          <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-gray-800 to-gray-900">
             <div className="text-white/30 text-4xl">📄</div>
           </div>
         )}
