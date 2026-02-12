@@ -230,7 +230,7 @@ const ProfileHeader = ({ user, onLogout, isLoggingOut, onProfileUpdate }) => {
 
             {/* Edit Profile Modal - Rendered via Portal */}
             {isEditModalOpen && typeof window !== 'undefined' && ReactDOM.createPortal(
-                <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md">
+                <div className="fixed inset-0 z-9999 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md">
                     <div className="relative w-full max-w-2xl max-h-[90vh] flex flex-col bg-black/90 backdrop-blur-md border border-white/10 rounded-xl overflow-hidden shadow-2xl">
                         {/* Close Button */}
                         <button
@@ -297,11 +297,11 @@ const ProfileHeader = ({ user, onLogout, isLoggingOut, onProfileUpdate }) => {
                                         name="college"
                                         value={editFormData.college}
                                         onChange={handleInputChange}
-                                        className="w-full px-4 py-3 bg-white/5 border border-white/20 text-white rounded-lg outline-none focus:border-blue-400 transition-colors font-general appearance-none cursor-pointer"
+                                        className="w-full px-4 py-3 bg-white/5 border border-white/20 text-white rounded-lg outline-none focus:border-blue-400 transition-colors font-general appearance-none cursor-pointer text-sm"
                                     >
-                                        <option value="" className="bg-gray-900">Select College</option>
-                                        {colleges.map((col) => (
-                                            <option key={col} value={col} className="bg-gray-900">
+                                        <option value="" className="bg-gray-900 text-sm">Select College / Institute...</option>
+                                        {colleges.map((col, index) => (
+                                            <option key={index} value={col} className="bg-gray-900 text-sm py-2">
                                                 {col}
                                             </option>
                                         ))}
