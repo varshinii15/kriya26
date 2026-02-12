@@ -338,8 +338,8 @@ const FloatingImage = () => {
   const vantaEffectRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
 
-  const p5Status = useExternalScript('https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js');
-  const vantaStatus = useExternalScript('https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.trunk.min.js');
+  const p5Status = useExternalScript('https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js');
+  const vantaStatus = useExternalScript(p5Status === 'ready' ? 'https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.trunk.min.js' : null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

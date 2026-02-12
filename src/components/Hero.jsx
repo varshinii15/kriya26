@@ -11,6 +11,8 @@ import { useAuth } from "@/context/AuthContext";
 import { useExternalScript } from "../hooks/useExternalScript";
 import Button from "./Button";
 
+gsap.registerPlugin(ScrollTrigger);
+
 const Hero = () => {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
@@ -19,7 +21,7 @@ const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   const threeStatus = useExternalScript('https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js');
-  const vantaStatus = useExternalScript('https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.rings.min.js');
+  const vantaStatus = useExternalScript(threeStatus === 'ready' ? 'https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.rings.min.js' : null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -74,22 +76,34 @@ const Hero = () => {
   }, [threeStatus, vantaStatus, isVisible]);
 
   useGSAP(() => {
+    // Wait for Vanta to be ready and DOM element to exist
+    const heroFrame = document.querySelector("#hero-frame");
+    if (vantaStatus !== 'ready' || !heroFrame) return;
+
+    // Set initial state
     gsap.set("#hero-frame", {
       clipPath: "polygon(14% 0, 72% 0, 88% 90%, 0 95%)",
       borderRadius: "0% 0% 40% 10%",
     });
+
+    // Animate on scroll
     gsap.from("#hero-frame", {
       clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
       borderRadius: "0% 0% 0% 0%",
       ease: "power1.inOut",
       scrollTrigger: {
         trigger: "#hero-frame",
-        start: "center center",
+        start: "top top",
         end: "bottom center",
         scrub: true,
+        invalidateOnRefresh: true,
+        markers: false, // Set to true for debugging
       },
     });
-  });
+
+    // Refresh after a short delay to ensure layout is complete
+    setTimeout(() => ScrollTrigger.refresh(), 100);
+  }, { dependencies: [vantaStatus] });
 
   return (
     <div id="hero-frame" className="relative h-dvh w-full overflow-x-hidden rounded-lg">

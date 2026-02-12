@@ -7,7 +7,7 @@ const VantaBackground = ({ children }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const threeStatus = useExternalScript('https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js');
-  const vantaStatus = useExternalScript('https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js');
+  const vantaStatus = useExternalScript(threeStatus === 'ready' ? 'https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js' : null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

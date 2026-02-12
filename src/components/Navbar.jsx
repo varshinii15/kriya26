@@ -10,7 +10,7 @@ import { usePathname } from "next/navigation";
 
 import Button from "./Button";
 
-const navItems = ["Accommodation", "Campus Map", "Contact"];
+const navItems = ["Events", "Campus Map", "Contact"];
 
 // Section IDs and their header color preferences
 // true = white header, false = black header
@@ -104,7 +104,7 @@ const NavBar = () => {
     const timeoutId = setTimeout(() => {
       detectCurrentSection();
     }, 100);
-    
+
     // Throttle scroll events
     let ticking = false;
     const handleScroll = () => {
