@@ -1,6 +1,7 @@
 "use client"
 import gsap from "gsap";
 import { useRef, useState, useCallback, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { motion, useInView } from "framer-motion";
 import { eventService } from "../services/eventservice";
 
@@ -77,6 +78,7 @@ const placeNow = (el, slot, skew, totalCards) =>
   });
 
 const FloatingImage = () => {
+  const router = useRouter();
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const cardsRef = useRef([]);
@@ -450,7 +452,7 @@ const FloatingImage = () => {
                     transform: `translate(-50%, -50%) translateX(${index * CARD_DISTANCE}px) translateY(${index * VERTICAL_DISTANCE}px) skewY(${SKEW_AMOUNT}deg)`,
                     zIndex: events.length - index
                   }}
-                  onClick={() => window.location.href = '#'}
+                  onClick={() => router.push(`/portal/event/${slide.id}`)}
                 >
                   {/* Top Image Section */}
                   <div className="h-[65%] w-full relative">

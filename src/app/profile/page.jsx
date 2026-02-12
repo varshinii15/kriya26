@@ -39,7 +39,7 @@ const transformEvent = (item, itemType) => ({
 
 export default function ProfilePage() {
     const router = useRouter();
-    const { user, loading: authLoading, isAuthenticated, logout } = useAuth();
+    const { user, loading: authLoading, isAuthenticated, logout, refreshUser } = useAuth();
     const [activeTab, setActiveTab] = useState("profile");
     const [events, setEvents] = useState([]);
     const [workshops, setWorkshops] = useState([]);
@@ -48,6 +48,13 @@ export default function ProfilePage() {
     const [error, setError] = useState(null);
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const vantaRef = useRef(null);
+
+    // Handler to refresh user data after profile update
+    const handleProfileUpdate = async () => {
+        if (refreshUser) {
+            await refreshUser();
+        }
+    };
 
     // Redirect to auth if not authenticated
     // Use a small delay to allow auth state to stabilize after navigation
@@ -174,6 +181,10 @@ export default function ProfilePage() {
     // Filter paper presentations
     const hasPaperPresentations = papers.length > 0;
 
+    // Check if user is from PSG colleges based on email (no accommodation needed)
+    const isPSGStudent = user?.email ? 
+        (user.email.toLowerCase().endsWith('@psgtech.ac.in')) : false;
+
     // Don't render anything if not authenticated (redirect will happen)
     if (!authLoading && !isAuthenticated) {
         return null;
@@ -212,7 +223,7 @@ export default function ProfilePage() {
                 <div className="max-w-4xl mx-auto space-y-6 relative z-10">
 
                     {/* Tab Navigation */}
-                    <div className="flex items-center justify-between border-b border-white/10 mb-2">
+                    <div className="flex items-center border-b border-white/10 mb-2">
                         <div className="flex gap-1">
                             <button
                                 onClick={() => setActiveTab("profile")}
@@ -223,34 +234,30 @@ export default function ProfilePage() {
                             >
                                 Profile
                             </button>
-                            <button
-                                onClick={() => setActiveTab("accommodation")}
-                                className={`px-6 py-3 font-general text-sm uppercase tracking-wider transition-colors ${activeTab === "accommodation"
-                                    ? "text-white border-b-2 border-blue-500"
-                                    : "text-gray-500 hover:text-gray-300"
-                                    }`}
-                            >
-                                Accommodation
-                            </button>
+                            {!isPSGStudent && (
+                                <button
+                                    onClick={() => setActiveTab("accommodation")}
+                                    className={`px-6 py-3 font-general text-sm uppercase tracking-wider transition-colors ${activeTab === "accommodation"
+                                        ? "text-white border-b-2 border-blue-500"
+                                        : "text-gray-500 hover:text-gray-300"
+                                        }`}
+                                >
+                                    Accommodation
+                                </button>
+                            )}
                         </div>
-
-                        {isAuthenticated && (
-                            <button
-                                type="button"
-                                onClick={handleLogout}
-                                disabled={isLoggingOut}
-                                className="mr-2 md:mr-0 mb-1 px-4 py-2 rounded-lg border border-red-500/30 bg-red-500/10 hover:bg-red-500/20 text-red-200 font-general text-xs uppercase tracking-wider transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
-                            >
-                                {isLoggingOut ? "Logging out..." : "Logout"}
-                            </button>
-                        )}
                     </div>
 
                     {activeTab === "profile" && (
                         <>
                             {/* Row 1: Profile Header (Full Width) */}
                             <section>
-                                <ProfileHeader user={userData} />
+                                <ProfileHeader 
+                                    user={userData} 
+                                    onLogout={handleLogout} 
+                                    isLoggingOut={isLoggingOut} 
+                                    onProfileUpdate={handleProfileUpdate}
+                                />
                             </section>
 
                             {/* Row 2: Stats Row (Horizontal) */}
@@ -326,7 +333,7 @@ export default function ProfilePage() {
                         </>
                     )}
 
-                    {activeTab === "accommodation" && (
+                    {!isPSGStudent && activeTab === "accommodation" && (
                         <section className="min-h-[400px] flex items-center justify-center border border-white/10 rounded-xl bg-white/5 backdrop-blur-md">
                             <div className="text-center">
                                 <h2 className="font-zentry text-4xl text-white uppercase mb-4">Accommodation</h2>
