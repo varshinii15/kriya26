@@ -56,7 +56,7 @@ const PaperPresentationItemDesktop = ({
             : data.eventName.length > 30
               ? "text-sm"
               : "text-2xl"
-          } text-white/60 bottom-0 right-4 lg:right-10 translate-x-[calc(35vw/6)]`
+          } text-white/60 bottom-0 right-2 lg:right-4 translate-x-[calc(35vw/6)]`
           } uppercase drop-shadow-lg`}
       >
         {data.eventName}

@@ -195,13 +195,7 @@ const EventList = () => {
       ) : (
         <div>
           <div className="flex justify-center items-center gap-6 mb-8 px-4 relative z-30">
-            <button
-              onClick={() => router.back()}
-              className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all text-white border border-white/10 shadow-lg"
-              aria-label="Go back"
-            >
-              <IoMdArrowBack className="text-xl md:text-2xl" />
-            </button>
+
             <input
               type="text"
               placeholder="Search events by name, category, date, or time..."

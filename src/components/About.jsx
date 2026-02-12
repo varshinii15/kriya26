@@ -63,6 +63,15 @@ const About = () => {
         height: "100vh",
         borderRadius: 0,
       });
+
+      // Animate the prize pool text to grow as the image expands (added for mobile)
+      clipAnimation.to(
+        ".prize-pool-text",
+        {
+          scale: 2.0, // Grow the text size
+        },
+        0 // Start at the same time as image expansion
+      );
     });
 
     return () => mm.revert();
