@@ -114,7 +114,7 @@ const NavBarForDesktop = () => {
           href={"/"}
           className="mt-5 w-16 h-16"
           style={{
-            background: `url(/assets/Logo/Kriya25whitelogo.png)`,
+            background: `url(/Logo/kriya26white.png)`,
             backgroundPosition: "left",
             backgroundRepeat: "no-repeat",
             backgroundSize: "contain",
