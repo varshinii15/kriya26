@@ -176,9 +176,9 @@ const Hero = ({ preloaderComplete = true }) => {
 
           {/* Date */}
           <div className="mb-6">
-            <div className="flex items-center justify-center gap-2 text-5xl text-white font-zentry bg-black/50 p-2 py-1 rounded-xl">
+            <div className="flex items-center justify-center gap-2 text-5xl text-white font-zentry bg-black/50 px-2 py-1 rounded-xl">
               <h2 className="special-font font-zentry font-thin uppercase text-white bg-clip-text text-transparent">
-                <span className="bg-black/50 p-2 py-1 rounded-xl">Ma<b>r</b>c<b>h</b></span>
+                <span className="">Ma<b>r</b>c<b>h</b></span>
               </h2>
               <span className="text-blue-400 ">14</span>
               <span className="text-purple-400">,</span>

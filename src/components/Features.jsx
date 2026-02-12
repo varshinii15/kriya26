@@ -1,5 +1,5 @@
 "use client"
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { TiLocationArrow } from "react-icons/ti";
 import LazyVideo from "./ui/LazyVideo";
@@ -42,58 +42,60 @@ export const BentoTilt = ({ children, className = "", onClick }) => {
   );
 };
 
-export const BentoCard = ({ src, title, description, isComingSoon, onClick }) => {
-  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
-  const [hoverOpacity, setHoverOpacity] = useState(0);
+export const BentoCard = ({ src, title, description, isComingSoon, onClick, textColor = "text-white", titleColor = "text-white", cardId }) => {
   const hoverButtonRef = useRef(null);
+  const cardRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
 
-  const handleMouseMove = (event) => {
-    if (!hoverButtonRef.current) return;
-    const rect = hoverButtonRef.current.getBoundingClientRect();
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.5,
+        rootMargin: "-70% 0px"
+      }
+    );
 
-    setCursorPosition({
-      x: event.clientX - rect.left,
-      y: event.clientY - rect.top,
-    });
-  };
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
 
-  const handleMouseEnter = () => setHoverOpacity(1);
-  const handleMouseLeave = () => setHoverOpacity(0);
+    return () => {
+      if (cardRef.current) {
+        observer.unobserve(cardRef.current);
+      }
+    };
+  }, []);
 
   return (
-    <div className="relative size-full">
+    <div ref={cardRef} className="relative size-full">
       <LazyVideo
         src={src}
         className="absolute left-0 top-0 size-full object-cover object-center"
       />
-      <div className="relative z-10 flex size-full flex-col justify-between p-5 text-blue-75">
+      <div className="relative z-10 flex size-full flex-col justify-between p-2 md:p-5 text-blue-75">
         <div>
-          <h1 className="bento-title special-font">{title}</h1>
+          <h1 className={`special-font text-3xl xl:text-4xl font-bold ${titleColor} tracking-wider`}><b>{title}</b></h1>
           {description && (
-            <p className="mt-3 max-w-64 text-xs md:text-base">{description}</p>
+            <p className={`mt-2 md:mt-3 max-w-64 text-xs md:text-base px-2 md:px-3 py-1 md:py-2 rounded-xl font-medium ${textColor} drop-shadow-lg transition-opacity duration-300 ${typeof window !== 'undefined' && window.innerWidth < 768
+              ? (isVisible ? 'opacity-100' : 'opacity-0')
+              : 'opacity-100'
+              }`}>{description}</p>
           )}
         </div>
 
-        {/* {isComingSoon && (
+        {isComingSoon && (
           <div
             ref={hoverButtonRef}
-            onMouseMove={handleMouseMove}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
             onClick={onClick}
-            className="border-hsla relative flex w-fit cursor-pointer items-center gap-1 overflow-hidden rounded-full bg-black px-5 py-2 text-xs uppercase text-white/20"
+            className="relative flex w-fit cursor-pointer items-center gap-1 md:gap-2 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 px-2 py-1 md:px-3 md:py-2 text-[10px] md:text-xs lg:text-sm uppercase text-white font-semibold transition-all duration-300 hover:bg-white/30 hover:scale-105 active:scale-95"
           >
-            <div
-              className="pointer-events-none absolute -inset-px opacity-0 transition duration-300"
-              style={{
-                opacity: hoverOpacity,
-                background: `radial-gradient(100px circle at ${cursorPosition.x}px ${cursorPosition.y}px, #656fe288, #00000026)`,
-              }}
-            />
-            <TiLocationArrow className="relative z-20" />
-            <p className="relative z-20">Explore More</p>
+            <TiLocationArrow className="w-2 h-2 md:w-3 md:h-3 lg:w-4 lg:h-4" />
+            <p>Explore</p>
           </div>
-        )} */}
+        )}
       </div>
     </div>
   );
@@ -107,31 +109,32 @@ const Features = () => {
   };
 
   return (
-    <section id="features-section" className="bg-black py-20 pt-30">
-      <div className="container mx-auto px-3 md:px-10">
+    <section id="features-section" className="bg-black py-10 md:py-20 pt-20 md:pt-30">
+      <div className="container mx-auto px-2 md:px-3 lg:px-10">
 
         <BentoTilt
-          className="bento-tilt_1 relative mb-7 h-48 w-full overflow-hidden rounded-md md:h-[65vh]"
+          className="bento-tilt_1 relative mb-3 md:mb-7 h-60 md:h-60 w-full overflow-hidden rounded-md lg:h-[70vh] xl:h-[75vh]"
           onClick={() => handleCategoryClick('science')}
         >
           <BentoCard
             src="https://res.cloudinary.com/dkashskr5/video/upload/v1770518235/feature-1_lbavjc.mp4"
             title={
               <>
-
                 <b>S</b>cience & <b>T</b>echnology
               </>
             }
             description="Scientific research and technological innovations pushing the boundaries of knowledge."
+            textColor="text-white"
             isComingSoon
             onClick={() => handleCategoryClick('science')}
+            cardId="science"
           />
         </BentoTilt>
 
-        <div className="grid h-[50vh] w-full grid-cols-2 grid-rows-2 gap-7 md:h-[90vh]">
-          {/* Left side - Science & Technology and Fashion Technology stacked */}
+        {/* Mobile: flex-col layout, Desktop: grid layout */}
+        <div className="flex flex-col gap-3 md:grid md:h-[60vh] md:w-full md:grid-cols-2 md:grid-rows-2 md:gap-7 lg:h-[100vh] xl:h-[110vh]">
           <BentoTilt
-            className="bento-tilt_1 row-span-1 md:col-span-1"
+            className="bento-tilt_1 h-60 md:h-auto md:row-span-1 md:col-span-1"
             onClick={() => handleCategoryClick('coding')}
           >
             <BentoCard
@@ -142,13 +145,15 @@ const Features = () => {
                 </>
               }
               description="Coding challenges and hackathons to test your programming skills and creativity."
+              textColor="text-white"
               isComingSoon
               onClick={() => handleCategoryClick('coding')}
+              cardId="coding"
             />
           </BentoTilt>
 
           <BentoTilt
-            className="bento-tilt_2 row-span-1"
+            className="bento-tilt_2 h-60 md:h-auto md:row-span-1"
             onClick={() => handleCategoryClick('quiz')}
           >
             <BentoCard
@@ -159,15 +164,16 @@ const Features = () => {
                 </>
               }
               description="Test your knowledge across diverse domains in our technical quiz competitions."
+              textColor="text-black"
+              titleColor="text-black"
               isComingSoon
               onClick={() => handleCategoryClick('quiz')}
+              cardId="quiz"
             />
           </BentoTilt>
 
-
-          {/* Right side - Bot taking 2 rows */}
           <BentoTilt
-            className="bento-tilt_1 row-span-2 col-start-2 row-start-1 md:col-span-1 md:row-start-1 md:col-start-2"
+            className="bento-tilt_1 h-60 md:h-auto md:row-span-2 md:col-start-2 md:row-start-1 md:col-span-1 md:row-start-1 md:col-start-2"
             onClick={() => handleCategoryClick('fashion')}
           >
             <BentoCard
@@ -178,27 +184,30 @@ const Features = () => {
                 </>
               }
               description="Textile innovation and fashion-forward design meeting cutting-edge technology."
+              textColor="text-white"
               isComingSoon
               onClick={() => handleCategoryClick('fashion')}
+              cardId="fashion"
             />
           </BentoTilt>
         </div>
 
         <BentoTilt
-          className="bento-tilt_1 relative mb-7 mt-7 h-48 w-full overflow-hidden rounded-md md:h-[65vh]"
+          className="bento-tilt_1 relative mb-3 md:mb-7 mt-3 md:mt-7 h-60 md:h-60 w-full overflow-hidden rounded-md lg:h-[70vh] xl:h-[75vh]"
           onClick={() => handleCategoryClick('core')}
         >
           <BentoCard
             src="https://res.cloudinary.com/dkashskr5/video/upload/v1770518276/feature-5_zrlqby.mp4"
             title={
               <>
-
                 <b>C</b>ore <b>E</b>ngineering
               </>
             }
             description="Mechanical, Civil, and Electrical engineering events showcasing innovation and technical excellence."
+            textColor="text-white"
             isComingSoon
             onClick={() => handleCategoryClick('core')}
+            cardId="core"
           />
         </BentoTilt>
       </div>

@@ -135,21 +135,21 @@ const PaperPresentation = () => {
             </div>
 
             {/* Mobile Layout */}
-            <div className="relative z-10 w-full mx-auto flex lg:hidden flex-col h-[90vh]">
+            <div className="relative z-10 w-full mx-auto flex lg:hidden flex-col h-[100vh]">
                 {/* Header Section */}
                 <div className="w-full text-center pt-8 pb-6 px-4 flex-shrink-0">
                     <AnimatedTitle
                         title="<b>R</b>esearch <b>P</b>aper <br /> <b>P</b>resentations"
                         containerClass="special-font text-black drop-shadow-[0_0_30px_rgba(255,255,255,0.4)] text-3xl md:text-4xl"
                     />
-                    <p className="special-font text-xl md:text-2xl font-black uppercase tracking-wider mt-3" style={{ color: '#9146FF' }}>
-                        (<b>K</b>riya 2026)
+                    <p className="special-font font-black uppercase tracking-wider mt-3 text-2xl" style={{ color: '#9146FF' }}>
+                        <b>(</b><b>K</b><b>riya 2026</b><b>)</b>
                     </p>
                 </div>
 
                 {/* Cards Section - Full Height */}
                 <div className="flex-1 w-full px-4 pb-20 min-h-0">
-                    <div className="flex gap-4 overflow-x-auto scrollbar-hide h-full items-center" 
+                    <div className="flex gap-4 overflow-x-auto scrollbar-hide h-full items-center"
                         style={{
                             scrollbarWidth: 'none',
                             msOverflowStyle: 'none',

@@ -4,9 +4,9 @@ import { motion, useInView, useMotionValue, useTransform, animate } from "framer
 import LazyVideo from "./ui/LazyVideo";
 
 const stats = [
-  { number: "30+", label: "Events" },
-  { number: "10+", label: "Workshops" },
-  { number: "5+", label: "Paper Presentations" },
+  { number: "30 +", label: "Events" },
+  { number: "10 +", label: "Workshops" },
+  { number: "5 +", label: "Paper Presentations" },
 ];
 
 // Animated Counter Component
@@ -27,10 +27,12 @@ const AnimatedCounter = ({ value, suffix = "" }) => {
   }, [isInView, count, value]);
 
   return (
-    <motion.span ref={ref}>
-      <motion.span>{rounded}</motion.span>
-      {suffix}
-    </motion.span>
+    <span ref={ref} className="special-font">
+      <b>
+        <motion.span>{rounded}</motion.span>
+        {suffix}
+      </b>
+    </span>
   );
 };
 
@@ -60,7 +62,7 @@ const StatsSection = () => {
 
             return (
               <div key={index} className="text-center">
-                <h2 className="font-zentry text-[5rem] sm:text-[7rem] md:text-[8rem] lg:text-[10rem] font-black leading-none text-white drop-shadow-[0_0_40px_rgba(255,255,255,0.2)]">
+                <h2 className="special-font text-[5rem] sm:text-[7rem] md:text-[8rem] lg:text-[10rem] font-black leading-none text-white drop-shadow-[0_0_40px_rgba(255,255,255,0.2)]">
                   <AnimatedCounter value={numericValue} suffix={suffix} />
                 </h2>
                 <p className="font-zentry text-xl sm:text-2xl md:text-3xl font-bold uppercase tracking-widest text-white/80 mt-2">
