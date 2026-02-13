@@ -177,7 +177,7 @@ const Features = () => {
             onClick={() => handleCategoryClick('fashion')}
           >
             <BentoCard
-              src="https://res.cloudinary.com/dkashskr5/video/upload/f_auto,q_auto/v1770518296/feature-2_vjtpsw.mp4"
+              src="https://res.cloudinary.com/dkashskr5/video/upload/v1770518224/feature-2_krqkav.mp4"
               title={
                 <>
                   <b>F</b>ashion <b>T</b>echnology
