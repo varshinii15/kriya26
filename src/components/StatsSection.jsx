@@ -40,7 +40,7 @@ const StatsSection = () => {
   return (
     <section
       id="stats-section"
-      className="relative w-full min-h-[70vh] md:min-h-[80vh] flex items-center justify-center overflow-hidden"
+      className="relative w-full min-h-[40vh] md:min-h-[40vh] flex items-center justify-center overflow-hidden"
     >
       {/* Background Video */}
       <LazyVideo
@@ -52,8 +52,8 @@ const StatsSection = () => {
       <div className="absolute inset-0 bg-black/60" />
 
       {/* Content */}
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 sm:px-10 py-20 md:py-28">
-        <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-16 lg:gap-24">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 sm:px-10 py-10 md:py-24">
+        <div className="grid grid-cols-2 md:flex md:flex-row items-center justify-center gap-y-12 gap-x-4 md:gap-16 lg:gap-24">
           {stats.map((stat, index) => {
             // Parse the number and suffix (e.g., "30+" -> number: 30, suffix: "+")
             const match = stat.number.match(/^(\d+)(.*)$/);
@@ -61,11 +61,15 @@ const StatsSection = () => {
             const suffix = match ? match[2] : "";
 
             return (
-              <div key={index} className="text-center">
-                <h2 className="special-font text-[5rem] sm:text-[7rem] md:text-[8rem] lg:text-[10rem] font-black leading-none text-white drop-shadow-[0_0_40px_rgba(255,255,255,0.2)]">
+              <div
+                key={index}
+                className={`text-center ${index === 2 ? "col-span-2" : "col-span-1"
+                  }`}
+              >
+                <h2 className="special-font text-[3.5rem] xs:text-[4rem] sm:text-[7rem] md:text-[8rem] lg:text-[10rem] font-black leading-none text-white drop-shadow-[0_0_40px_rgba(255,255,255,0.2)]">
                   <AnimatedCounter value={numericValue} suffix={suffix} />
                 </h2>
-                <p className="font-zentry text-xl sm:text-2xl md:text-3xl font-bold uppercase tracking-widest text-white/80 mt-2">
+                <p className="font-zentry text-sm sm:text-2xl md:text-3xl font-bold uppercase tracking-widest text-white/80 mt-2">
                   {stat.label}
                 </p>
               </div>

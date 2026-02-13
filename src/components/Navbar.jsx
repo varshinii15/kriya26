@@ -20,6 +20,10 @@ const navItems = [
     link: "#campus_map"
   },
   {
+    label: "Ambassador",
+    link: "/portal/ambassador"
+  },
+  {
     label: "Contact",
     link: "#contact"
   }
@@ -349,14 +353,16 @@ const NavBar = () => {
             {navItems.map((item, index) => (
               <a
                 key={index}
-                href={`#${item.toLowerCase()}`}
+                href={item.link}
                 className={clsx(
                   "text-2xl font-zentry font-black uppercase transition-colors tracking-wide",
-                  headerIsWhite ? "text-black hover:text-blue-600" : "text-white hover:text-blue-400"
+                  headerIsWhite
+                    ? "text-black hover:text-blue-600"
+                    : "text-white hover:text-blue-400",
                 )}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                {item}
+                {item.label}
               </a>
             ))}
             <div className={clsx(
