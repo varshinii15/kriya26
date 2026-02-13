@@ -7,11 +7,12 @@ const GoldNav = ({
   noMargin = false,
   goldEvents,
   isMobile = false,
-  openState = [true, () => {}],
+  openState = [true, () => { }],
 }) => {
   const [isOpen, setIsOpen] = openState;
   const [hideContent, setHideContent] = useState(false);
   const router = useRouter();
+
   const toTitleCase = (phrase) => {
     return phrase
       .toLowerCase()
@@ -29,35 +30,30 @@ const GoldNav = ({
   }, [isOpen]);
 
   return (
-    <React.Fragment>
-      <div
-        className={`${"flex h-fit mb-4"} transition-all overflow-hidden flex flex-col`}
-        id="navElements"
-      >
-        {goldEvents.map((e, index) =>
-          isMobile ? (
-            <button
-              key={index}
-              onClick={(event) => {
-                setIsOpen(!isOpen);
-                router.push(`/portal/event/${e.id}`);
-              }}
-              className="block w-full px-4 py-2 text-md text-white text-left text-gray-600 hover:text-gray-300"
-            >
-              {toTitleCase(e.name)}
-            </button>
-          ) : (
-            <Link
-              key={index}
-              href={`/portal/event/${e.id}`}
-              className="block w-full px-4 py-2 text-md text-white text-left text-gray-600 hover:text-gray-300"
-            >
-              {toTitleCase(e.name)}
-            </Link>
-          )
-        )}
-      </div>
-    </React.Fragment>
+    <div className="w-full flex flex-col mt-1 mb-4 space-y-1 ml-6 pl-3 border-l border-[#222]">
+      {goldEvents.map((e, index) =>
+        isMobile ? (
+          <button
+            key={index}
+            onClick={() => {
+              setIsOpen(false);
+              router.push(`/portal/event/${e.id}`);
+            }}
+            className="block w-full py-1.5 text-xs text-gray-400 hover:text-white text-left transition-colors duration-200 truncate"
+          >
+            {toTitleCase(e.name)}
+          </button>
+        ) : (
+          <Link
+            key={index}
+            href={`/portal/event/${e.id}`}
+            className="block w-full py-1.5 text-xs text-gray-400 hover:text-white text-left transition-colors duration-200 truncate"
+          >
+            {toTitleCase(e.name)}
+          </Link>
+        )
+      )}
+    </div>
   );
 };
 

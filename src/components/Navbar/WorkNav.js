@@ -8,11 +8,10 @@ const WorkNav = ({
   noMargin = false,
   workshops,
   isMobile = false,
-  openState = [true, () => {}],
+  openState = [true, () => { }],
 }) => {
   const [isOpen, setIsOpen] = openState;
   const [hideContent, setHideContent] = useState(false);
-
   const router = useRouter();
 
   useEffect(() => {
@@ -22,22 +21,19 @@ const WorkNav = ({
   }, [isOpen]);
 
   return (
-    <React.Fragment>
-      <div
-        className={`${"flex h-fit"} transition-all overflow-hidden flex flex-col`}
-        id="navElements"
-      >
+    <div className="w-full">
+      <div className="flex flex-col ml-6 pl-3 border-l border-[#222] mt-1 space-y-1">
         {workshops
           .filter((item, index) => index < 3)
           .map((e, index) =>
             isMobile ? (
               <button
                 key={index}
-                onClick={(event) => {
-                  setIsOpen(!isOpen);
+                onClick={() => {
+                  setIsOpen(false);
                   router.push(`/portal/workshop/${e.id}`);
                 }}
-                className="block w-full px-4 py-2 text-sm text-white text-left text-gray-600 hover:text-text-gray-300"
+                className="block w-full py-1.5 text-xs text-gray-400 hover:text-white text-left transition-colors duration-200 truncate"
               >
                 {e.name}
               </button>
@@ -45,63 +41,63 @@ const WorkNav = ({
               <Link
                 key={index}
                 href={`/portal/workshop/${e.id}`}
-                className="block w-full px-4 py-2 text-sm text-white text-left text-gray-600 hover:text-text-gray-300"
+                className="block w-full py-1.5 text-xs text-gray-400 hover:text-white text-left transition-colors duration-200 truncate"
               >
                 {e.name}
               </Link>
             )
           )}
       </div>
-      <button
-        className={`flex justify-between group items-center ${
-          !noMargin && "mt-0"
-        } my-2 pl-2`}
-        onClick={() => setHideContent(!hideContent)}
-        id="navElements"
-      >
-        <div>
-          <IoMdArrowDropright
-            className={`text-lg text-white ${
-              hideContent ? "rotate-90" : "rotate-0"
-            } transition-all`}
-          />
-        </div>
-        <p className={`w-full text-sm text-white py-2 pl-1`}>
-          {`${hideContent ? "Hide" : "Show More"}`}
-        </p>
-      </button>
-      <div
-        className={`${
-          !hideContent ? "h-0 overflow-hidden" : "flex h-fit mb-8"
-        } transition-all overflow-hidden flex flex-col`}
-        id="navElements"
-      >
-        {workshops
-          .filter((item, index) => index >= 3)
-          .map((e, index) =>
-            isMobile ? (
-              <button
-                key={index}
-                onClick={(event) => {
-                  setIsOpen(!isOpen);
-                  router.push(`/portal/workshop/${e.id}`);
-                }}
-                className="block w-full px-4 py-2 text-sm text-left text-white hover:text-gray-300"
-              >
-                {e.name}
-              </button>
-            ) : (
-              <Link
-                key={index}
-                href={`/portal/workshop/${e.id}`}
-                className="block w-full px-4 py-2 text-sm text-left text-white hover:text-gray-300"
-              >
-                {e.name} 
-              </Link>
-            )
-          )}
-      </div>
-    </React.Fragment>
+
+      {workshops.length > 3 && (
+        <>
+          <button
+            className="flex items-center space-x-2 px-6 py-2 group cursor-pointer"
+            onClick={() => setHideContent(!hideContent)}
+          >
+            <IoMdArrowDropright
+              className={`text-lg text-gray-500 group-hover:text-white transition-transform duration-300 ${hideContent ? "rotate-90 text-white" : "rotate-0"
+                }`}
+            />
+            <p className="text-[10px] font-bold uppercase tracking-widest text-gray-500 group-hover:text-white">
+              {hideContent ? "Show Less" : "Show More"}
+            </p>
+          </button>
+
+          <div
+            className={`transition-all duration-300 ease-in-out overflow-hidden ${hideContent ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
+              }`}
+          >
+            <div className="flex flex-col ml-6 pl-3 border-l border-[#222] space-y-1">
+              {workshops
+                .filter((item, index) => index >= 3)
+                .map((e, index) =>
+                  isMobile ? (
+                    <button
+                      key={index}
+                      onClick={() => {
+                        setIsOpen(false);
+                        router.push(`/portal/workshop/${e.id}`);
+                      }}
+                      className="block w-full py-1.5 text-xs text-gray-400 hover:text-white text-left transition-colors duration-200 truncate"
+                    >
+                      {e.name}
+                    </button>
+                  ) : (
+                    <Link
+                      key={index}
+                      href={`/portal/workshop/${e.id}`}
+                      className="block w-full py-1.5 text-xs text-gray-400 hover:text-white text-left transition-colors duration-200 truncate"
+                    >
+                      {e.name}
+                    </Link>
+                  )
+                )}
+            </div>
+          </div>
+        </>
+      )}
+    </div>
   );
 };
 

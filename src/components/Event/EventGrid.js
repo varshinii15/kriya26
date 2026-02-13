@@ -134,7 +134,7 @@ const EventGrid = ({
       </div>
 
       <div
-        className={`${className} group-hover:shadow-lg z-20 text-lg text-blue overflow-hidden w-full h-64 md:h-72 lg:h-80 relative bg-gray-200 lg:group-hover:scale-[110%] transition-all`}
+        className={`${className} group-hover:shadow-lg z-20 text-lg text-blue overflow-hidden w-full h-64 md:h-65 lg:h-55  relative bg-gray-200 lg:group-hover:scale-[110%] transition-all`}
       >
         <div className="relative z-0 w-full h-full">
           <Image

@@ -108,122 +108,132 @@ const NavBarForDesktop = () => {
   }, []);
 
   return (
-    <nav className="fixed top-0 z-50 hidden w-screen max-h-screen overflow-y-scroll bg-black shadow-md lg:block lg:w-1/4 lg:relative lg:h-screen font-poppins">
-      <div className="sticky top-0 z-10 flex items-center justify-center w-full px-6 bg-black shadow-sm">
+    <nav className="fixed top-0 z-50 hidden w-screen max-h-screen overflow-y-auto bg-[#0a0a0a] border-r border-[#1a1a1a] lg:block lg:w-1/4 lg:relative lg:h-screen font-poppins custom-scrollbar">
+      <div className="sticky top-0 z-20 flex items-center justify-center w-full py-8 bg-[#0a0a0a]/90 backdrop-blur-sm border-b border-[#1a1a1a]">
         <Link
           href={"/"}
-          className="mt-5 w-16 h-16"
+          className="w-20 h-20 transition-transform duration-300 hover:scale-110"
           style={{
             background: `url(/Logo/kriya26white.png)`,
-            backgroundPosition: "left",
+            backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
             backgroundSize: "contain",
           }}
         ></Link>
       </div>
 
-      <div
-        className={`divide-y divide-gray-600 h-fit transition-all ease-in-out duration-300 px-6 bg-black text-white `}
-      >
-        <div className="flex flex-col w-full py-8">
+      <div className="px-6 py-8 space-y-8 pb-32">
+        {/* Core Navigation Section */}
+        <section className="space-y-1">
           {(!userDetails || !localStorage.getItem("token")) && (
             <button
               onClick={() => window.open("https://www.youtube.com/watch?v=YeFJPRFhmCM", "_blank")}
-              className="px-6 py-3 mb-4 text-md text-black bg-white rounded-lg"
+              className="w-full px-4 py-3 mb-6 text-sm font-bold tracking-widest uppercase transition-all duration-300 bg-white text-black hover:bg-gray-200 rounded-lg shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(255,255,255,0.2)]"
             >
               How to Register
             </button>
           )}
-          <Link
-            href="/"
-            className="flex items-center w-full py-2 space-x-4 text-left text-white  hover:text-text-gray-300"
-          >
-            <AiOutlineHome className="text-lg" />
-            <p className="">Home</p>
-          </Link>
-          <Link
-            href="/portal/event"
-            className="flex items-center w-full py-2 space-x-4 text-left text-white  hover:text-gray-300"
-          >
-            <MdOutlineEmojiEvents className="text-lg" />
-            <p className="">Events</p>
-          </Link>
-          <Link
-            href="/portal/workshop"
-            className="flex items-center w-full py-2 space-x-4 text-left text-white  group hover:text-gray-300"
-          >
-            <GrWorkshop className="text-lg opacity-70 group-hover:opacity-100" />
-            <p className="">Workshops</p>
-          </Link>
-          <Link
-            href="/portal/paper"
-            className="flex items-center w-full py-2 space-x-4 text-left text-white  hover:text-gray-300"
-          >
-            <HiOutlinePresentationChartBar className="text-lg" />
-            <p className="">Paper Presentations</p>
-          </Link>
-          {/* <Link
-            href="/portal/accommodation"
-            className="flex items-center w-full py-2 space-x-4 text-left text-white  hover:text-gray-300 "
-          >
-            <BiBuildingHouse className="text-lg" />
-            <p className="">Accommodations</p>
-          </Link> */}
-        </div>
-        <div className="py-4">
-          <div className="flex justify-between items-center space-x-4">
-            <h3 className="py-3 font-semibold text-white">Workshops</h3>
+
+          {[
+            { href: "/", icon: <AiOutlineHome />, label: "Home" },
+            { href: "/portal/event", icon: <MdOutlineEmojiEvents />, label: "Events" },
+            { href: "/portal/workshop", icon: <GrWorkshop />, label: "Workshops" },
+            { href: "/portal/paper", icon: <HiOutlinePresentationChartBar />, label: "Paper Presentations" },
+          ].map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="flex items-center w-full px-4 py-3 space-x-4 text-sm font-medium transition-all duration-200 rounded-lg text-gray-400 hover:text-white hover:bg-[#1a1a1a]"
+            >
+              <span className="text-xl opacity-70">{item.icon}</span>
+              <span className="tracking-wide">{item.label}</span>
+            </Link>
+          ))}
+        </section>
+
+        {/* Categories / Sections */}
+        <div className="space-y-8 border-t border-[#1a1a1a] pt-8">
+          <div>
+            <h3 className="px-4 mb-4 text-[10px] font-black tracking-[0.2em] uppercase text-gray-500">
+              Learning
+            </h3>
+            <div className="space-y-4">
+              <div>
+                <p className="px-4 py-1 text-xs font-bold text-white/90">Workshops</p>
+                <WorkNav noMargin workshops={workshops} />
+              </div>
+              <div>
+                <p className="px-4 py-1 text-xs font-bold text-white/90">Research</p>
+                <PaperNav noMargin papers={papers} />
+              </div>
+            </div>
           </div>
-          <WorkNav noMargin workshops={workshops} />
-          <h3 className="py-3 font-semibold text-white">Events</h3>
-          <h3 className="py-3 font-semibold text-white">Platinum Event</h3>
 
-          <GoldNav noMargin goldEvents={platinumEvents} />
+          <div>
+            <h3 className="px-4 mb-4 text-[10px] font-black tracking-[0.2em] uppercase text-gray-500">
+              Competitions
+            </h3>
+            <div className="space-y-4">
+              <div>
+                <p className="px-4 py-1 text-xs font-bold text-[#D9972B]">Gold Events</p>
+                <GoldNav noMargin goldEvents={goldEvents} />
+              </div>
+              <div>
+                <p className="px-4 py-1 text-xs font-bold text-[#C0C0C0]">Platinum Events</p>
+                <GoldNav noMargin goldEvents={platinumEvents} />
+              </div>
 
-          <EventNav category="Coding" events={events.filter((e) => e.category === "Coding")} />
-          <EventNav category="Science and Technology" noMargin events={events.filter((e) => e.category === "Science and Technology")} />
-          <EventNav category="Bot" events={events.filter((e) => e.category === "Bot")} />
-          <EventNav category="Quiz" events={events.filter((e) => e.category === "Quiz")} />
-          <EventNav category="Core Engineering" events={events.filter((e) => e.category === "Core Engineering")} />
-          <EventNav category="Fashion and Textile" events={events.filter((e) => e.category === "Fashion and Textile")} />
-          <h3 className="py-3 font-semibold text-white">Gold Events</h3>
-          <GoldNav noMargin goldEvents={goldEvents} />
-          <h3 className="py-3 font-semibold text-white">
-            Paper Presentations
-          </h3>
-          <PaperNav noMargin papers={papers} />
+              <div className="space-y-1">
+                <p className="px-4 py-1 text-xs font-bold text-white/90">Categories</p>
+                <div className="space-y-0.5">
+                  <EventNav category="Coding" events={events} />
+                  <EventNav category="Science and Technology" noMargin events={events} />
+                  <EventNav category="Bot" events={events} />
+                  <EventNav category="Quiz" events={events} />
+                  <EventNav category="Core Engineering" events={events} />
+                  <EventNav category="Fashion and Textile" events={events} />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       {typeof window !== "undefined" &&
         localStorage.getItem("token") &&
         userDetails && (
-          <div className="sticky bottom-0 z-10 flex items-center justify-between w-full p-2 px-6 space-x-4 bg-white shadow-lg shadow-black">
-            <Link
-              href="/portal/profile"
-              className="w-8 h-8 rounded-full aspect-square"
-              style={{
-                backgroundImage: `url(${userDetails?.profilePhoto})`,
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "cover",
-              }}
-            ></Link>
-            <Link href="/portal/profile" className="flex-1">
-              <h2 className="font-semibold text-black">
-                {userDetails?.name}
-              </h2>
-              <h4 className="text-xs text-gray-600">{userDetails.kriyaId}</h4>
-            </Link>
-            <button
-              className=""
-              onClick={() => {
-                localStorage.clear();
-                window.location.reload();
-              }}
-            >
-              <IoMdLogOut size={24} />
-            </button>
+          <div className="fixed bottom-0 z-30 w-[calc(25%-1px)] bg-[#0a0a0a]/90 backdrop-blur-md border-t border-[#1a1a1a] p-4">
+            <div className="flex items-center justify-between p-2 rounded-xl bg-[#111] border border-[#222]">
+              <div className="flex items-center space-x-3">
+                <Link
+                  href="/portal/profile"
+                  className="w-10 h-10 overflow-hidden border-2 border-[#333] rounded-full hover:border-white transition-colors duration-300"
+                >
+                  <img
+                    src={userDetails?.profilePhoto}
+                    alt="profile"
+                    className="w-full h-full object-cover"
+                  />
+                </Link>
+                <Link href="/portal/profile" className="flex flex-col">
+                  <span className="text-sm font-bold text-white truncate max-w-[120px]">
+                    {userDetails?.name}
+                  </span>
+                  <span className="text-[10px] font-mono text-gray-500 uppercase tracking-tighter">
+                    {userDetails.kriyaId}
+                  </span>
+                </Link>
+              </div>
+              <button
+                className="p-2 transition-all duration-200 text-gray-500 hover:text-red-500 hover:bg-red-500/10 rounded-lg"
+                onClick={() => {
+                  localStorage.clear();
+                  window.location.reload();
+                }}
+              >
+                <IoMdLogOut size={20} />
+              </button>
+            </div>
           </div>
         )}
     </nav>

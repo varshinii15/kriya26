@@ -124,198 +124,160 @@ const NavBarForMobile = () => {
   });
 
   return (
-    <nav className="fixed top-0 z-50 w-screen max-h-screen overflow-y-auto bg-black shadow-md lg:hidden lg:w-1/4 lg:relative lg:h-screen font-poppins">
-      <div className="sticky top-0 z-10 flex items-center justify-between w-full px-4 py-2 bg-black">
-        <MenuToggle isOpen={isOpen} setIsOpen={setIsOpen} className="" />
-        <div className="flex justify-center">
-          <Link
-            href={"/"}
-            className="w-14 h-9"
-            style={{
-              background: `url(/assets/Logo/Kriya25whitelogo.png)`,
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "contain",
-            }}
-          ></Link>
-        </div>
+    <nav className="fixed top-0 z-50 w-screen max-h-screen overflow-y-auto bg-[#0a0a0a] shadow-2xl lg:hidden font-poppins custom-scrollbar transition-all duration-300">
+      <div className="sticky top-0 z-20 flex items-center justify-between w-full px-6 py-4 bg-[#0a0a0a]/95 backdrop-blur-md border-b border-[#1a1a1a]">
+        <MenuToggle isOpen={isOpen} setIsOpen={setIsOpen} className="text-white" />
+        <Link
+          href={"/"}
+          className="w-12 h-8"
+          style={{
+            background: `url(/Logo/kriya26white.png)`,
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "contain",
+          }}
+        ></Link>
         <div className="flex justify-end">
           {userDetails ? (
             <Link
               href={"/portal/profile"}
-              className="w-8 h-8 rounded-full"
-              style={{
-                backgroundImage: `url(${userDetails?.profilePhoto})`,
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "cover",
-              }}
-            ></Link>
+              className="w-9 h-9 border border-[#333] rounded-full overflow-hidden"
+            >
+              <img
+                src={userDetails?.profilePhoto}
+                alt="profile"
+                className="w-full h-full object-cover"
+              />
+            </Link>
           ) : (
             <Link
               href={"/auth?type=login"}
-              className="text-white rounded-lg w-fit"
+              className="text-white hover:text-gray-300 transition-colors"
             >
-              <FaRegUserCircle size={32} />
+              <FaRegUserCircle size={28} />
             </Link>
           )}
         </div>
       </div>
 
       <div
-        className={`divide-y divide-gray-600 ${isOpen ? "h-fit" : "h-0 overflow-hidden"
-          } transition-all ease-in-out duration-300`}
+        className={`transition-all duration-300 ease-in-out ${isOpen ? "max-h-[5000px] opacity-100" : "max-h-0 opacity-0 overflow-hidden"
+          }`}
       >
-        <div className="flex flex-col w-full px-6 py-8">
-          <Link
-            href="/"
-            id="navElements"
-            className="w-full py-2 text-left text-white hover:text-gray-300"
-          >
-            Home
-          </Link>
-          {token && userDetails ? (
-            <Link
-              href="/portal/profile"
-              className="w-full py-2 text-left text-white hover:text-gray-300"
-            >
-              Dashboard
-            </Link>
-          ) : (
-            <button
-              type="button"
-              onClick={() =>
-                window.open(
-                  "https://www.youtube.com/watch?v=YeFJPRFhmCM",
-                  "_blank"
-                )
-              }
-              className="w-full py-2 text-left text-white hover:text-gray-300"
-            >
-              How to Register
-            </button>
-          )}
-          <Link
-            href="/portal/event"
-            id="navElements"
-            className="w-full py-2 text-left text-white hover:text-gray-300"
-          >
-            Events
-          </Link>
-          <Link
-            href="/portal/workshop"
-            id="navElements"
-            className="w-full py-2 text-left text-white hover:text-gray-300"
-          >
-            Workshops
-          </Link>
-          <Link
-            href="/portal/paper"
-            id="navElements"
-            className="w-full py-2 text-left text-white hover:text-gray-300"
-          >
-            Paper Presentations
-          </Link>
-          {/* <Link
-            href="/portal/accommodation"
-            id="navElements"
-            className="w-full py-2 text-left text-white text-gray-600 hover:text-gray-300"
-          >
-            Accommodations
-          </Link> */}
-        </div>
-        <div className="px-6 py-8 pb-16" id="navOpen">
-          <div className="flex items-center space-x-4">
-            <h3 className="py-3 font-semibold text-white" id="navElements">
-              Workshops
-            </h3>
+        <div className="px-6 py-8 space-y-8">
+          {/* Core Links */}
+          <section className="space-y-1">
+            {(!token || !userDetails) && (
+              <button
+                type="button"
+                onClick={() => window.open("https://www.youtube.com/watch?v=YeFJPRFhmCM", "_blank")}
+                className="w-full px-4 py-3 mb-6 text-xs font-black tracking-widest uppercase bg-white text-black rounded-lg shadow-lg hover:bg-gray-200 transition-all"
+              >
+                How to Register
+              </button>
+            )}
+
+            {[
+              { href: "/", label: "Home", icon: <AiOutlineHome /> },
+              { href: "/portal/event", label: "Events", icon: <MdOutlineEmojiEvents /> },
+              { href: "/portal/workshop", label: "Workshops", icon: <GrWorkshop /> },
+              { href: "/portal/paper", label: "Paper Presentations", icon: <HiOutlinePresentationChartBar /> },
+            ].map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setIsOpen(false)}
+                className="flex items-center w-full px-4 py-3 space-x-4 text-sm font-medium text-gray-400 hover:text-white hover:bg-[#111] rounded-lg transition-all"
+              >
+                <span className="text-xl opacity-70">{item.icon}</span>
+                <span className="tracking-wide">{item.label}</span>
+              </Link>
+            ))}
+          </section>
+
+          {/* Deep Navigation */}
+          <div className="space-y-8 border-t border-[#1a1a1a] pt-8" id="navOpen">
+            <div>
+              <h3 className="px-4 mb-4 text-[10px] font-black tracking-[0.2em] uppercase text-gray-500">
+                Learning
+              </h3>
+              <div className="space-y-4">
+                <div>
+                  <p className="px-4 py-1 text-xs font-bold text-white/90">Workshops</p>
+                  <WorkNav
+                    openState={[isOpen, setIsOpen]}
+                    isMobile
+                    noMargin
+                    workshops={workshops}
+                  />
+                </div>
+                <div>
+                  <p className="px-4 py-1 text-xs font-bold text-white/90">Research</p>
+                  <PaperNav
+                    openState={[isOpen, setIsOpen]}
+                    isMobile
+                    noMargin
+                    papers={papers}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="px-4 mb-4 text-[10px] font-black tracking-[0.2em] uppercase text-gray-500">
+                Competitions
+              </h3>
+              <div className="space-y-4">
+                <div>
+                  <p className="px-4 py-1 text-xs font-bold text-[#D9972B]">Gold Events</p>
+                  <GoldNav
+                    openState={[isOpen, setIsOpen]}
+                    isMobile
+                    noMargin
+                    goldEvents={goldEvents}
+                  />
+                </div>
+
+                <div>
+                  <p className="px-4 py-1 text-xs font-bold text-[#C0C0C0]">Platinum Events</p>
+                  <GoldNav
+                    openState={[isOpen, setIsOpen]}
+                    isMobile
+                    noMargin
+                    goldEvents={platinumEvents}
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <p className="px-4 py-1 text-xs font-bold text-white/90">Categories</p>
+                  <div className="space-y-0.5">
+                    {["Quiz", "Bot", "Coding", "Fashion and Textile", "Core Engineering", "Science and Technology"].map((cat) => (
+                      <EventNav
+                        key={cat}
+                        openState={[isOpen, setIsOpen]}
+                        isMobile
+                        category={cat}
+                        events={events}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <WorkNav
-            openState={[isOpen, setIsOpen]}
-            isMobile
-            noMargin
-            workshops={workshops}
-          />
-          <h3 className="py-3 font-semibold text-white" id="navElements">
-            Events
-          </h3>
-          <h3 className="py-3 font-semibold text-white" id="navElements">
-            Platinum Event
-          </h3>
-          <GoldNav
-            openState={[isOpen, setIsOpen]}
-            isMobile
-            noMargin
-            goldEvents={platinumEvents}
-          />
-          <EventNav
-            openState={[isOpen, setIsOpen]}
-            isMobile
-            category="Quiz"
-            noMargin
-            events={events}
-          />
-          <EventNav
-            openState={[isOpen, setIsOpen]}
-            isMobile
-            category="Bot"
-            events={events}
-          />
-          <EventNav
-            openState={[isOpen, setIsOpen]}
-            isMobile
-            category="Coding"
-            events={events}
-          />
-          <EventNav
-            openState={[isOpen, setIsOpen]}
-            isMobile
-            category="Fashion and Textile"
-            events={events}
-          />
-          <EventNav
-            openState={[isOpen, setIsOpen]}
-            isMobile
-            category="Core Engineering"
-            events={events}
-          />
-          <EventNav
-            openState={[isOpen, setIsOpen]}
-            isMobile
-            category="Science and Technology"
-            events={events}
-          />
-          <h3 className="py-3 font-semibold text-white" id="navElements">
-            Gold Events
-          </h3>
-          <GoldNav
-            openState={[isOpen, setIsOpen]}
-            isMobile
-            noMargin
-            goldEvents={goldEvents}
-          />
-          <h3 className="py-3 font-semibold text-white" id="navElements">
-            Paper Presentations
-          </h3>
-          <PaperNav
-            openState={[isOpen, setIsOpen]}
-            isMobile
-            noMargin
-            papers={papers}
-          />
         </div>
 
         {token && (
-          <div className="sticky bottom-0 z-10 flex items-center justify-between w-full bg-white shadow-lg">
+          <div className="sticky bottom-0 z-30 w-full bg-[#0a0a0a]/95 backdrop-blur-md border-t border-[#1a1a1a] p-4">
             <button
               onClick={() => {
                 localStorage.clear();
                 window.location.reload();
               }}
-              className="flex flex-row items-center px-6 py-4 gap-x-4"
+              className="flex items-center justify-center w-full px-6 py-3 space-x-3 text-sm font-bold text-gray-400 hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-all border border-transparent hover:border-red-500/20"
             >
-              <IoMdLogOut className="text-2xl" />
-              Logout
+              <IoMdLogOut size={20} />
+              <span>Logout Account</span>
             </button>
           </div>
         )}

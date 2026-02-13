@@ -263,7 +263,7 @@ const EventList = () => {
               }
             >
               <h1
-                className="special-font text-3xl lg:text-4xl font-black text-center pt-8 uppercase"
+                className="special-font text-5xl font-black text-center pt-8 uppercase"
                 style={{ color: '#98D0FF' }}
                 id="quiz"
                 hidden={
@@ -290,7 +290,7 @@ const EventList = () => {
               }
             >
               <h1
-                className="special-font text-3xl lg:text-4xl font-black text-center pt-8 uppercase"
+                className="special-font text-5xl font-black text-center pt-8 uppercase"
                 style={{ color: '#F34F44' }}
                 id="core"
                 hidden={
@@ -318,7 +318,7 @@ const EventList = () => {
               }
             >
               <h1
-                className="special-font text-3xl lg:text-4xl font-black text-center pt-8 uppercase"
+                className="special-font text-5xl font-black text-center pt-8 uppercase"
                 style={{ color: '#3AC49C' }}
                 id="coding"
                 hidden={
@@ -372,7 +372,7 @@ const EventList = () => {
               className="h-[10%]"
             >
               <h1
-                className="special-font text-3xl lg:text-4xl font-black text-center pt-8 uppercase"
+                className="special-font text-4xl font-black text-center pt-8 uppercase"
                 style={{ color: '#B48EEB' }}
                 id="fashion"
                 hidden={
@@ -402,7 +402,7 @@ const EventList = () => {
               }
             >
               <h1
-                className="special-font text-3xl lg:text-4xl font-black text-center pt-8 uppercase"
+                className="special-font text-4xl font-black text-center pt-8 uppercase"
                 style={{ color: '#B0E369' }}
                 id="science"
                 hidden={
