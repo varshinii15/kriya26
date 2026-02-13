@@ -20,6 +20,10 @@ const navItems = [
     link: "#campus_map"
   },
   {
+    label: "Ambassador",
+    link: "/portal/ambassador"
+  },
+  {
     label: "Contact",
     link: "#contact"
   }
