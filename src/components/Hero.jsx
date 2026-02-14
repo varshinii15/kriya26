@@ -158,7 +158,7 @@ const Hero = ({ preloaderComplete = true }) => {
 
           {/* Date - Bigger */}
           <div className="mb-6">
-            <div className="flex items-center justify-center gap-2 text-5xl font-zentry bg-black/50 px-2 py-1 rounded-xl">
+            <div className="flex items-center justify-center gap-2 text-3xl sm:text-4xl font-zentry bg-black/50 px-2 py-1 rounded-xl">
               <h2 className="special-font font-zentry font-thin uppercase text-white bg-clip-text text-transparent">
                 <span className="">Ma<b>r</b>c<b>h</b></span>
               </h2>
@@ -167,7 +167,7 @@ const Hero = ({ preloaderComplete = true }) => {
               <span className="text-white">14</span>
               <span className="text-blue-400">,</span>
               <span className="text-white">15</span>
-              <span className="text-blue-400">,</span>
+              <span>  </span>
               <span className="text-white">2026</span>
             </div>
           </div>
@@ -296,7 +296,7 @@ const Hero = ({ preloaderComplete = true }) => {
               <span>14</span>
               <span className="text-blue-400">,</span>
               <span>15</span>
-              <span className="text-blue-400">,</span>
+              <span>   </span>
               <span>2026</span>
             </div>
 
