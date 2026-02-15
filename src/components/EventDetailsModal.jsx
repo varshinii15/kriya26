@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { IoMdCall } from "react-icons/io";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { is_venue_available } from "@/settings/featureFlags";
 
 const EventDetailsModal = ({ eventDetail, onClose }) => {
     const [expandRounds, setExpandRounds] = useState(false);
@@ -9,13 +10,13 @@ const EventDetailsModal = ({ eventDetail, onClose }) => {
     if (!eventDetail) return null;
 
     return (
-        <div className="fixed inset-0 lg:left-[25%] lg:w-[75%] z-[100] flex items-center justify-center p-4 pt-24 md:p-4 bg-black/50 backdrop-blur-sm">
+        <div className="fixed inset-0 lg:left-[25%] lg:w-[75%] z-100 flex items-center justify-center p-4 pt-24 md:p-4 bg-black/50 backdrop-blur-sm">
             <div
                 className="bg-white w-full max-w-5xl max-h-[85vh] md:max-h-[90vh] overflow-y-auto rounded-none shadow-2xl flex flex-col relative animate-in fade-in zoom-in duration-300"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Header Content with Sticky Close Button */}
-                <div className="p-4 md:p-6 pb-2 border-b border-gray-100 bg-white sticky top-0 z-40 relative">
+                <div className="p-4 md:p-6 pb-2 border-b border-gray-100 bg-white sticky top-0 z-40">
                     {/* Close Button MOVED INSIDE STICKY HEADER */}
                     <button
                         onClick={onClose}
@@ -58,30 +59,45 @@ const EventDetailsModal = ({ eventDetail, onClose }) => {
                 <div className="p-6 md:p-10 space-y-8 bg-white">
                     {/* Key Details Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div className="bg-white border-l-4 border-blue-400 pl-6 py-2">
-                            <p className="font-poppins text-gray-400 font-bold uppercase tracking-widest text-xs mb-1">
-                                Timing
-                            </p>
-                            <p className="special-font text-xl md:text-2xl font-bold text-black tracking-wider">
-                                <b>{eventDetail.timing}</b>
-                            </p>
-                        </div>
-                        <div className="bg-white border-l-4 border-blue-400 pl-6 py-2">
-                            <p className="font-poppins text-gray-400 font-bold uppercase tracking-widest text-xs mb-1">
-                                Venue
-                            </p>
-                            <p className="special-font text-xl md:text-2xl font-bold text-black tracking-wider">
-                                <b>{eventDetail.hall || "TBA"}</b>
-                            </p>
-                        </div>
-                        <div className="bg-white border-l-4 border-blue-400 pl-6 py-2">
-                            <p className="font-poppins text-gray-400 font-bold uppercase tracking-widest text-xs mb-1">
-                                Team Size
-                            </p>
-                            <p className="special-font text-xl md:text-2xl font-bold text-black">
-                                <b>{eventDetail.teamSize} Member{eventDetail.teamSize !== "1" ? "s" : ""}</b>
-                            </p>
-                        </div>
+                        {is_venue_available ? (
+                            <>
+                                <div className="bg-white border-l-4 border-blue-400 pl-6 py-2">
+                                    <p className="font-poppins text-gray-400 font-bold uppercase tracking-widest text-xs mb-1">
+                                        Timing
+                                    </p>
+                                    <p className="special-font text-xl md:text-2xl font-bold text-black tracking-wider">
+                                        <b>{eventDetail.timing}</b>
+                                    </p>
+                                </div>
+                                <div className="bg-white border-l-4 border-blue-400 pl-6 py-2">
+                                    <p className="font-poppins text-gray-400 font-bold uppercase tracking-widest text-xs mb-1">
+                                        Venue
+                                    </p>
+                                    <p className="special-font text-xl md:text-2xl font-bold text-black tracking-wider">
+                                        <b>{eventDetail.hall || "TBA"}</b>
+                                    </p>
+                                </div>
+                            </>
+                        ) : (
+                            <div className="bg-white border-l-4 border-blue-400 pl-6 py-2 col-span-1 md:col-span-2">
+                                <p className="font-poppins text-gray-400 font-bold uppercase tracking-widest text-xs mb-1">
+                                    Event Details
+                                </p>
+                                <p className="special-font text-xl md:text-2xl font-bold text-black tracking-wider">
+                                    <b>Venue and Time will be announced soon</b>
+                                </p>
+                            </div>
+                        )}
+                        {is_venue_available && (
+                            <div className="bg-white border-l-4 border-blue-400 pl-6 py-2">
+                                <p className="font-poppins text-gray-400 font-bold uppercase tracking-widest text-xs mb-1">
+                                    Team Size
+                                </p>
+                                <p className="special-font text-xl md:text-2xl font-bold text-black">
+                                    <b>{eventDetail.teamSize} Member{eventDetail.teamSize !== "1" ? "s" : ""}</b>
+                                </p>
+                            </div>
+                        )}
                     </div>
 
                     {/* About Section */}
@@ -126,7 +142,7 @@ const EventDetailsModal = ({ eventDetail, onClose }) => {
                                 </div>
                                 {/* Blur Overlay for Mobile */}
                                 {!expandRounds && (
-                                    <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-white to-transparent pointer-events-none md:hidden" />
+                                    <div className="absolute bottom-0 left-0 w-full h-24 bg-linear-to-t from-white to-transparent pointer-events-none md:hidden" />
                                 )}
                                 {/* Show More Button for Mobile */}
                                 <div className="flex justify-center mt-4 md:hidden">
@@ -173,7 +189,7 @@ const EventDetailsModal = ({ eventDetail, onClose }) => {
                                 </div>
                                 {/* Blur Overlay for Mobile */}
                                 {!expandRules && (
-                                    <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none md:hidden" />
+                                    <div className="absolute bottom-0 left-0 w-full h-24 bg-linear-to-t from-white via-white/80 to-transparent pointer-events-none md:hidden" />
                                 )}
                                 {/* Show More Button for Mobile */}
                                 <div className="flex justify-center mt-4 md:hidden">

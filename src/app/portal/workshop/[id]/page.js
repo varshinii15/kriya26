@@ -1,7 +1,7 @@
 "use client";
 import { IoMdCall, IoLogoWhatsapp, IoMdArrowBack } from "react-icons/io";
 import { useRouter, useParams } from "next/navigation";
-import { isPreRegistrationEnabled } from "@/settings/featureFlags";
+import { isPreRegistrationEnabled, is_venue_available } from "@/settings/featureFlags";
 import { useState, useRef, useEffect } from "react";
 import { eventService } from "../../../../services/eventservice";
 import ConfirmationModal from "@/components/ConfirmationModal";
@@ -285,27 +285,38 @@ export default function WorkshopPage({ params }) {
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <div>
-                <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Timing</p>
-                <p className="text-white font-semibold text-lg">{workshopDetail.startTime && workshopDetail.endTime ? `${workshopDetail.startTime} - ${workshopDetail.endTime}` : (workshopDetail.time || "TBA")}</p>
-              </div>
-              <div>
-                <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Venue</p>
-                <p className="text-white font-semibold text-lg">{workshopDetail.hall || "TBA"}</p>
-              </div>
-              <div>
-                <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Date</p>
-                <p className="text-white font-semibold text-lg">
-                  {workshopDetail.date ? new Date(workshopDetail.date).toLocaleDateString("en-US", { month: "short", day: "numeric" }) : "TBA"}
-                </p>
-              </div>
+              {is_venue_available ? (
+                <>
+                  <div>
+                    <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Timing</p>
+                    <p className="text-white font-semibold text-lg">{workshopDetail.startTime && workshopDetail.endTime ? `${workshopDetail.startTime} - ${workshopDetail.endTime}` : (workshopDetail.time || "TBA")}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Venue</p>
+                    <p className="text-white font-semibold text-lg">{workshopDetail.hall || "TBA"}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Date</p>
+                    <p className="text-white font-semibold text-lg">
+                      {workshopDetail.date ? new Date(workshopDetail.date).toLocaleDateString("en-US", { month: "short", day: "numeric" }) : "TBA"}
+                    </p>
+                  </div>
+                </>
+              ) : (
+                <div className="col-span-2 md:col-span-4">
+                  <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Workshop Details</p>
+                  <p className="text-white font-semibold text-lg">Venue and Time will be announced soon</p>
+                </div>
+              )}
+            </div>
+            {is_venue_available && (
               <div>
                 <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Fee</p>
                 <p className="text-white font-semibold text-lg">
                   {workshopDetail.actualFee ? `₹${workshopDetail.actualFee}` : "Free"}
                 </p>
               </div>
-            </div>
+            )}
           </div>
         </div>
 

@@ -152,7 +152,7 @@ const Hero = ({ preloaderComplete = true }) => {
             <h1 className="special-font text-center text-xl font-zentry font-thin uppercase text-white mb-1 tracking-wide">
               <span className="">Cl<b>a</b>sh <b>of</b></span>
             </h1>
-            <h2 className="special-font text-center text-xl font-zentry font-thin uppercase text-white bg-clip-text text-transparent">
+            <h2 className="special-font text-center text-xl font-zentry font-thin uppercase text-white bg-clip-text">
               <span className="bg-black/50 text-blue-500 p-1 rounded-md">te<b>c</b>h<b>n</b>o t<b>a</b>lents</span>
             </h2>
           </div>
@@ -160,7 +160,7 @@ const Hero = ({ preloaderComplete = true }) => {
           {/* Date - Bigger */}
           <div className="mb-6">
             <div className="flex items-center justify-center gap-2 text-3xl sm:text-4xl font-zentry bg-black/50 px-2 py-1 rounded-xl">
-              <h2 className="special-font font-zentry font-thin uppercase text-white bg-clip-text text-transparent">
+              <h2 className="special-font font-zentry font-thin uppercase text-white bg-clip-text">
                 <span className="">Ma<b>r</b>c<b>h</b></span>
               </h2>
               <span className="text-blue-500">13</span>
@@ -289,7 +289,7 @@ const Hero = ({ preloaderComplete = true }) => {
 
             {/* Date - Bigger */}
             <div className="flex items-center justify-center gap-2 text-7xl xl:text-8xl text-white font-zentry bg-black/50 px-4 py-2 rounded-xl">
-              <h2 className="special-font font-zentry font-thin uppercase text-white bg-clip-text text-transparent">
+              <h2 className="special-font font-zentry font-thin uppercase text-white bg-clip-text">
                 <span className="p-2"><b>Ma<b><b>r</b></b>ch</b></span>
               </h2>
               <span className="text-blue-500">13</span>

@@ -3,6 +3,7 @@ import React from "react";
 import { FiArrowUpRight } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { is_venue_available } from "@/settings/featureFlags";
 
 const EventGrid = ({
   handleClick = () => { },
@@ -117,17 +118,27 @@ const EventGrid = ({
       onClick={() => router.push(to)}
     >
       <div className="hidden lg:block absolute group-hover:shadow-lg opacity-0 -translate-y-20 group-hover:-translate-y-2 group-hover:opacity-100 left-0 top-full w-full group-hover:scale-[110%] bg-gray-200 px-4 pt-2 transition-all ease-in-out">
-        <div className="flex flex-row items-start justify-between gap-6 py-4 text-gray-700">
-          <div className="min-w-0">
-            <p className="font-semibold font-poppins text-left truncate">
-              {formattedDate || "TBA"}
-            </p>
-          </div>
-          <div className="shrink-0">
-            <p className="font-semibold font-poppins text-right whitespace-nowrap">
-              {formattedStartTime || "TBA"}
-            </p>
-          </div>
+        <div className="flex flex-row items-center justify-between gap-6 py-4 text-gray-700">
+          {is_venue_available ? (
+            <>
+              <div className="min-w-0">
+                <p className="font-semibold font-poppins text-left truncate">
+                  {formattedDate || "TBA"}
+                </p>
+              </div>
+              <div className="shrink-0">
+                <p className="font-semibold font-poppins text-right whitespace-nowrap">
+                  {formattedStartTime || "TBA"}
+                </p>
+              </div>
+            </>
+          ) : (
+            <div className="w-full text-center">
+              <p className="font-semibold font-poppins uppercase tracking-wider text-sm">
+                Stay Tuned
+              </p>
+            </div>
+          )}
         </div>
       </div>
 
@@ -196,13 +207,21 @@ const EventGrid = ({
       </div>
 
       <div className="w-full px-4 bg-gray-200 shadow-lg lg:hidden font-poppins">
-        <div className="flex flex-row items-start justify-between gap-6 py-3 text-base text-gray-700">
-          <p className="font-semibold text-left font-poppins truncate">
-            {formattedDate || "TBA"}
-          </p>
-          <p className="font-semibold text-right font-poppins whitespace-nowrap">
-            {formattedStartTime || "TBA"}
-          </p>
+        <div className="flex flex-row items-center justify-between gap-6 py-3 text-base text-gray-700">
+          {is_venue_available ? (
+            <>
+              <p className="font-semibold text-left font-poppins truncate">
+                {formattedDate || "TBA"}
+              </p>
+              <p className="font-semibold text-right font-poppins whitespace-nowrap">
+                {formattedStartTime || "TBA"}
+              </p>
+            </>
+          ) : (
+            <p className="w-full text-center font-semibold font-poppins uppercase tracking-wider text-sm">
+              Stay Tuned
+            </p>
+          )}
         </div>
       </div>
     </button>

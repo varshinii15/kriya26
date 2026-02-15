@@ -33,8 +33,8 @@ const ContactButton = ({ href, Icon, label, children }) => {
                 rel="noopener noreferrer"
                 className="flex items-center space-x-2 cursor-pointer text-white px-4 py-2 rounded-md transition-all hover:bg-white/10"
             >
-                <Icon size={20} className="flex-shrink-0" />
-                <p className="text-lg break-words min-w-0 font-circular-web">{children || label}</p>
+                <Icon size={20} className="shrink-0" />
+                <p className="text-lg wrap-break-word min-w-0 font-circular-web">{children || label}</p>
             </Link>
         </motion.div>
     );

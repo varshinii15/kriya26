@@ -1,8 +1,8 @@
 "use client";
 import { IoMdCall, IoLogoWhatsapp, IoMdArrowBack } from "react-icons/io";
 import { useRouter, useParams } from "next/navigation";
-import { isPreRegistrationEnabled } from "@/settings/featureFlags";
-import { useState, useRef, useEffect} from "react";
+import { isPreRegistrationEnabled, is_venue_available } from "@/settings/featureFlags";
+import { useState, useRef, useEffect } from "react";
 import { eventService } from "../../../../services/eventservice";
 import ConfirmationModal from "@/components/ConfirmationModal";
 import Image from "next/image";
@@ -199,9 +199,6 @@ export default function Home({ params }) {
           >
             <IoMdArrowBack className="text-xl md:text-2xl" />
           </button>
-          <h1 className="special-font text-lg md:text-5xl font-bold text-white font-poppins truncate">
-            <b>{eventDetail.eventName}</b>
-          </h1>
         </div>
 
         <div className="flex items-center gap-3 w-full md:w-auto justify-center md:justify-end">
@@ -338,7 +335,7 @@ export default function Home({ params }) {
 
                   {/* Desktop Pointer: Side "<" */}
                   <div
-                    className="hidden md:block absolute top-1/2 -left-2 -translate-y-1/2 w-0 h-0 border-t-[8px] border-t-transparent border-b-[8px] border-b-transparent border-r-[8px]"
+                    className="hidden md:block absolute top-1/2 -left-2 -translate-y-1/2 w-0 h-0 border-t-8 border-t-transparent border-b-8 border-b-transparent border-r-8"
                     style={{ borderRightColor: 'rgba(255, 255, 255, 0.2)' }}
                   />
                   <div
@@ -347,7 +344,7 @@ export default function Home({ params }) {
 
                   {/* Mobile Pointer: Top "^" pointing up to logo */}
                   <div
-                    className="md:hidden absolute -top-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-b-[8px]"
+                    className="md:hidden absolute -top-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-8 border-l-transparent border-r-8 border-r-transparent border-b-8"
                     style={{ borderBottomColor: 'rgba(255, 255, 255, 0.2)' }}
                   />
                   <div
@@ -369,31 +366,44 @@ export default function Home({ params }) {
                 style={{ color: accent.primary, background: accent.primary }}
               />
               <span className="text-white font-bold uppercase tracking-widest text-sm">
-                {eventDetail.closed ? "Registrations Closed" : (isPreRegistrationEnabled ? "Registration Not Yet Opened": "Registration is Open Now")}
+                {eventDetail.closed ? "Registrations Closed" : (isPreRegistrationEnabled ? "Registration Not Yet Opened" : "Registration is Open Now")}
               </span>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <div>
-                <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Timing</p>
-                <p className="text-white font-semibold text-lg">{eventDetail.timing || "TBA"}</p>
-              </div>
-              <div>
-                <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Venue</p>
-                <p className="text-white font-semibold text-lg">{eventDetail.hall || "TBA"}</p>
-              </div>
-              <div>
-                <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Team Size</p>
-                <p className="text-white font-semibold text-lg">
-                  {eventDetail.teamSize} Member{eventDetail.teamSize !== "1" ? "s" : ""}
-                </p>
-              </div>
-              <div>
-                <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Date</p>
-                <p className="text-white font-semibold text-lg">
-                  {eventDetail.date ? new Date(eventDetail.date).getDate() : "TBA"} March
-                </p>
-              </div>
+              {is_venue_available ? (
+                <>
+                  <div>
+                    <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Timing</p>
+                    <p className="text-white font-semibold text-lg">{eventDetail.timing || "TBA"}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Venue</p>
+                    <p className="text-white font-semibold text-lg">{eventDetail.hall || "TBA"}</p>
+                  </div>
+                </>
+              ) : (
+                <div className="col-span-2 md:col-span-2">
+                  <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Event Details</p>
+                  <p className="text-white font-semibold text-lg">Venue and Time will be announced soon</p>
+                </div>
+              )}
+              {is_venue_available && (
+                <div>
+                  <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Team Size</p>
+                  <p className="text-white font-semibold text-lg">
+                    {eventDetail.teamSize} Member{eventDetail.teamSize !== "1" ? "s" : ""}
+                  </p>
+                </div>
+              )}
+              {is_venue_available && (
+                <div>
+                  <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Date</p>
+                  <p className="text-white font-semibold text-lg">
+                    {eventDetail.date ? new Date(eventDetail.date).getDate() : "TBA"} March
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>

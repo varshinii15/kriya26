@@ -4,6 +4,7 @@ import { useRef, useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, useInView } from "framer-motion";
 import { eventService } from "../services/eventservice";
+import { is_venue_available } from "@/settings/featureFlags";
 
 const STATIC_IMAGES = [
   "/img/flagship/fl1.png",
@@ -489,16 +490,22 @@ const FloatingImage = () => {
                   >
                     <div className="flex flex-col h-full justify-between z-10 w-[65%]">
                       <div>
-                        <h2 className="special-font text-2xl sm:text-3xl lg:text-5xl font-black uppercase leading-tight mb-1 sm:mb-2 tracking-wide text-black break-words"><b>{slide.title}</b></h2>
-                        <p className="text-xs sm:text-sm lg:text-base uppercase tracking-wider text-black font-bold opacity-90">{slide.location} | {slide.time}</p>
+                        <h2 className="special-font text-2xl sm:text-3xl lg:text-5xl font-black uppercase leading-tight mb-1 sm:mb-2 tracking-wide text-black wrap-break-word"><b>{slide.title}</b></h2>
+                        {is_venue_available ? (
+                          <p className="text-xs sm:text-sm lg:text-base uppercase tracking-wider text-black font-bold opacity-90">{slide.location} | {slide.time}</p>
+                        ) : (
+                          <p className="text-xs sm:text-sm lg:text-base uppercase tracking-wider text-black font-bold opacity-90">Venue and Time will be announced soon</p>
+                        )}
                       </div>
                     </div>
 
-                    <div className="flex flex-col items-end z-10 text-black w-[35%]">
-                      <span className="text-xs sm:text-sm lg:text-base font-bold uppercase mb-0 tracking-wider">({slide.month})</span>
-                      <span className="text-xs sm:text-sm lg:text-base font-bold uppercase mb-1">{slide.year}</span>
-                      <span className="text-4xl sm:text-5xl lg:text-7xl font-black leading-none">{slide.day}</span>
-                    </div>
+                    {is_venue_available && (
+                      <div className="flex flex-col items-end z-10 text-black w-[35%]">
+                        <span className="text-xs sm:text-sm lg:text-base font-bold uppercase mb-0 tracking-wider">({slide.month})</span>
+                        <span className="text-xs sm:text-sm lg:text-base font-bold uppercase mb-1">{slide.year}</span>
+                        <span className="text-4xl sm:text-5xl lg:text-7xl font-black leading-none">{slide.day}</span>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}

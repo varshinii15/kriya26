@@ -2,11 +2,12 @@
 import { IoMdCall, IoLogoWhatsapp, IoMdArrowBack } from "react-icons/io";
 import { SiGmail } from "react-icons/si";
 import { useRouter, useParams } from "next/navigation";
-import { isPreRegistrationEnabled } from "@/settings/featureFlags";
+import { isPreRegistrationEnabled, is_venue_available } from "@/settings/featureFlags";
 import { useState, useEffect } from "react";
 import { eventService } from "../../../../services/eventservice";
 import ConfirmationModal from "@/components/ConfirmationModal";
 import Image from "next/image";
+import EventDetailsModal from "@/components/EventDetailsModal";
 import { useAuth } from "@/context/AuthContext";
 import { getWhatsAppLink } from "@/data/whatsappLinks";
 
@@ -40,6 +41,8 @@ export default function PaperPage({ params }) {
     const [registrationLoading, setRegistrationLoading] = useState(true);
     const [paperDetail, setPaperDetail] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [callbackUrl, setCallbackUrl] = useState("");
+    const [isLearnMoreOpen, setIsLearnMoreOpen] = useState(false);
 
     const accent = PAPER_ACCENT;
 
@@ -123,11 +126,34 @@ export default function PaperPage({ params }) {
         fetchData();
     }, [id]);
 
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            setCallbackUrl(window.location.href);
+        }
+    }, []);
+
     const isRegisteredForPaper = () => {
-        if (!userPaperDetails || !Array.isArray(userPaperDetails)) return false;
-        return userPaperDetails.some((p) =>
-            p.paperId === id || p.eventId === id || p._id === id
-        );
+        if (!user || !user.registeredPapers) return false;
+        return user.registeredPapers.some(p => p.paperId === id);
+    };
+
+    const getMappedPaperDetail = () => {
+        if (!paperDetail) return null;
+        return {
+            eventName: paperDetail.eventName,
+            category: "Paper Presentation",
+            custom_category: "Paper Presentation",
+            closed: paperDetail.closed,
+            timing: paperDetail.startTime && paperDetail.endTime
+                ? `${paperDetail.startTime} - ${paperDetail.endTime}`
+                : (paperDetail.time || "TBA"),
+            hall: paperDetail.hall,
+            teamSize: paperDetail.teamSize,
+            description: paperDetail.description,
+            eventRules: paperDetail.rules, // Map rules to eventRules expected by modal
+            contacts: paperDetail.contacts || [],
+            oneLineDescription: paperDetail.oneLineDescription || "",
+        };
     };
 
     const handleRegister = async () => {
@@ -172,7 +198,7 @@ export default function PaperPage({ params }) {
             />
 
             {/* ===== Header ===== */}
-            <div className="relative md:sticky md:top-0 mt-10 md:mt-0 z-10 w-full p-3 md:p-4 md:px-6 lg:px-8 backdrop-blur-xl bg-black/40 border-b border-white/5 flex flex-col md:flex-row items-center justify-between gap-3 md:gap-0">
+            <div className="relative md:sticky md:top-0 mt-10 md:mt-0 z-40 w-full p-3 md:p-4 md:px-6 lg:px-8 backdrop-blur-xl bg-black/40 border-b border-white/5 flex flex-col md:flex-row items-center justify-between gap-3 md:gap-0">
                 <div className="flex items-center gap-4 w-full md:max-w-[50%]">
                     <button
                         onClick={() => router.back()}
@@ -181,9 +207,6 @@ export default function PaperPage({ params }) {
                     >
                         <IoMdArrowBack className="text-xl md:text-2xl" />
                     </button>
-                    <h1 className="special-font text-lg md:text-5xl font-bold text-white font-poppins truncate">
-                        <b>{paperDetail.eventName}</b>
-                    </h1>
                 </div>
 
                 <div className="flex items-center gap-3 w-full md:w-auto justify-center md:justify-end">
@@ -198,14 +221,16 @@ export default function PaperPage({ params }) {
                                 borderColor: accent.primary,
                             }}
                         >
-                            {userPaperDetails && (
-                                <>
-                                    {isRegisteredForPaper() ? "Registered" : paperDetail.closed ? "Closed" : "Register"}
-                                </>
-                            )}
-                            {!userPaperDetails && <>{paperDetail.closed ? "Closed" : "Register"}</>}
+                            {isRegisteredForPaper() ? "Registered" : paperDetail.closed ? "Closed" : "Register"}
                         </button>
                     )}
+
+                    <button
+                        className="flex-1 md:flex-none px-3 py-2 md:px-7 md:py-3 text-white font-bold uppercase tracking-wider text-[10px] md:text-sm border border-white/20 hover:bg-white/10 transition-all duration-300"
+                        onClick={() => setIsLearnMoreOpen(true)}
+                    >
+                        Learn More
+                    </button>
                 </div>
             </div>
 
@@ -316,34 +341,47 @@ export default function PaperPage({ params }) {
                         </div>
 
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                            <div>
-                                <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Date</p>
-                                <p className="text-white font-semibold text-lg">
-                                    {getDateDay(paperDetail.date)} {getDateMonth(paperDetail.date)}
-                                </p>
-                            </div>
-                            <div>
-                                <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Time</p>
-                                <p className="text-white font-semibold text-lg">
-                                    {paperDetail.startTime && paperDetail.endTime
-                                        ? `${paperDetail.startTime} – ${paperDetail.endTime}`
-                                        : paperDetail.time || "TBA"}
-                                </p>
-                            </div>
-                            <div>
-                                <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Venue</p>
-                                <p className="text-white font-semibold text-lg">{paperDetail.hall || "TBA"}</p>
-                            </div>
-                            <div>
-                                <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Team Size</p>
-                                <p className="text-white font-semibold text-lg">
-                                    {paperDetail.teamSize} Member{paperDetail.teamSize !== "1" ? "s" : ""}
-                                </p>
-                            </div>
+                            {is_venue_available && (
+                                <div>
+                                    <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Date</p>
+                                    <p className="text-white font-semibold text-lg">
+                                        {getDateDay(paperDetail.date)} {getDateMonth(paperDetail.date)}
+                                    </p>
+                                </div>
+                            )}
+                            {is_venue_available ? (
+                                <>
+                                    <div>
+                                        <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Time</p>
+                                        <p className="text-white font-semibold text-lg">
+                                            {paperDetail.startTime && paperDetail.endTime
+                                                ? `${paperDetail.startTime} – ${paperDetail.endTime}`
+                                                : paperDetail.time || "TBA"}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Venue</p>
+                                        <p className="text-white font-semibold text-lg">{paperDetail.hall || "TBA"}</p>
+                                    </div>
+                                </>
+                            ) : (
+                                <div className="col-span-2 md:col-span-3">
+                                    <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Event Details</p>
+                                    <p className="text-white font-semibold text-lg">Venue and Time will be announced soon</p>
+                                </div>
+                            )}
+                            {is_venue_available && (
+                                <div>
+                                    <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Team Size</p>
+                                    <p className="text-white font-semibold text-lg">
+                                        {paperDetail.teamSize} Member{paperDetail.teamSize !== "1" ? "s" : ""}
+                                    </p>
+                                </div>
+                            )}
                         </div>
 
                         {/* Duration row */}
-                        {paperDetail.duration && (
+                        {is_venue_available && paperDetail.duration && (
                             <div className="mt-6 pt-4 border-t border-white/10">
                                 <p className="text-xs uppercase tracking-widest mb-1.5 font-bold" style={{ color: accent.primary }}>Duration</p>
                                 <p className="text-white font-semibold text-lg">{paperDetail.duration} Hours</p>
@@ -461,6 +499,14 @@ export default function PaperPage({ params }) {
                     </div>
                 </div>
             </div>
+
+            {/* ===== Learn More Modal ===== */}
+            {isLearnMoreOpen && (
+                <EventDetailsModal
+                    eventDetail={getMappedPaperDetail()}
+                    onClose={() => setIsLearnMoreOpen(false)}
+                />
+            )}
 
             {/* ===== Registration Modal ===== */}
             {isModalOpen && (

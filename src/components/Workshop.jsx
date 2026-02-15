@@ -7,6 +7,7 @@ import Image from "next/image";
 import axios from "axios";
 import { TiLocationArrow, TiCalendar } from "react-icons/ti";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
+import { is_venue_available } from "@/settings/featureFlags";
 
 const STATIC_IMAGES = [
   "/img/workshops/ws1.png",
@@ -209,16 +210,20 @@ const WorkshopCard = ({ item, isHovered, isSiblingHovered, onHover, onLeave, ind
             </h3>
 
             {/* Date - Always white */}
-            <div className="flex items-center gap-2 text-white/90 text-sm mb-3 font-medium drop-shadow-sm">
-              <TiCalendar className="text-lg text-white" />
-              <span>{formatDate(item.date)}</span>
-            </div>
+            {is_venue_available && (
+              <div className="flex items-center gap-2 text-white/90 text-sm mb-3 font-medium drop-shadow-sm">
+                <TiCalendar className="text-lg text-white" />
+                <span>{formatDate(item.date)}</span>
+              </div>
+            )}
 
             {/* Venue - Visible on Mobile or when not hovered */}
-            <div className="flex items-center gap-2 text-white text-xs mb-5 font-medium drop-shadow-sm uppercase tracking-wide">
-              <span className="text-white">Venue:</span>
-              <span>{item.hall}</span>
-            </div>
+            {is_venue_available && (
+              <div className="flex items-center gap-2 text-white text-xs mb-5 font-medium drop-shadow-sm uppercase tracking-wide">
+                <span className="text-white">Venue:</span>
+                <span>{item.hall}</span>
+              </div>
+            )}
 
             {/* ACTION BUTTON - Premium "Learn More" */}
             <button
@@ -268,30 +273,34 @@ const WorkshopCard = ({ item, isHovered, isSiblingHovered, onHover, onLeave, ind
                 </motion.div>
 
                 {/* Time */}
-                <motion.div
-                  className="flex flex-col"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.06, duration: 0.15 }}
-                >
-                  <span className="text-blue-400 text-[10px] uppercase font-bold tracking-widest mb-1">Time</span>
-                  <span className="text-white text-sm font-circular-web flex items-center gap-2 text-shadow-sm">
-                    <TiLocationArrow className="rotate-45 text-blue-400" /> {item.startTime && item.endTime ? `${item.startTime} - ${item.endTime}` : item.time}
-                  </span>
-                </motion.div>
+                {is_venue_available && (
+                  <motion.div
+                    className="flex flex-col"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.06, duration: 0.15 }}
+                  >
+                    <span className="text-blue-400 text-[10px] uppercase font-bold tracking-widest mb-1">Time</span>
+                    <span className="text-white text-sm font-circular-web flex items-center gap-2 text-shadow-sm">
+                      <TiLocationArrow className="rotate-45 text-blue-400" /> {item.startTime && item.endTime ? `${item.startTime} - ${item.endTime}` : item.time}
+                    </span>
+                  </motion.div>
+                )}
 
                 {/* Venue */}
-                <motion.div
-                  className="flex flex-col"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.09, duration: 0.15 }}
-                >
-                  <span className="text-blue-400 text-[10px] uppercase font-bold tracking-widest mb-1">Venue</span>
-                  <span className="text-white text-sm font-circular-web leading-tight text-shadow-sm">
-                    {item.hall}
-                  </span>
-                </motion.div>
+                {is_venue_available && (
+                  <motion.div
+                    className="flex flex-col"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.09, duration: 0.15 }}
+                  >
+                    <span className="text-blue-400 text-[10px] uppercase font-bold tracking-widest mb-1">Venue</span>
+                    <span className="text-white text-sm font-circular-web leading-tight text-shadow-sm">
+                      {item.hall}
+                    </span>
+                  </motion.div>
+                )}
 
                 {/* Description */}
                 <motion.div
