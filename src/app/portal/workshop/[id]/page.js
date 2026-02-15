@@ -1,6 +1,7 @@
 "use client";
 import { IoMdCall, IoLogoWhatsapp, IoMdArrowBack } from "react-icons/io";
 import { useRouter, useParams } from "next/navigation";
+import { isPreRegistrationEnabled } from "@/settings/featureFlags";
 import { useState, useRef, useEffect } from "react";
 import { eventService } from "../../../../services/eventservice";
 import ConfirmationModal from "@/components/ConfirmationModal";
@@ -172,23 +173,25 @@ export default function WorkshopPage({ params }) {
         </div>
 
         <div className="flex items-center gap-3 w-full md:w-auto justify-center md:justify-end">
-          <button
-            className="flex-1 md:flex-none px-3 py-2 md:px-7 md:py-3 font-bold uppercase tracking-wider text-[10px] md:text-sm transition-all duration-300 border"
-            disabled={isRegisteredForWorkshop() || workshopDetail.closed}
-            onClick={() => setIsModalOpen(true)}
-            style={{
-              background: isRegisteredForWorkshop() ? accent.primary : 'transparent',
-              color: isRegisteredForWorkshop() ? '#0a0a0a' : 'white',
-              borderColor: accent.primary,
-            }}
-          >
-            {userWorkshopDetails && (
-              <>
-                {isRegisteredForWorkshop() ? "Registered" : workshopDetail.closed ? "Closed" : "Register"}
-              </>
-            )}
-            {!userWorkshopDetails && <>{workshopDetail.closed ? "Closed" : "Register"}</>}
-          </button>
+          {!isPreRegistrationEnabled && (
+            <button
+              className="flex-1 md:flex-none px-3 py-2 md:px-7 md:py-3 font-bold uppercase tracking-wider text-[10px] md:text-sm transition-all duration-300 border"
+              disabled={isRegisteredForWorkshop() || workshopDetail.closed}
+              onClick={() => setIsModalOpen(true)}
+              style={{
+                background: isRegisteredForWorkshop() ? accent.primary : 'transparent',
+                color: isRegisteredForWorkshop() ? '#0a0a0a' : 'white',
+                borderColor: accent.primary,
+              }}
+            >
+              {userWorkshopDetails && (
+                <>
+                  {isRegisteredForWorkshop() ? "Registered" : workshopDetail.closed ? "Closed" : "Register"}
+                </>
+              )}
+              {!userWorkshopDetails && <>{workshopDetail.closed ? "Closed" : "Register"}</>}
+            </button>
+          )}
 
           <button
             className="flex-1 md:flex-none px-3 py-2 md:px-7 md:py-3 text-white font-bold uppercase tracking-wider text-[10px] md:text-sm border border-white/20 hover:bg-white/10 transition-all duration-300"

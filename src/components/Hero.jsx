@@ -6,10 +6,11 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/all";
 import { TiLocationArrow, TiUser } from "react-icons/ti";
 import { FaEnvelope, FaLinkedin, FaInstagram } from "react-icons/fa";
-import { useEffect, useRef, useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 
 import Button from "./Button";
+import { isPreRegistrationEnabled } from "@/settings/featureFlags";
 
 const Hero = ({ preloaderComplete = true }) => {
   const router = useRouter();
@@ -202,7 +203,7 @@ const Hero = ({ preloaderComplete = true }) => {
 
           <div className="pointer-events-auto flex flex-col sm:flex-row gap-4 justify-center items-stretch w-[80%] mx-auto">
             <Button
-              title={isAuthenticated ? "MY PROFILE" : "REGISTER NOW"}
+              title={isAuthenticated ? "MY PROFILE" : (isPreRegistrationEnabled ? "PRE-REGISTER NOW" : "REGISTER NOW")}
               containerClass="bg-blue-400 hover:bg-purple-700 flex-center gap-2 px-4 py-3 rounded-full font-zentry font-semibold transition-all duration-300 transform hover:scale-105 w-full"
               leftIcon={isAuthenticated ? <TiUser className="w-4 h-4" /> : <TiLocationArrow className="w-4 h-4" />}
               onClick={() => router.push(isAuthenticated ? '/profile' : '/auth')}
@@ -305,7 +306,7 @@ const Hero = ({ preloaderComplete = true }) => {
               {/* Buttons */}
               <div className="flex-center gap-6">
                 <Button
-                  title={isAuthenticated ? "MY PROFILE" : "REGISTER NOW"}
+                  title={isAuthenticated ? "MY PROFILE" : (isPreRegistrationEnabled ? "PRE-REGISTER NOW" : "REGISTER NOW")}
                   titleClass="font-bold"
                   containerClass="bg-blue-400 font-bold flex-center gap-2 px-8 py-4 rounded-xl font-zentry text-xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 pointer-events-auto"
                   leftIcon={isAuthenticated ? <TiUser className="w-5 h-5" /> : <TiLocationArrow className="w-5 h-5 group-hover:animate-bounce" />}

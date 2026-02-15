@@ -2,6 +2,7 @@
 import { IoMdCall, IoLogoWhatsapp, IoMdArrowBack } from "react-icons/io";
 import { SiGmail } from "react-icons/si";
 import { useRouter, useParams } from "next/navigation";
+import { isPreRegistrationEnabled } from "@/settings/featureFlags";
 import { useState, useEffect } from "react";
 import { eventService } from "../../../../services/eventservice";
 import ConfirmationModal from "@/components/ConfirmationModal";
@@ -186,23 +187,25 @@ export default function PaperPage({ params }) {
                 </div>
 
                 <div className="flex items-center gap-3 w-full md:w-auto justify-center md:justify-end">
-                    <button
-                        className="flex-1 md:flex-none px-3 py-2 md:px-7 md:py-3 font-bold uppercase tracking-wider text-[10px] md:text-sm transition-all duration-300 border"
-                        disabled={isRegisteredForPaper() || paperDetail.closed}
-                        onClick={() => setIsModalOpen(true)}
-                        style={{
-                            background: isRegisteredForPaper() ? accent.primary : 'transparent',
-                            color: isRegisteredForPaper() ? '#0a0a0a' : 'white',
-                            borderColor: accent.primary,
-                        }}
-                    >
-                        {userPaperDetails && (
-                            <>
-                                {isRegisteredForPaper() ? "Registered" : paperDetail.closed ? "Closed" : "Register"}
-                            </>
-                        )}
-                        {!userPaperDetails && <>{paperDetail.closed ? "Closed" : "Register"}</>}
-                    </button>
+                    {!isPreRegistrationEnabled && (
+                        <button
+                            className="flex-1 md:flex-none px-3 py-2 md:px-7 md:py-3 font-bold uppercase tracking-wider text-[10px] md:text-sm transition-all duration-300 border"
+                            disabled={isRegisteredForPaper() || paperDetail.closed}
+                            onClick={() => setIsModalOpen(true)}
+                            style={{
+                                background: isRegisteredForPaper() ? accent.primary : 'transparent',
+                                color: isRegisteredForPaper() ? '#0a0a0a' : 'white',
+                                borderColor: accent.primary,
+                            }}
+                        >
+                            {userPaperDetails && (
+                                <>
+                                    {isRegisteredForPaper() ? "Registered" : paperDetail.closed ? "Closed" : "Register"}
+                                </>
+                            )}
+                            {!userPaperDetails && <>{paperDetail.closed ? "Closed" : "Register"}</>}
+                        </button>
+                    )}
                 </div>
             </div>
 

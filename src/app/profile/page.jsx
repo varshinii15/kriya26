@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { isPreRegistrationEnabled } from "@/settings/featureFlags";
 import Navbar from "@/components/Navbar";
 import ProfileHeader from "@/components/profile/ProfileHeader";
 import StatsGrid from "@/components/profile/StatsGrid";
@@ -182,7 +183,7 @@ export default function ProfilePage() {
     const hasPaperPresentations = papers.length > 0;
 
     // Check if user is from PSG colleges based on email (no accommodation needed)
-    const isPSGStudent = user?.email ? 
+    const isPSGStudent = user?.email ?
         (user.email.toLowerCase().endsWith('@psgtech.ac.in')) : false;
 
     // Don't render anything if not authenticated (redirect will happen)
@@ -202,6 +203,53 @@ export default function ProfilePage() {
             setIsLoggingOut(false);
         }
     };
+
+    // Pre-registration view
+    if (isPreRegistrationEnabled) {
+        return (
+            <div className="min-h-screen w-full bg-black text-white pt-28 pb-20 px-4 md:px-8 lg:px-12 relative">
+                {!isLoading && <Navbar />}
+                {/* Vanta Waves Background - Fixed to screen, always mounted */}
+                <div ref={vantaRef} className="fixed inset-0 w-screen h-screen z-0"></div>
+
+                {/* Loading Overlay */}
+                {isLoading ? (
+                    <div className="fixed inset-0 z-10 flex items-center justify-center">
+                        <div className="text-center">
+                            <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                            <p className="font-general text-sm uppercase tracking-wider text-gray-400">Loading Profile...</p>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="max-w-4xl mx-auto space-y-6 relative z-10">
+                        {/* Notification Banner */}
+                        <div className="bg-blue-600/20 border border-blue-400 p-4 rounded-xl text-center backdrop-blur-md">
+                            <p className="font-general font-medium text-white tracking-wide drop-shadow-md">
+                                You will be notified once registrations opens
+                            </p>
+                        </div>
+
+                        {/* Row 1: Profile Header (Full Width) */}
+                        <section>
+                            <ProfileHeader
+                                user={userData}
+                                onLogout={handleLogout}
+                                isLoggingOut={isLoggingOut}
+                                onProfileUpdate={handleProfileUpdate}
+                            />
+                        </section>
+
+                        {/* Row 3: QR Code Section (Left) */}
+                        <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                            <div className="lg:col-span-12">
+                                <QRCodeSection ticketId={userData.kriyaId} />
+                            </div>
+                        </section>
+                    </div>
+                )}
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen w-full bg-black text-white pt-28 pb-20 px-4 md:px-8 lg:px-12 relative">
@@ -252,10 +300,10 @@ export default function ProfilePage() {
                         <>
                             {/* Row 1: Profile Header (Full Width) */}
                             <section>
-                                <ProfileHeader 
-                                    user={userData} 
-                                    onLogout={handleLogout} 
-                                    isLoggingOut={isLoggingOut} 
+                                <ProfileHeader
+                                    user={userData}
+                                    onLogout={handleLogout}
+                                    isLoggingOut={isLoggingOut}
                                     onProfileUpdate={handleProfileUpdate}
                                 />
                             </section>
