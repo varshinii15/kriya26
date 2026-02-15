@@ -16,6 +16,7 @@ import MenuToggle from "./MenuToggle";
 import { FaRegUserCircle } from "react-icons/fa";
 import { IoMdLogOut } from "react-icons/io";
 import { eventService } from "../../services/eventservice";
+import { useAuth } from "@/context/AuthContext";
 
 // Featured event IDs
 const GOLD_EVENT_IDS = ["EVNT34", "EVNT20", "EVNT09", "EVNT25", "EVNT32"];
@@ -30,6 +31,9 @@ const NavBarForMobile = () => {
   const [platinumEvents, setPlatinumEvents] = useState([]);
   const [userDetails, setUserDetails] = useState();
   const [token, setToken] = useState();
+
+  const { user } = useAuth();
+  const isPSGStudent = user?.email?.toLowerCase().endsWith('@psgtech.ac.in');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -197,6 +201,17 @@ const NavBarForMobile = () => {
                 <span className="tracking-wide">{item.label}</span>
               </Link>
             ))}
+            {/* Accommodation - only for non-PSG students */}
+            {!isPSGStudent && (
+              <Link
+                href="/profile?tab=accommodation"
+                onClick={() => setIsOpen(false)}
+                className="flex items-center w-full px-4 py-3 space-x-4 text-sm font-medium text-gray-400 hover:text-white hover:bg-[#111] rounded-lg transition-all"
+              >
+                <span className="text-xl opacity-70"><BiBuildingHouse /></span>
+                <span className="tracking-wide">Accommodation</span>
+              </Link>
+            )}
           </section>
 
           {/* Deep Navigation */}

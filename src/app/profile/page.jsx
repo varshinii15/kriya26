@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { isPreRegistrationEnabled } from "@/settings/featureFlags";
 import Navbar from "@/components/Navbar";
 import ProfileHeader from "@/components/profile/ProfileHeader";
@@ -41,6 +41,7 @@ const transformEvent = (item, itemType) => ({
 
 export default function ProfilePage() {
     const router = useRouter();
+    const searchParams = useSearchParams();
     const { user, loading: authLoading, isAuthenticated, logout, refreshUser } = useAuth();
     const [activeTab, setActiveTab] = useState("profile");
     const [events, setEvents] = useState([]);
@@ -169,7 +170,6 @@ export default function ProfilePage() {
         phone: user.phone || 'Not Set',
         department: user.department || 'Not Set',
         year: user.year || '?',
-        avatar: user.avatar || '/img/gallery-1.webp',
         isPaid: user.generalFeePaid
     } : {};
 
@@ -186,6 +186,14 @@ export default function ProfilePage() {
     // Check if user is from PSG colleges based on email (no accommodation needed)
     const isPSGStudent = user?.email ?
         (user.email.toLowerCase().endsWith('@psgtech.ac.in')) : false;
+
+    // Read tab from query parameter (only for non-PSG students)
+    useEffect(() => {
+        const tabParam = searchParams.get('tab');
+        if (tabParam === 'accommodation' && !isPSGStudent) {
+            setActiveTab('accommodation');
+        }
+    }, [searchParams, isPSGStudent]);
 
     // Don't render anything if not authenticated (redirect will happen)
     if (!authLoading && !isAuthenticated) {

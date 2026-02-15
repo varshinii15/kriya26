@@ -13,6 +13,7 @@ import GoldNav from "./GoldNav";
 import PaperNav from "./PaperNav";
 import { IoMdLogOut } from "react-icons/io";
 import { eventService } from "../../services/eventservice";
+import { useAuth } from "@/context/AuthContext";
 
 // Featured event IDs
 const GOLD_EVENT_IDS = ["EVNT34", "EVNT20", "EVNT09", "EVNT25", "EVNT32"];
@@ -28,6 +29,8 @@ const NavBarForDesktop = () => {
   const [loading, setLoading] = useState(true);
 
   const router = useRouter();
+  const { user } = useAuth();
+  const isPSGStudent = user?.email?.toLowerCase().endsWith('@psgtech.ac.in');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -175,6 +178,16 @@ const NavBarForDesktop = () => {
               <span className="tracking-wide">{item.label}</span>
             </Link>
           ))}
+          {/* Accommodation - only for non-PSG students */}
+          {!isPSGStudent && (
+            <Link
+              href="/profile?tab=accommodation"
+              className="flex items-center w-full px-4 py-3 space-x-4 text-sm font-medium transition-all duration-200 rounded-lg text-gray-400 hover:text-white hover:bg-[#1a1a1a]"
+            >
+              <span className="text-xl opacity-70"><BiBuildingHouse /></span>
+              <span className="tracking-wide">Accommodation</span>
+            </Link>
+          )}
         </section>
 
         {/* Categories / Sections */}

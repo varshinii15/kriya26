@@ -318,22 +318,36 @@ const NavBar = () => {
                   )} />
                 </Link>
               ) : (
-                <Link href="/profile" className="relative group p-2">
-                  <div className={clsx(
-                    "absolute inset-0 scale-0 group-hover:scale-100 transition-transform duration-300",
-                    headerIsWhite ? "bg-black/10" : "bg-white/10"
-                  )} />
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className={clsx(
-                      "w-6 h-6 md:w-7 md:h-7 transition-colors relative z-10",
-                      headerIsWhite ? "text-black group-hover:text-blue-600" : "text-white group-hover:text-blue-400"
-                    )}
-                  >
-                    <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clipRule="evenodd" />
-                  </svg>
+                <Link href="/profile" className="relative group p-1">
+                  {typeof window !== 'undefined' && localStorage.getItem('kriya_avatar') ? (
+                    <div className="w-8 h-8 md:w-9 md:h-9 rounded-full overflow-hidden border-2 border-white/30 group-hover:border-blue-400 transition-all relative">
+                      <Image
+                        src={`/profile/${localStorage.getItem('kriya_avatar')}.png`}
+                        alt="Profile"
+                        fill
+                        sizes="36px"
+                        className="object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <>
+                      <div className={clsx(
+                        "absolute inset-0 scale-0 group-hover:scale-100 transition-transform duration-300",
+                        headerIsWhite ? "bg-black/10" : "bg-white/10"
+                      )} />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className={clsx(
+                          "w-6 h-6 md:w-7 md:h-7 transition-colors relative z-10",
+                          headerIsWhite ? "text-black group-hover:text-blue-600" : "text-white group-hover:text-blue-400"
+                        )}
+                      >
+                        <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clipRule="evenodd" />
+                      </svg>
+                    </>
+                  )}
                 </Link>
               )}
             </div>
