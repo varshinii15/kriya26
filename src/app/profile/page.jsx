@@ -245,6 +245,17 @@ function ProfilePageContent() {
                                 >
                                     Profile
                                 </button>
+                                {!isPSGStudent && (
+                                    <button
+                                        onClick={() => setActiveTab("accommodation")}
+                                        className={`px-6 py-3 font-general text-sm uppercase tracking-wider transition-colors ${activeTab === "accommodation"
+                                            ? "text-white border-b-2 border-blue-500"
+                                            : "text-gray-500 hover:text-gray-300"
+                                            }`}
+                                    >
+                                        Accommodation
+                                    </button>
+                                )}
                                 <button
                                     onClick={() => setActiveTab("ambassador")}
                                     className={`px-6 py-3 font-general text-sm uppercase tracking-wider transition-colors ${activeTab === "ambassador"
@@ -283,6 +294,15 @@ function ProfilePageContent() {
                                     </div>
                                 </section>
                             </>
+                        )}
+
+                        {!isPSGStudent && activeTab === "accommodation" && (
+                            <section className="min-h-[400px] flex items-center justify-center border border-white/10 rounded-xl bg-white/5 backdrop-blur-md">
+                                <div className="text-center">
+                                    <h2 className="font-zentry text-4xl text-white uppercase mb-4">Accommodation</h2>
+                                    <p className="font-circular-web text-gray-400">Coming Soon</p>
+                                </div>
+                            </section>
                         )}
 
                         {activeTab === "ambassador" && (
