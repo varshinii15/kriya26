@@ -378,6 +378,7 @@ export default function RegisterComponent() {
                                     <option value="2" className="bg-black">Year 2</option>
                                     <option value="3" className="bg-black">Year 3</option>
                                     <option value="4" className="bg-black">Year 4</option>
+                                    <option value="5" className="bg-black">Year 5</option>
                                 </select>
                             </div>
                         </div>
