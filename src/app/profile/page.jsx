@@ -1,5 +1,5 @@
 "use client";
-import React, { Suspense, useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { isPreRegistrationEnabled } from "@/settings/featureFlags";
 import Navbar from "@/components/Navbar";
