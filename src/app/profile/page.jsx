@@ -187,11 +187,13 @@ export default function ProfilePage() {
     const isPSGStudent = user?.email ?
         (user.email.toLowerCase().endsWith('@psgtech.ac.in')) : false;
 
-    // Read tab from query parameter (only for non-PSG students)
+    // Read tab from query parameter
     useEffect(() => {
         const tabParam = searchParams.get('tab');
         if (tabParam === 'accommodation' && !isPSGStudent) {
             setActiveTab('accommodation');
+        } else if (tabParam === 'ambassador') {
+            setActiveTab('ambassador');
         }
     }, [searchParams, isPSGStudent]);
 
@@ -280,8 +282,8 @@ export default function ProfilePage() {
                 <div className="max-w-4xl mx-auto space-y-6 relative z-10">
 
                     {/* Tab Navigation */}
-                    <div className="flex items-center border-b border-white/10 mb-2">
-                        <div className="flex gap-1">
+                    <div className="flex items-center border-b border-white/10 mb-2 overflow-x-auto scrollbar-hide">
+                        <div className="flex gap-1 min-w-max">
                             <button
                                 onClick={() => setActiveTab("profile")}
                                 className={`px-6 py-3 font-general text-sm uppercase tracking-wider transition-colors ${activeTab === "profile"
@@ -302,6 +304,15 @@ export default function ProfilePage() {
                                     Accommodation
                                 </button>
                             )}
+                            <button
+                                onClick={() => setActiveTab("ambassador")}
+                                className={`px-6 py-3 font-general text-sm uppercase tracking-wider transition-colors ${activeTab === "ambassador"
+                                    ? "text-white border-b-2 border-blue-500"
+                                    : "text-gray-500 hover:text-gray-300"
+                                    }`}
+                            >
+                                Ambassador
+                            </button>
                         </div>
                     </div>
 
@@ -399,6 +410,18 @@ export default function ProfilePage() {
                             <div className="text-center">
                                 <h2 className="font-zentry text-4xl text-white uppercase mb-4">Accommodation</h2>
                                 <p className="font-circular-web text-gray-400">Coming Soon</p>
+                            </div>
+                        </section>
+                    )}
+
+                    {activeTab === "ambassador" && (
+                        <section className="min-h-[400px] flex items-center justify-center border border-white/10 rounded-xl bg-white/5 backdrop-blur-md p-8">
+                            <div className="text-center max-w-lg">
+                                <h2 className="font-zentry text-4xl text-white uppercase mb-4">Campus Ambassador</h2>
+                                <p className="font-circular-web text-gray-300 text-lg leading-relaxed mb-6">
+                                    Represent Kriya on your campus. Get your unique referral code, bring your crew to register & pay — and <span className="text-blue-400 font-bold">the more they join, the bigger your rewards</span>.
+                                </p>
+                                <p className="font-general text-sm uppercase tracking-widest text-gray-500">Coming Soon</p>
                             </div>
                         </section>
                     )}

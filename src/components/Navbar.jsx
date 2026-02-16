@@ -21,7 +21,7 @@ const navItems = [
   },
   {
     label: "Ambassador",
-    link: "/portal/ambassador"
+    link: "/profile?tab=ambassador"
   },
   {
     label: "Contact",
