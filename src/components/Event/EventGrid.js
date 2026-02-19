@@ -100,12 +100,15 @@ const EventGrid = ({
 
     if (categoryLower === "platinum") return "#C0C0C0"; // Silver
     if (categoryLower === "gold") return "#D9972B"; // Gold
-    if (categoryLower === "quiz") return "#98D0FF"; // Blue
+    if (categoryLower === "quiz") return "#E53935"; // Red
     if (categoryLower === "core engineering") return "#F34F44"; // Red
-    if (categoryLower === "coding") return "#3AC49C"; // Green
-    if (categoryLower === "bot") return "#3AC49C"; // Green (same as coding)
-    if (categoryLower === "fashion and textile") return "#B48EEB"; // Purple
+    if (categoryLower === "coding") return "#9E9E9E"; // Grey
+    if (categoryLower === "bot") return "#3AC49C"; // Green (same as before)
+    if (categoryLower === "fashion and textile") return "#E53935"; // Red
     if (categoryLower === "science and technology") return "#B0E369"; // Light Green
+    if (categoryLower === "event") return "#FDD835"; // Yellow
+    if (categoryLower === "workshop") return "#424242"; // Dark Grey
+    if (categoryLower === "paper") return "#8E24AA"; // Purple
 
     return "#181818"; // Default dark color
   };

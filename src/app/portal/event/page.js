@@ -265,7 +265,7 @@ const EventList = () => {
             >
               <h1
                 className="special-font text-5xl font-black text-center pt-8 uppercase"
-                style={{ color: '#98D0FF' }}
+                style={{ color: '#E53935' }}
                 id="quiz"
                 hidden={
                   filteredEvents.filter((i) => i.category === "Quiz").length === 0
@@ -320,7 +320,7 @@ const EventList = () => {
             >
               <h1
                 className="special-font text-5xl font-black text-center pt-8 uppercase"
-                style={{ color: '#3AC49C' }}
+                style={{ color: '#9E9E9E' }}
                 id="coding"
                 hidden={
                   filteredEvents.filter((i) => i.category === "Coding").length ===
@@ -374,7 +374,7 @@ const EventList = () => {
             >
               <h1
                 className="special-font text-4xl font-black text-center pt-8 uppercase"
-                style={{ color: '#B48EEB' }}
+                style={{ color: '#E53935' }}
                 id="fashion"
                 hidden={
                   filteredEvents.filter(
