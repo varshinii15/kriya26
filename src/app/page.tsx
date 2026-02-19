@@ -19,6 +19,7 @@ const PaperPresentation = React.memo(
 const Sponsors = React.memo(dynamic(() => import("@/components/Sponsors")));
 const Team = React.memo(dynamic(() => import("@/components/Team")));
 const Faq = React.memo(dynamic(() => import("@/components/Faq")));
+const Location = React.memo(dynamic(() => import("@/components/Location")));
 const Contact = React.memo(dynamic(() => import("@/components/Contact")));
 
 export default function Home() {
@@ -58,6 +59,7 @@ export default function Home() {
       <Sponsors />
       <Team />
       <Faq />
+      <Location />
       <Contact />
     </main>
   );

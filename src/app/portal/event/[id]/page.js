@@ -256,7 +256,7 @@ export default function Home({ params }) {
             </h1>
 
             {/* Description */}
-            <div className="text-base md:text-lg text-white/70 leading-relaxed mt-2">
+            <div className="text-base md:text-lg text-white/70 leading-relaxed mt-2 text-justify">
               {eventDetail.description}
             </div>
 
@@ -408,52 +408,23 @@ export default function Home({ params }) {
           </div>
         </div>
 
-        {/* Bottom Section: Rounds + Convenors */}
+        {/* Bottom Section: Convenors */}
         <div className="flex flex-col lg:flex-row gap-8 w-full">
-          {/* Left: Rounds + Convenors */}
-          <div className="w-full lg:w-7/12 flex flex-col gap-8">
-            {/* Round Details */}
-            {eventDetail.rounds && eventDetail.rounds.length > 0 && (
-              <div className="glass-card p-6 md:p-8">
-                <h3 className="special-font text-2xl md:text-3xl font-bold uppercase tracking-widest text-white mb-6 flex items-center gap-3">
-                  <span className="w-1 h-8 rounded-full" style={{ background: accent.primary }} />
-                  <b>Round Details</b>
-                </h3>
-                <div className="space-y-8">
-                  {eventDetail.rounds.map((round, index) => {
-                    const roundNumber = index + 1;
-                    return round ? (
-                      <div key={roundNumber} className="w-full">
-                        <div className="flex items-center mb-4 gap-4">
-                          <span className="text-4xl md:text-5xl font-black" style={{ color: accent.primary, opacity: 0.6 }}>
-                            {String(roundNumber).padStart(2, "0")}
-                          </span>
-                          <div>
-                            <h5 className="font-bold text-base md:text-lg text-white uppercase tracking-wide">
-                              Round {roundNumber}
-                            </h5>
-                            <p className="text-white/50 font-semibold text-sm">{round.title}</p>
-                          </div>
-                        </div>
-                        <div className="ml-16 md:ml-20 border-l border-white/10 pl-4">
-                          {round.description
-                            .replace(/\r\n/g, "\n\r")
-                            .split("\n")
-                            .map((line, idx) => (
-                              <p key={idx} className={`text-sm md:text-base text-white/60 flex items-start mb-1.5 ${line.startsWith("\r") ? "ml-4" : ""}`}>
-                                <span className="mr-2 mt-1" style={{ color: accent.primary }}>
-                                  •
-                                </span>
-                                {line.trim()}
-                              </p>
-                            ))}
-                        </div>
-                      </div>
-                    ) : null;
-                  })}
-                </div>
-              </div>
-            )}
+          {/* Left: Convenors */}
+          <div className="w-full flex flex-col gap-8">
+            {/* View Rules & Rounds Button */}
+            <button
+              onClick={() => setIsLearnMoreOpen(true)}
+              className="w-full py-4 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 text-white font-bold uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-3 group relative overflow-hidden"
+              style={{
+                borderColor: `${accent.primary}40`,
+                background: `linear-gradient(90deg, ${accent.primary}10, transparent, ${accent.primary}10)`
+              }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+              <span className="text-lg relative z-10" style={{ textShadow: `0 0 20px ${accent.primary}80` }}>View Rules & Rounds</span>
+              <IoMdArrowBack className="group-hover:translate-x-1 transition-transform rotate-180 text-xl relative z-10" style={{ color: accent.primary }} />
+            </button>
 
             {/* Convenors */}
             {eventDetail.contacts && eventDetail.contacts.length > 0 && (
@@ -480,59 +451,6 @@ export default function Home({ params }) {
                         </div>
                       )
                   )}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Right: Event Image / Visual */}
-          <div className="w-full lg:w-5/12 flex flex-col gap-6">
-            <div className="glass-card overflow-hidden rounded-2xl h-[350px] lg:h-[420px] relative">
-              <Image
-                src={`/eventdetails/${eventDetail.eventId}.jpg`}
-                fill
-                sizes="(max-width: 768px) 100vw, 40vw"
-                alt={eventDetail.eventName}
-                className="object-cover opacity-80 hover:scale-105 transition-transform duration-700"
-              />
-              {/* Gradient overlay */}
-              <div
-                className="absolute inset-0"
-                style={{
-                  background: `linear-gradient(180deg, transparent 40%, ${accent.primary}15 70%, #0a0a0a 100%)`,
-                }}
-              />
-              {/* Event name overlay */}
-              <div className="absolute bottom-0 left-0 right-0 p-6">
-                <p className="text-white/40 text-xs uppercase tracking-widest font-bold mb-1">{eventDetail.category}</p>
-                <h3 className="special-font text-2xl md:text-3xl font-bold text-white uppercase">
-                  <b>{eventDetail.eventName}</b>
-                </h3>
-              </div>
-            </div>
-
-            {/* Rules Summary (if available) */}
-            {eventDetail.eventRules && eventDetail.eventRules.length > 0 && (
-              <div className="glass-card p-6">
-                <h3 className="text-sm font-bold uppercase tracking-widest text-white/50 mb-4">Rules</h3>
-                <div className="text-white/50 text-sm space-y-1.5 max-h-[300px] overflow-y-auto pr-2">
-                  {eventDetail.eventRules
-                    .split("\n")
-                    .filter((line) => line.trim())
-                    .map((line, index) => (
-                      <p
-                        key={index}
-                        className={
-                          line.includes("RULES:")
-                            ? "mt-3 font-bold text-white/70"
-                            : line.startsWith("->")
-                              ? "ml-4"
-                              : ""
-                        }
-                      >
-                        {line.startsWith("->") ? line.substring(2) : line}
-                      </p>
-                    ))}
                 </div>
               </div>
             )}

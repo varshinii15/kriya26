@@ -50,6 +50,11 @@ function ProfilePageContent() {
     const [dataLoading, setDataLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isLoggingOut, setIsLoggingOut] = useState(false);
+    const [activePopup, setActivePopup] = useState(null);
+    const [dismissedPopups, setDismissedPopups] = useState({
+        uploadIdCard: false,
+        payGeneralFee: false
+    });
     const vantaRef = useRef(null);
 
     // Handler to refresh user data after profile update
@@ -187,22 +192,42 @@ function ProfilePageContent() {
     const isPSGStudent = user?.email ?
         (user.email.toLowerCase().endsWith('@psgtech.ac.in')) : false;
 
+    const isIdCardUploaded = Boolean(user?.idCardUrl);
+    const isGeneralFeePaid = Boolean(user?.generalFeePaid);
+
     // Read tab from query parameter
     useEffect(() => {
         const tabParam = searchParams.get('tab');
         if (tabParam === 'accommodation' && !isPSGStudent) {
             setActiveTab('accommodation');
-        } else if (tabParam === 'ambassador') {
-            setActiveTab('ambassador');
         }
     }, [searchParams, isPSGStudent]);
+
+    const isLoading = authLoading || (isAuthenticated && dataLoading);
+
+    useEffect(() => {
+        if (isLoading || !isAuthenticated) {
+            setActivePopup(null);
+            return;
+        }
+
+        if (!isIdCardUploaded && !dismissedPopups.uploadIdCard) {
+            setActivePopup("uploadIdCard");
+            return;
+        }
+
+        if (!isGeneralFeePaid && !dismissedPopups.payGeneralFee) {
+            setActivePopup("payGeneralFee");
+            return;
+        }
+
+        setActivePopup(null);
+    }, [isLoading, isAuthenticated, isIdCardUploaded, isGeneralFeePaid, dismissedPopups]);
 
     // Don't render anything if not authenticated (redirect will happen)
     if (!authLoading && !isAuthenticated) {
         return null;
     }
-
-    const isLoading = authLoading || (isAuthenticated && dataLoading);
 
     const handleLogout = async () => {
         if (isLoggingOut) return;
@@ -213,6 +238,27 @@ function ProfilePageContent() {
         } finally {
             setIsLoggingOut(false);
         }
+    };
+
+    const closeActivePopup = () => {
+        if (!activePopup) return;
+        setDismissedPopups((prev) => ({ ...prev, [activePopup]: true }));
+    };
+
+    const handleUploadIdCardClick = () => {
+        closeActivePopup();
+        setActiveTab("profile");
+        setTimeout(() => {
+            document.getElementById("id-card-section")?.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+        }, 100);
+    };
+
+    const handlePayGeneralFeeClick = () => {
+        closeActivePopup();
+        router.push("/auth/payment?type=GENERAL");
     };
 
     // Pre-registration view
@@ -256,15 +302,6 @@ function ProfilePageContent() {
                                         Accommodation
                                     </button>
                                 )}
-                                <button
-                                    onClick={() => setActiveTab("ambassador")}
-                                    className={`px-6 py-3 font-general text-sm uppercase tracking-wider transition-colors ${activeTab === "ambassador"
-                                        ? "text-white border-b-2 border-blue-500"
-                                        : "text-gray-500 hover:text-gray-300"
-                                        }`}
-                                >
-                                    Ambassador
-                                </button>
                             </div>
                         </div>
 
@@ -301,18 +338,6 @@ function ProfilePageContent() {
                                 <div className="text-center">
                                     <h2 className="font-zentry text-4xl text-white uppercase mb-4">Accommodation</h2>
                                     <p className="font-circular-web text-gray-400">Coming Soon</p>
-                                </div>
-                            </section>
-                        )}
-
-                        {activeTab === "ambassador" && (
-                            <section className="min-h-[400px] flex items-center justify-center border border-white/10 rounded-xl bg-white/5 backdrop-blur-md p-8">
-                                <div className="text-center max-w-lg">
-                                    <h2 className="font-zentry text-4xl text-white uppercase mb-4">Campus Ambassador</h2>
-                                    <p className="font-circular-web text-gray-300 text-lg leading-relaxed mb-6">
-                                        Represent Kriya on your campus. Get your unique referral code, bring your crew to register & pay — and <span className="text-blue-400 font-bold">the more they join, the bigger your rewards</span>.
-                                    </p>
-                                    <p className="font-general text-sm uppercase tracking-widest text-gray-500">Coming Soon</p>
                                 </div>
                             </section>
                         )}
@@ -364,15 +389,6 @@ function ProfilePageContent() {
                                     Accommodation
                                 </button>
                             )}
-                            <button
-                                onClick={() => setActiveTab("ambassador")}
-                                className={`px-6 py-3 font-general text-sm uppercase tracking-wider transition-colors ${activeTab === "ambassador"
-                                    ? "text-white border-b-2 border-blue-500"
-                                    : "text-gray-500 hover:text-gray-300"
-                                    }`}
-                            >
-                                Ambassador
-                            </button>
                         </div>
                     </div>
 
@@ -393,7 +409,7 @@ function ProfilePageContent() {
                             </section>
 
                             {/* Row 2.5: ID Card Upload */}
-                            <section>
+                            <section id="id-card-section">
                                 <IdCardSection user={user} onRefresh={refreshUser} />
                             </section>
 
@@ -474,18 +490,35 @@ function ProfilePageContent() {
                         </section>
                     )}
 
-                    {activeTab === "ambassador" && (
-                        <section className="min-h-[400px] flex items-center justify-center border border-white/10 rounded-xl bg-white/5 backdrop-blur-md p-8">
-                            <div className="text-center max-w-lg">
-                                <h2 className="font-zentry text-4xl text-white uppercase mb-4">Campus Ambassador</h2>
-                                <p className="font-circular-web text-gray-300 text-lg leading-relaxed mb-6">
-                                    Represent Kriya on your campus. Get your unique referral code, bring your crew to register & pay — and <span className="text-blue-400 font-bold">the more they join, the bigger your rewards</span>.
-                                </p>
-                                <p className="font-general text-sm uppercase tracking-widest text-gray-500">Coming Soon</p>
-                            </div>
-                        </section>
-                    )}
+                </div>
+            )}
 
+            {activePopup && !isLoading && (
+                <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
+                    <div className="w-full max-w-md rounded-2xl border border-white/15 bg-black/90 p-6 text-white shadow-2xl">
+                        <h3 className="special-font text-3xl uppercase leading-[0.9]">
+                            {activePopup === "uploadIdCard" ? <b>Upload ID Card</b> : <b>Pay General Fee</b>}
+                        </h3>
+                        <p className="mt-3 font-circular-web text-sm text-gray-300">
+                            {activePopup === "uploadIdCard"
+                                ? "Please upload your college ID card to continue with registrations."
+                                : "Please complete your general fee payment to unlock event registrations."}
+                        </p>
+                        <div className="mt-6 flex gap-3">
+                            <button
+                                onClick={closeActivePopup}
+                                className="flex-1 rounded-lg border border-white/20 bg-white/5 px-4 py-2.5 font-general text-xs uppercase tracking-wider text-white hover:bg-white/10 transition-colors"
+                            >
+                                Close
+                            </button>
+                            <button
+                                onClick={activePopup === "uploadIdCard" ? handleUploadIdCardClick : handlePayGeneralFeeClick}
+                                className="flex-1 rounded-lg border border-blue-400 bg-blue-500 px-4 py-2.5 font-general text-xs uppercase tracking-wider text-white hover:bg-blue-600 transition-colors"
+                            >
+                                {activePopup === "uploadIdCard" ? "Upload Now" : "Pay Now"}
+                            </button>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>
@@ -499,3 +532,4 @@ export default function ProfilePage() {
         </Suspense>
     );
 }
+

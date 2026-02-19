@@ -20,10 +20,6 @@ const navItems = [
     link: "https://kriya26-campusmap.vercel.app"
   },
   {
-    label: "Ambassador",
-    link: "/profile?tab=ambassador"
-  },
-  {
     label: "Contact",
     link: "#contact"
   }
@@ -211,11 +207,11 @@ const NavBar = () => {
             {/* Institutional Logos (Visible only on Desktop) */}
             <div className="hidden md:flex items-center gap-2 lg:gap-4 opacity-90 hover:opacity-100 transition-opacity">
               <Image
-                src="/Logo/PSG_LOGO_v2.png"
-                alt="PSG Logo"
+                src={headerIsWhite ? "/Logo/100yearsLogo_white.png" : "/Logo/100yrlogo_v2.png"}
+                alt="100 Years Logo"
                 width={60}
                 height={60}
-                className="h-10 lg:h-12 w-auto object-contain"
+                className="h-8 lg:h-10 w-auto object-contain"
               />
               <Image
                 src="/Logo/Year75w.png"
@@ -225,12 +221,19 @@ const NavBar = () => {
                 className="h-8 lg:h-10 w-auto object-contain"
               />
               <Image
-                src={headerIsWhite ? "/Logo/100yearsLogo_white.png" : "/Logo/100yrlogo_v2.png"}
-                alt="100 Years Logo"
+                src="/Logo/PSG_LOGO_v2.png"
+                alt="PSG Logo"
                 width={60}
                 height={60}
-                className="h-8 lg:h-10 w-auto object-contain"
+                className="h-10 lg:h-12 w-auto object-contain"
               />
+              <div className={clsx(
+                "flex flex-col justify-center font-bold text-[8px] lg:text-[15px] leading-tight ml-1",
+                headerIsWhite ? "text-black" : "text-white"
+              )}>
+                <span>PSG COLLEGE</span>
+                <span>OF TECHNOLOGY</span>
+              </div>
             </div>
           </div>
 

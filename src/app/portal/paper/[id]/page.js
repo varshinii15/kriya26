@@ -266,7 +266,7 @@ export default function PaperPage({ params }) {
                         )}
 
                         {/* Theme / Description */}
-                        <div className="text-base md:text-lg text-white/70 leading-relaxed mt-2">
+                        <div className="text-base md:text-lg text-white/70 leading-relaxed mt-2 text-justify">
                             {paperDetail.theme}
                         </div>
 
@@ -390,38 +390,23 @@ export default function PaperPage({ params }) {
                     </div>
                 </div>
 
-                {/* Bottom Section: Rules + Convenors */}
+                {/* Bottom Section: Convenors */}
                 <div className="flex flex-col lg:flex-row gap-8 w-full">
-                    {/* Left: Rules + Convenors */}
-                    <div className="w-full lg:w-7/12 flex flex-col gap-8">
-                        {/* Rules */}
-                        {paperDetail.rules && paperDetail.rules.length > 0 && (
-                            <div className="glass-card p-6 md:p-8">
-                                <h3 className="special-font text-2xl md:text-3xl font-bold uppercase tracking-widest text-white mb-6 flex items-center gap-3">
-                                    <span className="w-1 h-8 rounded-full" style={{ background: accent.primary }} />
-                                    <b>Rules</b>
-                                </h3>
-                                <div className="space-y-3">
-                                    {paperDetail.rules
-                                        .split("\n")
-                                        .filter((line) => line.trim())
-                                        .map((line, index) => {
-                                            const isSubItem = line.trim().startsWith("*") || line.trim().startsWith("-");
-                                            return (
-                                                <p
-                                                    key={index}
-                                                    className={`text-sm md:text-base text-white/60 flex items-start ${isSubItem ? "ml-8" : ""}`}
-                                                >
-                                                    <span className="mr-2 mt-1 shrink-0" style={{ color: accent.primary }}>
-                                                        {isSubItem ? "◦" : "•"}
-                                                    </span>
-                                                    <span>{line.trim().replace(/^\*\s*/, "").replace(/^-\s*/, "")}</span>
-                                                </p>
-                                            );
-                                        })}
-                                </div>
-                            </div>
-                        )}
+                    {/* Left: Convenors */}
+                    <div className="w-full flex flex-col gap-8">
+                        {/* View Rules Button */}
+                        <button
+                            onClick={() => setIsLearnMoreOpen(true)}
+                            className="w-full py-4 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 text-white font-bold uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-3 group relative overflow-hidden"
+                            style={{
+                                borderColor: `${accent.primary}40`,
+                                background: `linear-gradient(90deg, ${accent.primary}10, transparent, ${accent.primary}10)`
+                            }}
+                        >
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                            <span className="text-lg relative z-10" style={{ textShadow: `0 0 20px ${accent.primary}80` }}>View Rules</span>
+                            <IoMdArrowBack className="group-hover:translate-x-1 transition-transform rotate-180 text-xl relative z-10" style={{ color: accent.primary }} />
+                        </button>
 
                         {/* Convenors */}
                         {paperDetail.contacts && paperDetail.contacts.length > 0 && (
@@ -463,40 +448,7 @@ export default function PaperPage({ params }) {
                         )}
                     </div>
 
-                    {/* Right: Paper Image / Visual */}
-                    <div className="w-full lg:w-5/12 flex flex-col gap-6">
-                        <div className="glass-card overflow-hidden rounded-2xl h-[350px] lg:h-[420px] relative">
-                            <Image
-                                src={paperDetail.image && paperDetail.image.trim() !== "" ? paperDetail.image : `/eventdetails/${paperDetail.paperId}.jpg`}
-                                fill
-                                sizes="(max-width: 768px) 100vw, 40vw"
-                                alt={paperDetail.eventName}
-                                className="object-cover opacity-80 hover:scale-105 transition-transform duration-700"
-                            />
-                            {/* Gradient overlay */}
-                            <div
-                                className="absolute inset-0"
-                                style={{
-                                    background: `linear-gradient(180deg, transparent 40%, ${accent.primary}15 70%, #0a0a0a 100%)`,
-                                }}
-                            />
-                            {/* Paper name overlay */}
-                            <div className="absolute bottom-0 left-0 right-0 p-6">
-                                <p className="text-white/40 text-xs uppercase tracking-widest font-bold mb-1">Paper Presentation</p>
-                                <h3 className="special-font text-2xl md:text-3xl font-bold text-white uppercase">
-                                    <b>{paperDetail.eventName}</b>
-                                </h3>
-                            </div>
-                        </div>
 
-                        {/* Deadline (if available) */}
-                        {paperDetail.deadline && (
-                            <div className="glass-card p-6">
-                                <h3 className="text-sm font-bold uppercase tracking-widest text-white/50 mb-3">Submission Deadline</h3>
-                                <p className="text-white font-semibold text-lg">{formatDate(paperDetail.deadline)}</p>
-                            </div>
-                        )}
-                    </div>
                 </div>
             </div>
 

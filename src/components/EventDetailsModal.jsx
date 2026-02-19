@@ -205,6 +205,39 @@ const EventDetailsModal = ({ eventDetail, onClose }) => {
                         </section>
                     )}
 
+                    {/* Agenda Section (For Workshops) */}
+                    {eventDetail.agenda && eventDetail.agenda.length > 0 && (
+                        <section className="font-poppins">
+                            <h3 className="special-font text-2xl md:text-3xl text-blue-400 uppercase mb-6">
+                                <b>Agenda</b>
+                            </h3>
+                            <div className="space-y-6">
+                                {eventDetail.agenda.map((item, index) => (
+                                    <div key={index} className="relative pl-6 border-l-2 border-blue-400">
+                                        <p className="text-blue-600 font-bold uppercase tracking-wider text-sm mb-1">
+                                            {item.time}
+                                        </p>
+                                        <p className="text-gray-800 leading-relaxed text-sm md:text-base">
+                                            {item.description}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {/* Prerequisites Section (For Workshops) */}
+                    {eventDetail.prerequisites && (
+                        <section className="font-poppins">
+                            <h3 className="special-font text-2xl md:text-3xl text-blue-400 uppercase mb-4">
+                                <b>Prerequisites</b>
+                            </h3>
+                            <div className="bg-white border-l-4 border-black pl-6 py-4 text-gray-800 leading-relaxed text-sm md:text-base whitespace-pre-wrap">
+                                {eventDetail.prerequisites}
+                            </div>
+                        </section>
+                    )}
+
                     {/* Contact Section */}
                     {eventDetail.contacts && eventDetail.contacts.length > 0 && (
                         <section className="font-poppins">

@@ -123,6 +123,8 @@ export default function WorkshopPage({ params }) {
       teamSize: "Individual", // Default for workshops
       description: workshopDetail.description,
       contacts: workshopDetail.contacts || [],
+      agenda: workshopDetail.agenda || [],
+      prerequisites: workshopDetail.prerequisites || null,
       // Map other fields if needed for the modal
     };
   };
@@ -227,7 +229,7 @@ export default function WorkshopPage({ params }) {
             </h1>
 
             {/* Description */}
-            <div className="text-base md:text-lg text-white/70 leading-relaxed mt-2 whitespace-pre-wrap">
+            <div className="text-base md:text-lg text-white/70 leading-relaxed mt-2 whitespace-pre-wrap text-justify">
               {workshopDetail.description}
             </div>
 
@@ -324,6 +326,21 @@ export default function WorkshopPage({ params }) {
         <div className="flex flex-col lg:flex-row gap-8 w-full">
           {/* Left: Convenors */}
           <div className="w-full lg:w-7/12 flex flex-col gap-8">
+            {/* View Agenda & Details Button */}
+            <button
+              onClick={() => setIsLearnMoreOpen(true)}
+              className="w-full py-4 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 text-white font-bold uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-3 group relative overflow-hidden"
+              style={{
+                borderColor: `${accent.primary}40`,
+                background: `linear-gradient(90deg, ${accent.primary}10, transparent, ${accent.primary}10)`
+              }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+              <span className="text-lg relative z-10" style={{ textShadow: `0 0 20px ${accent.primary}80` }}>View Agenda & Details</span>
+              <IoMdArrowBack className="group-hover:translate-x-1 transition-transform rotate-180 text-xl relative z-10" style={{ color: accent.primary }} />
+            </button>
+
+
             {workshopDetail.contacts && workshopDetail.contacts.length > 0 && (
               <div className="glass-card p-6 md:p-8">
                 <h3 className="special-font text-2xl md:text-3xl font-bold uppercase tracking-widest text-white mb-6 flex items-center gap-3">
@@ -352,72 +369,9 @@ export default function WorkshopPage({ params }) {
               </div>
             )}
 
-
-            {/* Agenda Section */}
-            {workshopDetail.agenda && workshopDetail.agenda.length > 0 && (
-              <div className="glass-card p-6 md:p-8">
-                <h3 className="special-font text-2xl md:text-3xl font-bold uppercase tracking-widest text-white mb-6 flex items-center gap-3">
-                  <span className="w-1 h-8 rounded-full" style={{ background: accent.primary }} />
-                  <b>Agenda</b>
-                </h3>
-                <div className="space-y-8">
-                  {workshopDetail.agenda.map((item, index) => (
-                    <div key={index} className="relative pl-8 border-l border-white/10 last:border-0">
-                      <div className="absolute -left-[5px] top-0 w-2.5 h-2.5 rounded-full" style={{ background: accent.primary }} />
-                      <p className="text-sm font-bold uppercase tracking-widest mb-2" style={{ color: accent.primary }}>
-                        {item.time}
-                      </p>
-                      <p className="text-white/80 leading-relaxed text-sm md:text-base">
-                        {item.description}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Prerequisites Section */}
-            {workshopDetail.prerequisites && (
-              <div className="glass-card p-6 md:p-8">
-                <h3 className="special-font text-2xl md:text-3xl font-bold uppercase tracking-widest text-white mb-6 flex items-center gap-3">
-                  <span className="w-1 h-8 rounded-full" style={{ background: accent.primary }} />
-                  <b>Prerequisites</b>
-                </h3>
-                <div className="text-white/70 leading-relaxed whitespace-pre-wrap">
-                  {workshopDetail.prerequisites}
-                </div>
-              </div>
-            )}
-
           </div>
 
-          {/* Right: Sticky Image Card (Repeated for visual balance or different aspect) */}
-          <div className="w-full lg:w-5/12 flex flex-col gap-6">
-            <div className="glass-card overflow-hidden rounded-2xl h-[350px] lg:h-[420px] relative">
-              <Image
-                src={`/img/workshops/ws${parseInt(workshopDetail.workshopId?.replace(/\D/g, '') || '1')}.png`}
-                fill
-                sizes="(max-width: 768px) 100vw, 40vw"
-                alt={workshopDetail.workshopName}
-                className="object-cover opacity-80 hover:scale-105 transition-transform duration-700"
-                onError={(e) => {
-                  e.target.src = '/img/workshops/ws1.png';
-                }}
-              />
-              <div
-                className="absolute inset-0"
-                style={{
-                  background: `linear-gradient(180deg, transparent 40%, ${accent.primary}15 70%, #0a0a0a 100%)`,
-                }}
-              />
-              <div className="absolute bottom-0 left-0 right-0 p-6">
-                <p className="text-white/40 text-xs uppercase tracking-widest font-bold mb-1">{workshopDetail.clubName}</p>
-                <h3 className="special-font text-2xl md:text-3xl font-bold text-white uppercase">
-                  <b>{workshopDetail.workshopName}</b>
-                </h3>
-              </div>
-            </div>
-          </div>
+
         </div>
       </div>
 
