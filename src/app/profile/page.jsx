@@ -211,12 +211,12 @@ function ProfilePageContent() {
             return;
         }
 
-        if (!isIdCardUploaded && !dismissedPopups.uploadIdCard) {
+        if (!isPreRegistrationEnabled && !isIdCardUploaded && !dismissedPopups.uploadIdCard) {
             setActivePopup("uploadIdCard");
             return;
         }
 
-        if (!isGeneralFeePaid && !dismissedPopups.payGeneralFee) {
+        if (!isPreRegistrationEnabled && !isGeneralFeePaid && !dismissedPopups.payGeneralFee) {
             setActivePopup("payGeneralFee");
             return;
         }
