@@ -114,10 +114,22 @@ const EventGrid = ({
 
   return (
     <button
-      className="group relative transition-all hover:z-30 font-poppins w-full md:w-84 text-left flex flex-col rounded-2xl overflow-hidden"
+      className="group relative transition-all hover:z-50 font-poppins w-full md:w-84 text-left flex flex-col rounded-2xl"
       onClick={() => router.push(to)}
     >
-      <div className="hidden lg:block absolute group-hover:shadow-lg opacity-0 -translate-y-20 group-hover:-translate-y-2 group-hover:opacity-100 left-0 top-full w-full group-hover:scale-[110%] bg-gray-200 px-4 pt-2 transition-all ease-in-out">
+      {/* Cutout Arrow Button */}
+      <div
+        className="flex absolute top-0 right-0 z-30 justify-center items-center w-14 h-14 bg-gray-900 text-white rounded-tr-2xl cursor-pointer hover:bg-gray-800 transition-colors"
+        style={{ backgroundColor: categoryArrowColor }}
+        onClick={(e) => {
+          e.preventDefault();
+          handleClick(e);
+        }}
+      >
+        <FiArrowUpRight className="text-2xl" />
+      </div>
+
+      <div className="hidden lg:block absolute z-30 opacity-0 -translate-y-20 group-hover:-translate-y-2 group-hover:opacity-100 left-0 top-full w-full bg-gray-200 px-4 pt-2 rounded-b-2xl shadow-xl transition-all ease-in-out">
         <div className="flex flex-row items-center justify-between gap-6 py-4 text-gray-700">
           {is_venue_available ? (
             <>
@@ -143,7 +155,10 @@ const EventGrid = ({
       </div>
 
       <div
-        className={`${className} group-hover:shadow-lg z-20 text-lg text-blue overflow-hidden w-full h-64 md:h-65 lg:h-55  relative bg-gray-200 lg:group-hover:scale-[110%] transition-all`}
+        className={`${className} z-20 text-lg text-blue overflow-hidden w-full h-64 md:h-65 lg:h-55 relative bg-gray-200 transition-all rounded-t-2xl rounded-b-none lg:rounded-2xl`}
+        style={{
+          clipPath: "polygon(0 0, calc(100% - 4rem) 0, calc(100% - 4rem) 4rem, 100% 4rem, 100% 100%, 0 100%)"
+        }}
       >
         <div className="relative z-0 w-full h-full">
           <Image
@@ -166,16 +181,6 @@ const EventGrid = ({
         <div
           className="hidden lg:block absolute top-0 right-0 z-20"
         >
-          <div
-            onClick={(e) => {
-              e.preventDefault();
-              handleClick(e);
-            }}
-            className="text-white p-4 cursor-pointer rounded-bl-2xl"
-            style={{ backgroundColor: categoryArrowColor }}
-          >
-            <FiArrowUpRight className="text-xl text-white" />
-          </div>
         </div>
 
         <div className="flex flex-row items-center p-6 pb-3 lg:flex-col lg:items-start">
@@ -198,7 +203,7 @@ const EventGrid = ({
         </div>
       </div>
 
-      <div className="w-full px-4 bg-gray-200 shadow-lg lg:hidden font-poppins">
+      <div className="w-full px-4 bg-gray-200 shadow-lg lg:hidden font-poppins rounded-b-2xl">
         <div className="flex flex-row items-center justify-between gap-6 py-3 text-base text-gray-700">
           {is_venue_available ? (
             <>

@@ -205,7 +205,7 @@ const EventList = () => {
               className="px-4 py-3 border-2 border-white/30 shadow-lg w-full sm:w-3/4 lg:w-1/2 max-w-lg text-white bg-black/40 backdrop-blur-md placeholder:text-white/60 focus:outline-none focus:border-white/60 focus:bg-black/50 transition-all"
             />
           </div>
-          <section className="relative flex flex-col items-center w-full pb-32 overflow-x-hidden h-fit lg:overflow-hidden font-poppins lg:pb-40 lg:block">
+          <section className="relative flex flex-col items-center w-full px-4 md:px-6 pb-32 overflow-x-hidden h-fit lg:overflow-hidden font-poppins lg:pb-40 lg:block">
             {/* <div className="w-full my-8 lg:mt-0">
           <h1 className={`text-4xl lg:text-6xl text-white font-semibold font-poppins text-center py-2`}
             id="soon-text"
