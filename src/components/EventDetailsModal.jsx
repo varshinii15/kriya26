@@ -110,8 +110,10 @@ const EventDetailsModal = ({ eventDetail, onClose }) => {
                                 "{eventDetail.oneLineDescription}"
                             </p>
                         )}
-                        <div className="text-gray-800 text-sm md:text-base leading-relaxed whitespace-pre-wrap text-justify">
-                            {eventDetail.description}
+                        <div className="text-gray-800 text-sm md:text-base leading-relaxed text-justify">
+                            {eventDetail.description?.split('\n').map((line, i, arr) => (
+                                <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
+                            ))}
                         </div>
                     </section>
 
@@ -135,7 +137,9 @@ const EventDetailsModal = ({ eventDetail, onClose }) => {
                                                 {round.title}
                                             </h4>
                                             <p className="text-gray-600 text-sm md:text-base leading-relaxed">
-                                                {round.description}
+                                                {round.description?.split('\n').map((line, i, arr) => (
+                                                    <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
+                                                ))}
                                             </p>
                                         </div>
                                     ))}
@@ -218,7 +222,9 @@ const EventDetailsModal = ({ eventDetail, onClose }) => {
                                             {item.time}
                                         </p>
                                         <p className="text-gray-800 leading-relaxed text-sm md:text-base">
-                                            {item.description}
+                                            {item.description?.split('\n').map((line, i, arr) => (
+                                                <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
+                                            ))}
                                         </p>
                                     </div>
                                 ))}

@@ -287,7 +287,9 @@ export default function PaperPage({ params }) {
 
                         {/* Theme / Description */}
                         <div className="text-base md:text-lg text-white/70 leading-relaxed mt-2 text-justify">
-                            {paperDetail.theme}
+                            {paperDetail.theme?.split('\\n').map((line, i, arr) => (
+                                <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
+                            ))}
                         </div>
 
                         {/* Topic */}
@@ -399,18 +401,7 @@ export default function PaperPage({ params }) {
                             />
                         </div>
 
-                        {/* ── Mute / Unmute button — OUTSIDE overflow-hidden ── */}
-                        {videoPhase === "video" && (
-                            <button
-                                onClick={toggleMute}
-                                className="absolute bottom-4 right-4 z-30 flex items-center gap-2 px-3 py-2 rounded-full text-white text-xs font-bold uppercase tracking-widest backdrop-blur-md transition-all duration-200 hover:scale-105 active:scale-95"
-                                style={{ background: "rgba(0,0,0,0.65)", border: `1px solid ${accent.primary}60` }}
-                                aria-label={isMuted ? "Unmute video" : "Mute video"}
-                            >
-                                {isMuted ? <MdVolumeOff className="text-lg" /> : <MdVolumeUp className="text-lg" />}
-                                <span style={{ color: accent.primary }}>{isMuted ? "Unmute" : "Mute"}</span>
-                            </button>
-                        )}
+
                     </div>
                 </div>
 

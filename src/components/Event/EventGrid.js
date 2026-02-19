@@ -109,7 +109,7 @@ const EventGrid = ({
     if (categoryLower === "science and technology") return "#B0E369"; // Light Green
     if (categoryLower === "event") return "#FDD835"; // Yellow
     if (categoryLower === "workshop") return "#424242"; // Dark Grey
-    if (categoryLower === "paper") return "#8E24AA"; // Purple
+    if (categoryLower === "paper" || categoryLower === "paper presentation") return "#8E24AA"; // Purple
 
     return "#181818"; // Default dark color
   };
