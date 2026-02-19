@@ -125,9 +125,6 @@ const Hero = ({ preloaderComplete = true }) => {
 
           {/* Top Text */}
           <div className="flex flex-col items-center justify-center gap-1 mb-4">
-            <h3 className="special-font text-white text-lg font-zentry tracking-wider">
-              <b>PSG COLLEGE OF TECHNOLOGY</b>
-            </h3>
             <h3 className="special-font text-blue-500 text-lg font-zentry tracking-wider">
               <b>STUDENTS UNION</b>
             </h3>
@@ -223,9 +220,6 @@ const Hero = ({ preloaderComplete = true }) => {
 
         {/* Top Text */}
         <div className="flex flex-col items-center justify-center gap-2 mb-4">
-          <h3 className="special-font text-white text-3xl font-zentry tracking-wider">
-            <b>PSG COLLEGE OF TECHNOLOGY</b>
-          </h3>
           <h3 className="special-font text-blue-500 text-3xl font-zentry tracking-wider">
             <b>STUDENTS UNION</b>
           </h3>

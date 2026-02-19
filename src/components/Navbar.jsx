@@ -177,6 +177,8 @@ const NavBar = () => {
               )}></span>
             </button>
 
+
+
             {/* Institutional Logos (Visible only on Desktop) */}
             <div className="hidden md:flex items-center gap-2 lg:gap-4 opacity-90 hover:opacity-100 transition-opacity">
               <Image
@@ -210,22 +212,36 @@ const NavBar = () => {
             </div>
           </div>
 
-          {/* CENTER: Kriya Logo (Main Brand) */}
+          {/* CENTER: PSG logo+text on mobile / Kriya logo on desktop */}
           <div className="flex items-center justify-center min-w-0 px-2">
+            {/* Mobile: PSG logo + text */}
+            <Link href="/" className="flex md:hidden items-center gap-2">
+              <Image
+                src="/Logo/PSG_LOGO_v2.png"
+                alt="PSG Tech"
+                width={32}
+                height={32}
+                className="h-8 w-8 object-contain"
+              />
+              <span className={clsx(
+                "font-bold uppercase tracking-wider text-[10px] leading-tight",
+                headerIsWhite ? "text-black" : "text-white"
+              )}>
+                PSG College<br />of Technology
+              </span>
+            </Link>
+            {/* Desktop: Kriya logo */}
             <Image
               src={headerIsWhite ? "/Logo/kriya26black.png" : "/Logo/kriya26white.png"}
               alt="Kriya 2026 Logo"
               width={150}
               height={80}
               className={clsx(
-                "h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain transition-transform hover:scale-105 max-w-full",
+                "hidden md:block h-14 lg:h-16 w-auto object-contain transition-transform hover:scale-105 max-w-full",
                 headerIsWhite ? "drop-shadow-[0_0_10px_rgba(0,0,0,0.3)]" : "drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]"
               )}
               onError={(e) => {
-                // Fallback to white logo if black version doesn't exist
-                if (headerIsWhite) {
-                  e.target.src = "/Logo/kriya26white.png";
-                }
+                if (headerIsWhite) e.target.src = "/Logo/kriya26white.png";
               }}
             />
           </div>

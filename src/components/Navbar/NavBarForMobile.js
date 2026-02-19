@@ -135,16 +135,16 @@ const NavBarForMobile = () => {
     <nav className="fixed top-0 z-50 w-screen max-h-screen overflow-y-auto bg-[#0a0a0a] shadow-2xl lg:hidden font-poppins custom-scrollbar transition-all duration-300">
       <div className="sticky top-0 z-20 flex items-center justify-between w-full px-6 py-4 bg-[#0a0a0a]/95 backdrop-blur-md border-b border-[#1a1a1a]">
         <MenuToggle isOpen={isOpen} setIsOpen={setIsOpen} className="text-white" />
-        <Link
-          href={"/"}
-          className="w-12 h-8"
-          style={{
-            background: `url(/Logo/kriya26white.png)`,
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "contain",
-          }}
-        ></Link>
+        <Link href={"/"} className="flex items-center gap-2">
+          <img
+            src="/Logo/PSG_LOGO_v2.png"
+            alt="PSG Tech"
+            className="h-8 w-8 object-contain"
+          />
+          <span className="text-white font-bold uppercase tracking-wider text-[10px] leading-tight">
+            PSG College<br />of Technology
+          </span>
+        </Link>
         <div className="flex justify-end">
           {userDetails ? (
             <Link
