@@ -214,7 +214,7 @@ const EventList = () => {
           </h1>
         </div> */}
             {/* FEATURED PLATINUM EVENTS (by ID) */}
-            <div hidden={filteredPlatinumEvents.length === 0}>
+            <div className="w-full" hidden={filteredPlatinumEvents.length === 0}>
               <h1
                 className="special-font text-4xl lg:text-5xl tracking-wide font-black text-center pt-8 uppercase"
                 style={{ color: '#C0C0C0' }}
@@ -469,6 +469,7 @@ const EventsGrid = ({
   iconImg,
   titleColor = "text-white",
   categoryOverride = "",
+  widthClass, // receive widthClass
 }) => {
 
   const filteredEvents = obj.filter((i) => i.eventId !== "EVNT0043");
@@ -491,6 +492,7 @@ const EventsGrid = ({
             to={`/portal/event/${i.id}`}
             titleColor={titleColor}
             category={categoryOverride || i.category}
+            widthClass={widthClass}
           />
         ))
       ) : (

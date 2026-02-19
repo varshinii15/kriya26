@@ -22,6 +22,7 @@ const EventGrid = ({
   to = "",
   titleColor = "text-white",
   category = "",
+  widthClass = "w-full md:w-84",
 }) => {
   const router = useRouter();
 
@@ -117,7 +118,7 @@ const EventGrid = ({
 
   return (
     <button
-      className="group relative transition-all hover:z-50 font-poppins w-full md:w-84 text-left flex flex-col rounded-2xl"
+      className={`group relative transition-all hover:z-50 font-poppins ${widthClass} text-left flex flex-col rounded-2xl`}
       onClick={() => router.push(to)}
     >
       {/* Cutout Arrow Button */}
