@@ -151,7 +151,7 @@ const PaperList = () => {
                                         iconImg={
                                             "https://cdn-icons-png.flaticon.com/512/3309/3309977.png"
                                         }
-                                        imgurl={"/thumbnail/sciencethumb.png"}
+                                        imgurl={"/thumbnail/paperthumb.png"}
                                         arrowCircleStart="from-[#9B1E55]"
                                         arrowCircleEnd="to-[#5F0D2E]"
                                         topCurve="bg-[#010101]"

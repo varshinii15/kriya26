@@ -8,8 +8,6 @@ import { useEffect, useRef, useState } from "react";
 import { TiHome } from "react-icons/ti";
 import { usePathname } from "next/navigation";
 
-import Button from "./Button";
-
 const navItems = [
   {
     label: "Events",
@@ -42,14 +40,10 @@ const SECTION_HEADER_COLORS = {
 };
 
 const NavBar = () => {
-  // State for toggling audio and visual indicator
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
-  const [isIndicatorActive, setIsIndicatorActive] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [headerIsWhite, setHeaderIsWhite] = useState(false); // Start with black header
 
-  // Refs for audio and navigation container
-  const audioElementRef = useRef(null);
+  // Refs for navigation container
   const navContainerRef = useRef(null);
 
   const { y: currentScrollY } = useWindowScroll();
@@ -58,31 +52,10 @@ const NavBar = () => {
   const [showLogo, setShowLogo] = useState(true);
   const pathname = usePathname();
 
-  // Toggle audio and visual indicator
-  const toggleAudioIndicator = () => {
-    setIsAudioPlaying((prev) => !prev);
-    setIsIndicatorActive((prev) => !prev);
-  };
-
   // Toggle mobile menu
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen((prev) => !prev);
   };
-
-  useEffect(() => {
-    if (isAudioPlaying) {
-      audioElementRef.current.play();
-    }
-  }, []);
-
-  // Manage audio playback
-  useEffect(() => {
-    if (isAudioPlaying) {
-      audioElementRef.current.play();
-    } else {
-      audioElementRef.current.pause();
-    }
-  }, [isAudioPlaying]);
 
   // Detect which section is under the navbar and update header color
   useEffect(() => {
@@ -283,31 +256,6 @@ const NavBar = () => {
             </nav>
 
             <div className="flex items-center gap-4">
-              {/* Audio Toggle */}
-              <button
-                onClick={toggleAudioIndicator}
-                className="hidden md:flex items-center space-x-0.5"
-              >
-                <audio
-                  ref={audioElementRef}
-                  className="hidden"
-                  src="/audio/loop.mp3"
-                  loop
-                />
-                {[1, 2, 3, 4].map((bar) => (
-                  <div
-                    key={bar}
-                    className={clsx("indicator-line", {
-                      active: isIndicatorActive,
-                    })}
-                    style={{
-                      animationDelay: `${bar * 0.1}s`,
-                      backgroundColor: headerIsWhite ? '#1f2937' : '#dfdff2',
-                    }}
-                  />
-                ))}
-              </button>
-
               {/* Profile/Home Icon */}
               {pathname === '/profile' ? (
                 <Link href="/" className="relative group p-2">
@@ -382,38 +330,6 @@ const NavBar = () => {
                 {item.label}
               </a>
             ))}
-            <div className={clsx(
-              "mt-6 pt-6 border-t flex justify-between items-center",
-              headerIsWhite ? "border-black/10" : "border-white/10"
-            )}>
-              <span className={clsx(
-                "text-sm font-general uppercase",
-                headerIsWhite ? "text-black/60" : "text-white/60"
-              )}>Settings</span>
-              <button
-                onClick={toggleAudioIndicator}
-                className="flex items-center space-x-0.5"
-              >
-                <audio
-                  ref={audioElementRef}
-                  className="hidden"
-                  src="/audio/loop.mp3"
-                  loop
-                />
-                {[1, 2, 3, 4].map((bar) => (
-                  <div
-                    key={bar}
-                    className={clsx("indicator-line", {
-                      active: isIndicatorActive,
-                    })}
-                    style={{
-                      animationDelay: `${bar * 0.1}s`,
-                      backgroundColor: headerIsWhite ? '#1f2937' : '#dfdff2',
-                    }}
-                  />
-                ))}
-              </button>
-            </div>
           </nav>
         </div>
       )}

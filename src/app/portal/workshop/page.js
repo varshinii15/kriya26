@@ -151,7 +151,7 @@ const WorkshopList = () => {
                                         iconImg={
                                             "https://cdn-icons-png.flaticon.com/512/3309/3309977.png"
                                         }
-                                        imgurl={"/thumbnail/codingthumb.png"}
+                                        imgurl={"/thumbnail/worksopthumb.png"}
                                         arrowCircleStart="from-[#121a43]"
                                         arrowCircleEnd="to-[#a21cd9]"
                                         topCurve="bg-[#010101]"

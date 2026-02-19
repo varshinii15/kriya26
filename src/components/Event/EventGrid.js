@@ -114,7 +114,7 @@ const EventGrid = ({
 
   return (
     <button
-      className="group relative transition-all hover:z-30 font-poppins w-full md:w-84 text-left flex flex-col"
+      className="group relative transition-all hover:z-30 font-poppins w-full md:w-84 text-left flex flex-col rounded-2xl overflow-hidden"
       onClick={() => router.push(to)}
     >
       <div className="hidden lg:block absolute group-hover:shadow-lg opacity-0 -translate-y-20 group-hover:-translate-y-2 group-hover:opacity-100 left-0 top-full w-full group-hover:scale-[110%] bg-gray-200 px-4 pt-2 transition-all ease-in-out">
@@ -155,36 +155,27 @@ const EventGrid = ({
           />
         </div>
         <div
-          className={`absolute inset-0 flex items-center justify-center font-semibold ${titleColor} drop-shadow-[0_0_8px_rgba(255,255,255,0.9)] tracking-wide text-center ${title.length > 15
+          className={`absolute inset-0 flex items-center justify-center font-semibold text-white drop-shadow-[0_0_8px_rgba(0,0,0,0.8)] tracking-wide text-center z-10 ${title.length > 15
             ? "text-2xl sm:text-3xl md:text-2xl lg:text-2xl"
             : "text-3xl sm:text-4xl md:text-2xl lg:text-3xl"
             }`}
-          style={{ mixBlendMode: 'difference', filter: 'brightness(2) contrast(1.5) saturate(1.2)' }}
         >
           {title}
         </div>
 
         <div
-          className="hidden lg:block absolute top-3 right-3 z-20"
+          className="hidden lg:block absolute top-0 right-0 z-20"
         >
-          <div
-            className="absolute top-0 -left-4"
-            style={{ backgroundColor: categoryArrowColor }}
-          ></div>
           <div
             onClick={(e) => {
               e.preventDefault();
               handleClick(e);
             }}
-            className="text-white p-4 cursor-pointer"
+            className="text-white p-4 cursor-pointer rounded-bl-2xl"
             style={{ backgroundColor: categoryArrowColor }}
           >
-            <FiArrowUpRight className="text-s text-white" />
+            <FiArrowUpRight className="text-xl text-white" />
           </div>
-          <div
-            className="absolute -bottom-4 right-0"
-            style={{ backgroundColor: categoryArrowColor }}
-          ></div>
         </div>
 
         <div className="flex flex-row items-center p-6 pb-3 lg:flex-col lg:items-start">
@@ -200,7 +191,8 @@ const EventGrid = ({
             ></div>
           </div>
 
-          <p className="font-semibold font-poppins text-xl w-[60%] text-gray-200 tracking-wider drop-shadow-[0_0_6px_rgba(255,255,255,0.8)]" style={{ mixBlendMode: 'difference', filter: 'brightness(2) contrast(1.5) saturate(1.2)' }}>
+
+          <p className="font-semibold font-poppins text-xl w-[60%] text-white tracking-wider drop-shadow-[0_0_6px_rgba(0,0,0,0.8)]">
             {title}
           </p>
         </div>
