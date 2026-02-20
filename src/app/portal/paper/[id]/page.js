@@ -181,7 +181,7 @@ export default function PaperPage({ params }) {
             const callbackUrl = encodeURIComponent(`/portal/paper/${id}`);
             router.push(`/auth?type=register&callbackUrl=${callbackUrl}`);
         } else if (!generalPayment) {
-            router.push("/auth/payment?type=GENERAL");
+            router.push("/fee-payment");
         } else {
             try {
                 await eventService.registerPaper(id);

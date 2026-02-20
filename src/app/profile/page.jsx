@@ -258,7 +258,7 @@ function ProfilePageContent() {
 
     const handlePayGeneralFeeClick = () => {
         closeActivePopup();
-        router.push("/auth/payment?type=GENERAL");
+        router.push("/fee-payment");
     };
 
     // Pre-registration view

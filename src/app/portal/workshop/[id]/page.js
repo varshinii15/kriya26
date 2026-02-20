@@ -99,7 +99,7 @@ export default function WorkshopPage({ params }) {
       const callbackUrl = encodeURIComponent(`/portal/workshop/${id}`);
       router.push(`/auth?type=register&callbackUrl=${callbackUrl}`);
     } else if (!generalPayment) {
-      router.push("/auth/payment?type=GENERAL");
+      router.push("/fee-payment");
     } else {
       try {
         await eventService.registerWorkshop(id);

@@ -81,7 +81,7 @@ const Event = ({ params }) => {
     if (!isLoggedIn) {
       router.push("/auth?type=signup");
     } else if (!generalPayment) {
-      router.push("/auth/payment?type=GENERAL");
+      router.push("/fee-payment");
     } else {
       await fetchEventRegister({
         email: localStorage.getItem("email"),
