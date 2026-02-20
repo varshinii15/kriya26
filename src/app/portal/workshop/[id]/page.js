@@ -322,23 +322,24 @@ export default function WorkshopPage({ params }) {
           </div>
         </div>
 
+        {/* View Agenda & Details Button - Full Width */}
+        <button
+          onClick={() => setIsLearnMoreOpen(true)}
+          className="w-full py-4 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 text-white font-bold uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-3 group relative overflow-hidden"
+          style={{
+            borderColor: `${accent.primary}40`,
+            background: `linear-gradient(90deg, ${accent.primary}10, transparent, ${accent.primary}10)`
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+          <span className="text-lg relative z-10" style={{ textShadow: `0 0 20px ${accent.primary}80` }}>View Agenda & Details</span>
+          <IoMdArrowBack className="group-hover:translate-x-1 transition-transform rotate-180 text-xl relative z-10" style={{ color: accent.primary }} />
+        </button>
+
         {/* Bottom Section: Convenors */}
         <div className="flex flex-col lg:flex-row gap-8 w-full">
           {/* Left: Convenors */}
           <div className="w-full lg:w-7/12 flex flex-col gap-8">
-            {/* View Agenda & Details Button */}
-            <button
-              onClick={() => setIsLearnMoreOpen(true)}
-              className="w-full py-4 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 text-white font-bold uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-3 group relative overflow-hidden"
-              style={{
-                borderColor: `${accent.primary}40`,
-                background: `linear-gradient(90deg, ${accent.primary}10, transparent, ${accent.primary}10)`
-              }}
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-              <span className="text-lg relative z-10" style={{ textShadow: `0 0 20px ${accent.primary}80` }}>View Agenda & Details</span>
-              <IoMdArrowBack className="group-hover:translate-x-1 transition-transform rotate-180 text-xl relative z-10" style={{ color: accent.primary }} />
-            </button>
 
 
             {workshopDetail.contacts && workshopDetail.contacts.length > 0 && (
