@@ -11,6 +11,7 @@ import ScrollableContainer from "@/components/profile/ScrollableContainer";
 import IdCardSection from "@/components/profile/IdCardSection";
 import { useAuth } from "@/context/AuthContext";
 import { eventService } from "@/services/eventservice";
+import api from "@/services/api";
 
 // Color mapping for event categories
 const getCategoryColor = (category, itemType) => {
@@ -57,10 +58,63 @@ function ProfilePageContent() {
     });
     const vantaRef = useRef(null);
 
+    // Payment records state
+    const [paymentRecords, setPaymentRecords] = useState([]);
+    const [recordsSummary, setRecordsSummary] = useState({ totalRecords: 0, totalAmount: 0 });
+    const [recordsLoading, setRecordsLoading] = useState(false);
+    const [checkingPayment, setCheckingPayment] = useState(false);
+    const [statusMessage, setStatusMessage] = useState(null);
+
     // Handler to refresh user data after profile update
     const handleProfileUpdate = async () => {
         if (refreshUser) {
             await refreshUser();
+        }
+    };
+
+    // Fetch payment records
+    const fetchPaymentRecords = async () => {
+        try {
+            setRecordsLoading(true);
+            const response = await api.get("/api/payment/records");
+            const data = response.data;
+            if (data.success) {
+                setPaymentRecords(data.data?.records || []);
+                setRecordsSummary(data.data?.summary || { totalRecords: 0, totalAmount: 0 });
+            }
+        } catch (error) {
+            console.error("Error fetching payment records:", error);
+        } finally {
+            setRecordsLoading(false);
+        }
+    };
+
+    // Check payment status
+    const handleCheckPaymentStatus = async () => {
+        try {
+            setCheckingPayment(true);
+            setStatusMessage(null);
+            const response = await api.get("/api/payment/check");
+            const data = response.data;
+
+            if (data.success) {
+                const { recordsCreated, recordsSkipped, totalRegistrations } = data.summary || {};
+                if (totalRegistrations === 0) {
+                    setStatusMessage({ type: "info", text: "No payment records found. If you have made a payment, please wait a few minutes and try again." });
+                } else if (recordsCreated > 0) {
+                    setStatusMessage({ type: "success", text: `Payment verified successfully! ${recordsCreated} new payment record(s) synced.` });
+                } else {
+                    setStatusMessage({ type: "info", text: "All payment records are already up to date." });
+                }
+                await fetchPaymentRecords();
+            } else {
+                setStatusMessage({ type: "error", text: data.message || "Payment check failed." });
+            }
+        } catch (error) {
+            const msg = error.response?.data?.message || "Failed to check payment status. Please try again.";
+            setStatusMessage({ type: "error", text: msg });
+        } finally {
+            setCheckingPayment(false);
         }
     };
 
@@ -109,6 +163,13 @@ function ProfilePageContent() {
         };
 
         fetchRegistrations();
+    }, [isAuthenticated]);
+
+    // Fetch payment records on mount
+    useEffect(() => {
+        if (isAuthenticated) {
+            fetchPaymentRecords();
+        }
     }, [isAuthenticated]);
 
     // Vanta Waves Background Effect
@@ -427,7 +488,126 @@ function ProfilePageContent() {
                                 <StatsGrid stats={statsData} />
                             </section>
 
-                            {/* Row 2.5: ID Card Upload */}
+                            {/* Payment Records Section */}
+                            <section className="border border-white/10 bg-white/5 backdrop-blur-md rounded-xl p-5">
+                                <div className="flex items-end gap-4 mb-4 border-b border-white/10 pb-2">
+                                    <h2 className="special-font text-2xl md:text-3xl uppercase text-white"><b>Payment Records</b></h2>
+                                    {recordsSummary.totalRecords > 0 && (
+                                        <span className="font-general text-xs text-gray-500 mb-1 uppercase tracking-wide">
+                                            {recordsSummary.totalRecords} Record{recordsSummary.totalRecords !== 1 ? "s" : ""} · ₹{recordsSummary.totalAmount}
+                                        </span>
+                                    )}
+                                </div>
+
+                                {/* Check Payment Status Button */}
+                                <div className="flex flex-col sm:flex-row items-center gap-3 mb-4">
+                                    <button
+                                        onClick={handleCheckPaymentStatus}
+                                        disabled={checkingPayment}
+                                        className={`group relative px-6 py-3 text-white font-general text-xs uppercase tracking-widest rounded-lg transition-all duration-300 border ${checkingPayment
+                                            ? "border-gray-500/30 bg-gray-600/30 cursor-not-allowed opacity-60"
+                                            : "border-emerald-400/30 bg-emerald-500/20 hover:bg-emerald-500/40 hover:scale-105 hover:shadow-[0_0_30px_rgba(16,185,129,0.3)] active:scale-95 cursor-pointer"
+                                            }`}
+                                    >
+                                        <span className="relative z-10 flex items-center gap-2">
+                                            {checkingPayment ? (
+                                                <>
+                                                    <svg className="animate-spin w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                    </svg>
+                                                    Checking...
+                                                </>
+                                            ) : (
+                                                <>
+                                                    Check Payment Status
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                                                        <path fillRule="evenodd" d="M15.312 11.424a5.5 5.5 0 0 1-9.201 2.466l-.312-.311h2.433a.75.75 0 0 0 0-1.5H4.598a.75.75 0 0 0-.75.75v3.634a.75.75 0 0 0 1.5 0v-2.033l.312.342a7 7 0 0 0 11.712-3.138.75.75 0 0 0-1.449-.39Zm1.06-7.534a.75.75 0 0 0-1.5 0v2.033l-.312-.342A7 7 0 0 0 2.848 8.72a.75.75 0 0 0 1.449.39A5.5 5.5 0 0 1 13.89 6.11l.311.31h-2.432a.75.75 0 0 0 0 1.5h3.634a.75.75 0 0 0 .75-.75V3.89Z" clipRule="evenodd" />
+                                                    </svg>
+                                                </>
+                                            )}
+                                        </span>
+                                    </button>
+                                </div>
+
+                                {/* Status Message */}
+                                {statusMessage && (
+                                    <div className={`rounded-lg p-3 border mb-4 ${statusMessage.type === "success"
+                                        ? "bg-emerald-500/10 border-emerald-400/30"
+                                        : statusMessage.type === "error"
+                                            ? "bg-red-500/10 border-red-400/30"
+                                            : "bg-blue-500/10 border-blue-400/30"
+                                        }`}>
+                                        <p className={`font-circular-web text-sm ${statusMessage.type === "success"
+                                            ? "text-emerald-300"
+                                            : statusMessage.type === "error"
+                                                ? "text-red-300"
+                                                : "text-blue-300"
+                                            }`}>
+                                            {statusMessage.text}
+                                        </p>
+                                    </div>
+                                )}
+
+                                {/* Records List */}
+                                {recordsLoading ? (
+                                    <div className="flex items-center justify-center py-8">
+                                        <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                                        <p className="ml-3 font-general text-sm text-gray-400 uppercase tracking-wider">Loading records...</p>
+                                    </div>
+                                ) : paymentRecords.length === 0 ? (
+                                    <div className="text-center py-8">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-10 h-10 text-gray-600 mx-auto mb-3">
+                                            <path d="M4.5 3.75a3 3 0 0 0-3 3v.75h21v-.75a3 3 0 0 0-3-3h-15Z" />
+                                            <path fillRule="evenodd" d="M22.5 9.75h-21v7.5a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3v-7.5Zm-18 3.75a.75.75 0 0 1 .75-.75h6a.75.75 0 0 1 0 1.5h-6a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" clipRule="evenodd" />
+                                        </svg>
+                                        <p className="font-circular-web text-gray-400 text-sm">No payment records found.</p>
+                                        <p className="font-circular-web text-gray-500 text-xs mt-1">
+                                            If you have made a payment, click &quot;Check Payment Status&quot; above to sync your records.
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <div className="space-y-3">
+                                        {paymentRecords.map((record, index) => (
+                                            <div
+                                                key={record._id || index}
+                                                className="flex items-center justify-between p-4 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
+                                            >
+                                                <div className="flex-1 min-w-0">
+                                                    <p className="font-general text-sm text-white uppercase tracking-wide truncate">
+                                                        {record.category}
+                                                    </p>
+                                                    <p className="font-circular-web text-xs text-gray-400 mt-1">
+                                                        {record.time
+                                                            ? new Date(record.time).toLocaleDateString("en-IN", {
+                                                                day: "numeric",
+                                                                month: "short",
+                                                                year: "numeric",
+                                                                hour: "2-digit",
+                                                                minute: "2-digit",
+                                                                timeZone: "Asia/Kolkata",
+                                                            })
+                                                            : "—"}
+                                                    </p>
+                                                </div>
+                                                <div className="flex items-center gap-3 ml-4">
+                                                    <span className="font-general text-lg text-white font-bold">
+                                                        ₹{record.amount}
+                                                    </span>
+                                                    <span className={`px-2 py-1 rounded text-xs font-general uppercase tracking-wider ${record.status === "1"
+                                                        ? "bg-emerald-500/20 text-emerald-400 border border-emerald-400/30"
+                                                        : "bg-yellow-500/20 text-yellow-400 border border-yellow-400/30"
+                                                        }`}>
+                                                        {record.status === "1" ? "Paid" : "Pending"}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </section>
+
+                            {/* ID Card Upload */}
                             <section id="id-card-section">
                                 <IdCardSection user={user} onRefresh={refreshUser} />
                             </section>
