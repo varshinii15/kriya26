@@ -32,7 +32,7 @@ export default function FeePaymentPage() {
     // Redirect to auth if not authenticated
     useEffect(() => {
         if (!authLoading && !isAuthenticated) {
-            router.push("/auth?type=login");
+            router.push("/auth?type=login&callbackUrl=%2Ffee-payment");
         }
     }, [authLoading, isAuthenticated, router]);
 

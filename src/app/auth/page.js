@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import AuthContainer from './components/AuthContainer.jsx';
 import SendEmailComponent from './components/SendEmailComponent.jsx';
@@ -14,6 +14,14 @@ function AuthContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const type = searchParams.get('type') || 'login';
+
+    // Persist callbackUrl to localStorage when arriving at /auth
+    useEffect(() => {
+        const callbackUrl = searchParams.get('callbackUrl');
+        if (callbackUrl) {
+            localStorage.setItem('kriya_auth_callback', callbackUrl);
+        }
+    }, [searchParams]);
 
     const renderComponent = () => {
         switch (type) {

@@ -59,6 +59,7 @@ export function AuthProvider({ children }) {
         } finally {
             if (typeof window !== 'undefined') {
                 localStorage.removeItem('kriya_avatar');
+                localStorage.removeItem('kriya_auth_callback');
             }
             setUser(null);
             isLoggedInThisSession.current = false;

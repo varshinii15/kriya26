@@ -36,17 +36,15 @@ export default function CallbackComponent() {
 
                 if (existingUser) {
                     await googleLogin({ email, googleId, existing_user: true });
-                    // Wait for state to settle before navigation (similar to normal login)
-                    // Use replace instead of push to prevent back-button issues
-                    const callbackUrl = searchParams.get('callbackUrl');
-                    router.replace(callbackUrl || '/profile');
+                    // Read callback from localStorage (stored when user first arrived at /auth)
+                    const storedCallback = localStorage.getItem('kriya_auth_callback');
+                    localStorage.removeItem('kriya_auth_callback');
+                    router.replace(storedCallback || '/profile');
                 } else {
                     localStorage.setItem('registration_email', email);
                     localStorage.setItem('registration_googleId', googleId);
-                    // Preserve callback URL through registration flow
-                    const callbackUrl = searchParams.get('callbackUrl');
-                    const callbackParam = callbackUrl ? `&callbackUrl=${encodeURIComponent(callbackUrl)}` : '';
-                    router.push(`/auth?type=complete-registration&source=google${callbackParam}`);
+                    // Callback URL is already persisted in localStorage from initial /auth load
+                    router.push(`/auth?type=complete-registration&source=google`);
                 }
             } catch (err) {
                 console.error('Callback error:', err);

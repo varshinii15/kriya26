@@ -14,7 +14,7 @@ export default function LoginComponent() {
     const searchParams = useSearchParams();
     const { login } = useAuth();
 
-    const callbackUrl = searchParams.get('callbackUrl');
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,7 +29,9 @@ export default function LoginComponent() {
 
         try {
             await login({ email, password });
-            router.push(callbackUrl || '/profile');
+            const storedCallback = localStorage.getItem('kriya_auth_callback');
+            localStorage.removeItem('kriya_auth_callback');
+            router.push(storedCallback || '/profile');
         } catch (err) {
             setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
         } finally {

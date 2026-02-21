@@ -8,6 +8,12 @@ import { IoLogOut, IoClose, IoCamera, IoCheckmarkCircle } from "react-icons/io5"
 import { authService } from "@/services/authService";
 import colleges from "@/app/CollegeList";
 
+// PSG Colleges that require specific email domains
+const PSG_COLLEGES = {
+    'PSG College of Technology (Autonomous), Peelamedu, Coimbatore District 641004': '@psgtech.ac.in',
+    'PSG Institute of Technology and Applied Research, Avinashi Road, Neelambur, Coimbatore 641062': '@psgitech.ac.in'
+};
+
 const TOTAL_AVATARS = 8;
 const AVATAR_STORAGE_KEY = "kriya_avatar";
 
@@ -118,6 +124,24 @@ const ProfileHeader = ({ user, onLogout, isLoggingOut, onProfileUpdate }) => {
         if (!editFormData.college) { setError("College is required"); return; }
         if (!editFormData.department.trim()) { setError("Department is required"); return; }
         if (!editFormData.year) { setError("Year is required"); return; }
+
+        // Validate PSG college email domain (bidirectional)
+        const emailLower = email.toLowerCase();
+        // Check 1: If selecting a PSG college, email must match its domain
+        if (PSG_COLLEGES[editFormData.college]) {
+            const requiredDomain = PSG_COLLEGES[editFormData.college];
+            if (!emailLower.endsWith(requiredDomain)) {
+                setError(`This college requires a ${requiredDomain} email address. Please use your college email or select a different institution.`);
+                return;
+            }
+        }
+        // Check 2: If email is from a PSG domain, must select the matching PSG college
+        for (const [collegeName, domain] of Object.entries(PSG_COLLEGES)) {
+            if (emailLower.endsWith(domain) && editFormData.college !== collegeName) {
+                setError(`Your email (${domain}) is associated with ${collegeName}. You cannot select a different institution.`);
+                return;
+            }
+        }
 
         try {
             setIsSaving(true);

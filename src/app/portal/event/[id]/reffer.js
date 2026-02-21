@@ -79,7 +79,7 @@ const Event = ({ params }) => {
 
   const handleRegister = async () => {
     if (!isLoggedIn) {
-      router.push("/auth?type=signup");
+      router.push(`/auth?type=signup&callbackUrl=${encodeURIComponent(`/portal/event/${id}`)}`);
     } else if (!generalPayment) {
       router.push("/fee-payment");
     } else {

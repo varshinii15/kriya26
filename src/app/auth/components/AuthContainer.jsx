@@ -23,7 +23,7 @@ export default function AuthContainer() {
     const router = useRouter();
     const { login } = useAuth();
 
-    const callbackUrl = searchParams.get('callbackUrl');
+
 
     useEffect(() => {
         setIsActive(type === 'register');
@@ -50,7 +50,9 @@ export default function AuthContainer() {
 
         try {
             await login({ email, password });
-            router.push(callbackUrl || '/profile');
+            const storedCallback = localStorage.getItem('kriya_auth_callback');
+            localStorage.removeItem('kriya_auth_callback');
+            router.push(storedCallback || '/profile');
         } catch (err) {
             setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
         } finally {

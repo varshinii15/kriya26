@@ -32,7 +32,8 @@ const NavBarForMobile = () => {
   const [userDetails, setUserDetails] = useState();
   const [token, setToken] = useState();
 
-  const { user } = useAuth();
+  const router = useRouter();
+  const { user, isAuthenticated, logout } = useAuth();
   const isPSGStudent = user?.email?.toLowerCase().endsWith('@psgtech.ac.in');
 
   useEffect(() => {
@@ -146,20 +147,20 @@ const NavBarForMobile = () => {
           </span>
         </Link>
         <div className="flex justify-end">
-          {userDetails ? (
+          {isAuthenticated && user ? (
             <Link
-              href={"/portal/profile"}
+              href="/profile"
               className="w-9 h-9 border border-[#333] rounded-full overflow-hidden"
             >
               <img
-                src={userDetails?.profilePhoto}
+                src={`/profile/${typeof window !== 'undefined' ? (localStorage.getItem('kriya_avatar') || '1') : '1'}.png`}
                 alt="profile"
                 className="w-full h-full object-cover"
               />
             </Link>
           ) : (
             <Link
-              href={"/auth?type=login"}
+              href="/auth?type=login"
               className="text-white hover:text-gray-300 transition-colors"
             >
               <FaRegUserCircle size={28} />
@@ -286,12 +287,12 @@ const NavBarForMobile = () => {
           </div>
         </div>
 
-        {token && (
+        {isAuthenticated && (
           <div className="sticky bottom-0 z-30 w-full bg-[#0a0a0a]/95 backdrop-blur-md border-t border-[#1a1a1a] p-4">
             <button
-              onClick={() => {
-                localStorage.clear();
-                window.location.reload();
+              onClick={async () => {
+                await logout();
+                router.push('/auth?type=login');
               }}
               className="flex items-center justify-center w-full px-6 py-3 space-x-3 text-sm font-bold text-gray-400 hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-all border border-transparent hover:border-red-500/20"
             >

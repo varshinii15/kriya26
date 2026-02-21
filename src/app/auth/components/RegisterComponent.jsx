@@ -155,9 +155,10 @@ export default function RegisterComponent() {
             localStorage.removeItem('registration_googleId');
             localStorage.removeItem('club_referral_code');
 
-            // Redirect to callback URL if present, otherwise to profile
-            const callbackUrl = searchParams.get('callbackUrl');
-            router.push(callbackUrl || '/profile');
+            // Redirect to callback URL from localStorage if present, otherwise to profile
+            const storedCallback = localStorage.getItem('kriya_auth_callback');
+            localStorage.removeItem('kriya_auth_callback');
+            router.push(storedCallback || '/profile');
         } catch (err) {
             setError(err.response?.data?.message || 'Registration failed');
         } finally {

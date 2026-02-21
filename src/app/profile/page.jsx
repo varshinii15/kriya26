@@ -217,8 +217,11 @@ function ProfilePageContent() {
         }
 
         if (!isPreRegistrationEnabled && !isGeneralFeePaid && !dismissedPopups.payGeneralFee) {
-            setActivePopup("payGeneralFee");
-            return;
+            // Delay the payment reminder so it doesn't appear immediately after the ID card popup
+            const timer = setTimeout(() => {
+                setActivePopup("payGeneralFee");
+            }, 2500);
+            return () => clearTimeout(timer);
         }
 
         setActivePopup(null);
@@ -303,6 +306,14 @@ function ProfilePageContent() {
                                     </button>
                                 )}
                             </div>
+                            {!isGeneralFeePaid && (
+                                <button
+                                    onClick={() => router.push('/fee-payment')}
+                                    className="ml-auto px-5 py-2 font-general text-xs uppercase tracking-wider bg-blue-500 hover:bg-blue-600 text-white rounded-full transition-colors whitespace-nowrap"
+                                >
+                                    Pay Now
+                                </button>
+                            )}
                         </div>
 
                         {activeTab === "profile" && (
@@ -390,6 +401,14 @@ function ProfilePageContent() {
                                 </button>
                             )}
                         </div>
+                        {!isGeneralFeePaid && (
+                            <button
+                                onClick={() => router.push('/fee-payment')}
+                                className="ml-auto px-5 py-2 font-general text-xs uppercase tracking-wider bg-blue-500 hover:bg-blue-600 text-white rounded-full transition-colors whitespace-nowrap"
+                            >
+                                Pay Now
+                            </button>
+                        )}
                     </div>
 
                     {activeTab === "profile" && (

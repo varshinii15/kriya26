@@ -29,7 +29,7 @@ const NavBarForDesktop = () => {
   const [loading, setLoading] = useState(true);
 
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
   const isPSGStudent = user?.email?.toLowerCase().endsWith('@psgtech.ac.in');
 
   useEffect(() => {
@@ -247,43 +247,41 @@ const NavBarForDesktop = () => {
         </div>
       </div>
 
-      {typeof window !== "undefined" &&
-        localStorage.getItem("token") &&
-        userDetails && (
-          <div className="fixed bottom-0 z-30 w-[calc(25%-1px)] bg-[#0a0a0a]/90 backdrop-blur-md border-t border-[#1a1a1a] p-4">
-            <div className="flex items-center justify-between p-2 rounded-xl bg-[#111] border border-[#222]">
-              <div className="flex items-center space-x-3">
-                <Link
-                  href="/portal/profile"
-                  className="w-10 h-10 overflow-hidden border-2 border-[#333] rounded-full hover:border-white transition-colors duration-300"
-                >
-                  <img
-                    src={userDetails?.profilePhoto}
-                    alt="profile"
-                    className="w-full h-full object-cover"
-                  />
-                </Link>
-                <Link href="/portal/profile" className="flex flex-col">
-                  <span className="text-sm font-bold text-white truncate max-w-[120px]">
-                    {userDetails?.name}
-                  </span>
-                  <span className="text-[10px] font-mono text-gray-500 uppercase tracking-tighter">
-                    {userDetails.kriyaId}
-                  </span>
-                </Link>
-              </div>
-              <button
-                className="p-2 transition-all duration-200 text-gray-500 hover:text-red-500 hover:bg-red-500/10 rounded-lg"
-                onClick={() => {
-                  localStorage.clear();
-                  window.location.reload();
-                }}
-              >
-                <IoMdLogOut size={20} />
-              </button>
-            </div>
+      {isAuthenticated && user ? (
+        <div className="fixed bottom-0 z-30 w-[calc(25%-1px)] bg-[#0a0a0a]/90 backdrop-blur-md border-t border-[#1a1a1a] p-4">
+          <div className="flex items-center justify-between p-2 rounded-xl bg-[#111] border border-[#222]">
+            <Link href="/profile" className="flex items-center space-x-3 min-w-0">
+              <img
+                src={`/profile/${typeof window !== 'undefined' ? (localStorage.getItem('kriya_avatar') || '1') : '1'}.png`}
+                alt="avatar"
+                className="w-8 h-8 rounded-full border border-[#333] object-cover shrink-0"
+              />
+              <span className="text-sm font-bold text-white truncate">
+                {user.name || 'User'}
+              </span>
+            </Link>
+            <button
+              className="p-2 transition-all duration-200 text-gray-500 hover:text-red-500 hover:bg-red-500/10 rounded-lg shrink-0"
+              onClick={async () => {
+                await logout();
+                router.push('/auth?type=login');
+              }}
+              title="Logout"
+            >
+              <IoMdLogOut size={20} />
+            </button>
           </div>
-        )}
+        </div>
+      ) : (
+        <div className="fixed bottom-0 z-30 w-[calc(25%-1px)] bg-[#0a0a0a]/90 backdrop-blur-md border-t border-[#1a1a1a] p-4">
+          <Link
+            href="/auth"
+            className="block w-full px-4 py-3 text-sm font-bold tracking-widest text-center uppercase transition-all duration-300 bg-white text-black hover:bg-gray-200 rounded-lg shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(255,255,255,0.2)]"
+          >
+            Register / Login
+          </Link>
+        </div>
+      )}
     </nav>
   );
 };
