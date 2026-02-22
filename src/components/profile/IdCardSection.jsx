@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, forwardRef, useImperativeHandle } from "react";
 import ReactDOM from "react-dom";
 import { IoClose, IoCloudUpload, IoEye, IoCheckmarkCircle, IoRefresh } from "react-icons/io5";
 import { authService } from "@/services/authService";
@@ -7,8 +7,13 @@ import { authService } from "@/services/authService";
 const ALLOWED_TYPES = ["application/pdf", "image/jpeg", "image/jpg", "image/png", "image/webp"];
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
-const IdCardSection = ({ user, onRefresh }) => {
+const IdCardSection = forwardRef(({ user, onRefresh }, ref) => {
     const fileInputRef = useRef(null);
+
+    // Expose triggerUpload to parent via ref
+    useImperativeHandle(ref, () => ({
+        triggerUpload: () => fileInputRef.current?.click()
+    }));
 
     // Upload flow state
     const [isUploading, setIsUploading] = useState(false);
@@ -274,6 +279,6 @@ const IdCardSection = ({ user, onRefresh }) => {
             )}
         </>
     );
-};
+});
 
 export default IdCardSection;

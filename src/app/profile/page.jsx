@@ -57,6 +57,8 @@ function ProfilePageContent() {
         payGeneralFee: false
     });
     const vantaRef = useRef(null);
+    const idCardSectionRef = useRef(null);
+    const [waitingForIdUpload, setWaitingForIdUpload] = useState(false);
 
     // Payment records state
     const [paymentRecords, setPaymentRecords] = useState([]);
@@ -266,6 +268,13 @@ function ProfilePageContent() {
 
     const isLoading = authLoading || (isAuthenticated && dataLoading);
 
+    // Clear waitingForIdUpload once the ID card is actually uploaded
+    useEffect(() => {
+        if (isIdCardUploaded && waitingForIdUpload) {
+            setWaitingForIdUpload(false);
+        }
+    }, [isIdCardUploaded, waitingForIdUpload]);
+
     useEffect(() => {
         if (isLoading || !isAuthenticated) {
             setActivePopup(null);
@@ -277,6 +286,9 @@ function ProfilePageContent() {
             return;
         }
 
+        // Don't show payment popup while user is in the middle of uploading their ID card
+        if (waitingForIdUpload) return;
+
         if (!isPreRegistrationEnabled && !isGeneralFeePaid && !dismissedPopups.payGeneralFee) {
             // Delay the payment reminder so it doesn't appear immediately after the ID card popup
             const timer = setTimeout(() => {
@@ -286,7 +298,7 @@ function ProfilePageContent() {
         }
 
         setActivePopup(null);
-    }, [isLoading, isAuthenticated, isIdCardUploaded, isGeneralFeePaid, dismissedPopups]);
+    }, [isLoading, isAuthenticated, isIdCardUploaded, isGeneralFeePaid, dismissedPopups, waitingForIdUpload]);
 
     // Don't render anything if not authenticated (redirect will happen)
     if (!authLoading && !isAuthenticated) {
@@ -307,16 +319,15 @@ function ProfilePageContent() {
     const closeActivePopup = () => {
         if (!activePopup) return;
         setDismissedPopups((prev) => ({ ...prev, [activePopup]: true }));
+        setActivePopup(null);
     };
 
     const handleUploadIdCardClick = () => {
         closeActivePopup();
+        setWaitingForIdUpload(true);
         setActiveTab("profile");
         setTimeout(() => {
-            document.getElementById("id-card-section")?.scrollIntoView({
-                behavior: "smooth",
-                block: "center"
-            });
+            idCardSectionRef.current?.triggerUpload();
         }, 100);
     };
 
@@ -609,7 +620,7 @@ function ProfilePageContent() {
 
                             {/* ID Card Upload */}
                             <section id="id-card-section">
-                                <IdCardSection user={user} onRefresh={refreshUser} />
+                                <IdCardSection ref={idCardSectionRef} user={user} onRefresh={refreshUser} />
                             </section>
 
                             {/* Row 3: QR Code + My Workshops (Side by Side) */}
