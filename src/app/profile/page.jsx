@@ -109,6 +109,9 @@ function ProfilePageContent() {
                     setStatusMessage({ type: "info", text: "All payment records are already up to date." });
                 }
                 await fetchPaymentRecords();
+                // Refresh user data and page to reflect updated payment status
+                if (refreshUser) await refreshUser();
+                router.refresh();
             } else {
                 setStatusMessage({ type: "error", text: data.message || "Payment check failed." });
             }
